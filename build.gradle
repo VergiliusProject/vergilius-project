@@ -28,6 +28,14 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    //compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile "com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.1"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile("org.springframework:spring-core") {
+        exclude module: 'commons-logging'
+    }
+
+    compile 'de.neuland-bfi:spring-jade4j:1.2.1'
+    compile 'de.neuland-bfi:jade4j:1.2.1'
     testCompile("junit:junit")
 }

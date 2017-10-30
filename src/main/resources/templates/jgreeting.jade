@@ -1,0 +1,16 @@
+doctype html
+html
+    head
+        title Hello
+    body
+        //p Hello #{message}
+        h3 Say "hello" to the world!!!
+        form(action="/" method="post")
+            p Enter your nickname:
+                input#nickname(type="text" name="nickname")
+            p Enter your message:
+                input#message(type="text" name="message")
+            p
+                input(type="submit", value="Submit")
+                &nbsp;
+                input(type="reset", value="Reset")
