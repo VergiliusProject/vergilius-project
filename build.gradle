@@ -36,5 +36,9 @@ dependencies {
 
     compile 'de.neuland-bfi:spring-jade4j:1.2.1'
     compile 'de.neuland-bfi:jade4j:1.2.1'
+
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'mysql:mysql-connector-java'
+
     testCompile("junit:junit")
 }

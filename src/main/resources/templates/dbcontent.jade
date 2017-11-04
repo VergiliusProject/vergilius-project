@@ -1,0 +1,70 @@
+html
+    head
+        title My database
+    body
+        h3 Table: Os
+        table(border="1")
+            thead
+                tr
+                    td
+                        b id
+                    td
+                        b name
+            tbody
+                each i in osrows
+                    tr
+                        td #{i.idopersys}
+                        td #{i.osname}
+        h3 Table: Structure
+        table(border="1")
+            thead
+                tr
+                    td
+                        b id
+                    td
+                        b name
+                    td
+                        b size
+                    td
+                        b kind
+                    td
+                        b id Os
+            tbody
+                each i in strrows
+                    tr
+                        td #{i.idstruct}
+                        td #{i.structname}
+                        td #{i.strsize}
+                        td #{i.strkind}
+                        td #{i.opersys}
+        h3 Table: Field
+        table(border="1")
+            thead
+                tr
+                    td
+                        b id
+                    td
+                        b offset
+                    td
+                        b type
+                    td
+                        b kname
+                    td
+                        b pointer
+                    td
+                        b const
+                    td
+                        b volatile
+                    td
+                        b id Struct
+            tbody
+                each i in frows
+                    tr
+                        td #{i.idfield}
+                        td #{i.offset}
+                        td #{i.idtype}
+                        td #{i.fname}
+                        td #{i.ispointer}
+                        td #{i.isconst}
+                        td #{i.isvolatile}
+                        td #{i.structure}
