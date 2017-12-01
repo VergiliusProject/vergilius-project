@@ -15,56 +15,56 @@ html
                     tr
                         td #{i.idopersys}
                         td #{i.osname}
-        h3 Table: Structure
+        h3 Table: Type
         table(border="1")
             thead
                 tr
                     td
-                        b id
+                        b id type
                     td
                         b name
+                    td
+                        b id
                     td
                         b size
                     td
                         b kind
                     td
-                        b id Os
-            tbody
-                each i in strrows
-                    tr
-                        td #{i.idstruct}
-                        td #{i.structname}
-                        td #{i.strsize}
-                        td #{i.strkind}
-                        td #{i.opersys}
-        h3 Table: Field
-        table(border="1")
-            thead
-                tr
-                    td
-                        b id
-                    td
-                        b offset
-                    td
-                        b type
-                    td
-                        b kname
-                    td
-                        b pointer
-                    td
                         b const
                     td
                         b volatile
                     td
-                        b id Struct
+                        b id Os
             tbody
-                each i in frows
+                each i in trows
                     tr
-                        td #{i.idfield}
-                        td #{i.offset}
                         td #{i.idtype}
-                        td #{i.fname}
-                        td #{i.ispointer}
-                        td #{i.isconst}
-                        td #{i.isvolatile}
-                        td #{i.structure}
+                        td #{i.name}
+                        td #{i.id}
+                        td #{i.sizeof}
+                        td #{i.kind}
+                        td #{i.isConst}
+                        td #{i.tvolatile}
+                        td #{i.opersys}
+        h3 Table: Data
+        table(border="1")
+            thead
+                tr
+                    td
+                        b id data
+                    td
+                        b offset
+                    td
+                        b id
+                    td
+                        b name
+                    td
+                        b id Type
+            tbody
+                each i in drows
+                    tr
+                        td #{i.iddata}
+                        td #{i.offset}
+                        td #{i.id}
+                        td #{i.name}
+                        td #{i.ttype}

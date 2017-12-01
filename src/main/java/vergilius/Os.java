@@ -11,7 +11,7 @@ public class Os{
     private String osname;
 
     @OneToMany(mappedBy = "opersys", cascade = CascadeType.ALL)
-    private Set<Structure> structures;
+    private Set<Ttype> ttypes;
 
     public int getIdopersys() {
         return idopersys;
@@ -29,17 +29,17 @@ public class Os{
         this.osname = osname;
     }
 
-    public Set<Structure> getStructures() {
-        return structures;
+    public Set<Ttype> getTypes() {
+        return ttypes;
     }
 
-    public void setStructures(Set<Structure> structures) {
-        this.structures = structures;
+    public void setTypes(Set<Ttype> ttypes) {
+        this.ttypes = ttypes;
     }
 
     public String toString()
     {
-        String s ="";
-        return s + getIdopersys();
+        return "" + getIdopersys();
+
     }
 }

@@ -1,12 +1,14 @@
 group 'vergilius'
 version '1.0-SNAPSHOT'
 
+
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE")
+        classpath 'org.yaml:snakeyaml:1.12'
     }
 }
 
@@ -28,6 +30,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'mysql:mysql-connector-java'
+
     compile "com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.1"
     compile "org.springframework.boot:spring-boot-starter-web"
     compile("org.springframework:spring-core") {
@@ -36,9 +41,5 @@ dependencies {
 
     compile 'de.neuland-bfi:spring-jade4j:1.2.1'
     compile 'de.neuland-bfi:jade4j:1.2.1'
-
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'mysql:mysql-connector-java'
-
     testCompile("junit:junit")
 }

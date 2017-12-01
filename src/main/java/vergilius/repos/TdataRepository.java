@@ -4,11 +4,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import vergilius.Os;
+import vergilius.Tdata;
+import vergilius.Ttype;
+
+import java.util.List;
 
 
-public interface OsRepository extends CrudRepository<Os, Integer> {
-
-    @Query("select u from Os u where u.osname = :osname")
-    Os findByOsname(@Param("osname") String osname);
+public interface TdataRepository extends CrudRepository<Tdata, Integer> {
+    List<Tdata> findByTtype(Ttype ttype);
 
 }
