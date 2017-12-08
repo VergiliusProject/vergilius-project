@@ -66,20 +66,15 @@ public class MainController{
     @PostMapping("/admin")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-
-        /*
+    /*
         try(InputStream res = file.getInputStream()) {
             Yaml yaml = new Yaml();
             yaml.setBeanAccess(BeanAccess.FIELD);
             RootOs fromYaml = yaml.loadAs(res, RootOs.class);
             List<Os> mylist = fromYaml.getOpersystems();
             rep1.save(mylist);
-            for(int i = 0; i < mylist.size(); i++) {
-                System.out.println(mylist.get(i).getIdopersys() + " " + mylist.get(i).getOsname());
-            }
-        */
 
-        /*
+
             Yaml yaml = new Yaml();
             yaml.setBeanAccess(BeanAccess.FIELD);
             Root fromYaml = yaml.loadAs(res, Root.class);
@@ -100,14 +95,13 @@ public class MainController{
                 }
             }
             rep2.save(obj);
-
         }
         catch(IOException e){}
-         */
+
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
+    */
         return "redirect:/admin";
-
     }
 
     @GetMapping("/")
@@ -131,26 +125,31 @@ public class MainController{
     @RequestMapping(value = "/os/{osname:.+}", method = RequestMethod.GET)
     public String displayOs(@PathVariable String osname, Model model)
     {
-        List<Ttype> reslist = Ttype.filterResults(rep2.findByOpersys(rep1.findByOsname(osname)));
-        model.addAttribute("res", reslist);
-        model.addAttribute("Struct", Ttype.Kind.STRUCT);
-        model.addAttribute("Enum", Ttype.Kind.ENUM);
-        model.addAttribute("Union", Ttype.Kind.UNION);
+        Os opersys = rep1.findByOsname(osname);
+        List<Ttype> reslist = rep2.findByOpersysAndIsConstFalseAndIsVolatileFalse(opersys);
+
+        model.addAttribute("structs", Ttype.FilterByTypes(reslist, Ttype.Kind.STRUCT));
+        model.addAttribute("unions", Ttype.FilterByTypes(reslist, Ttype.Kind.UNION));
+        model.addAttribute("enums", Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM));
+
         return "ttype";
     }
 
     @RequestMapping(value = "/os/{osname:.+}/type/{name}", method = RequestMethod.GET)
     public String displayType(@PathVariable String osname,@PathVariable String name, Model model)
     {
-        List<Tdata> datalist = new ArrayList<>();
-        List<Ttype> typeslist = Ttype.filterResults(rep2.findByNameAndOpersys(name, rep1.findByOsname(osname)));
+        Os opersys = rep1.findByOsname(osname);
+        List<Ttype> typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
 
-        for (Ttype t : typeslist)
+        List<String> enumsArr = new ArrayList<>();
+
+        for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.ENUM))
         {
-            datalist.addAll(rep3.findByTtype(t));
+            enumsArr.add(EnumConverter.converts(t));
         }
 
-        model.addAttribute("res1", datalist);
+        model.addAttribute("res1", enumsArr);
+
         return "tdata";
     }
 

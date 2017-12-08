@@ -16,6 +16,9 @@ public class Tdata {
     @Column(name="dname")
     private String name;
 
+    @Column(name="idordinal")
+    private Integer ordinal;
+
     @ManyToOne
     @JoinColumn(name="Ttype_idtype")
     private Ttype ttype;
@@ -50,6 +53,14 @@ public class Tdata {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getOrdinal() {
+        return ordinal;
+    }
+
+    public void setOrdinal(Integer ordinal) {
+        this.ordinal = ordinal;
     }
 
     public Ttype getTtype() {

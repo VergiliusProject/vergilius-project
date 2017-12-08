@@ -5,29 +5,22 @@ html
         div
             h3 Structures:
             ul
-                for i in res
-                    if i.kind==Struct && i.name!=null
-                        li: p
-                            a(href="/os/#{osname}/type/#{i.name}") #{i.name}
-                            //a(href="/os/#{osname}/type/#{i.name}") #{i.id} #{i.name}
-                            //&nbsp; #{i.kind} #{i.sizeof} #{i.isVolatile} #{i.isConst}
+                for i in structs
+                    li: p
+                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+
 
         div
             h3 Enums:
             ul
-                for i in res
-                    if i.kind==Enum && i.name!=null
-                        li: p
-                            a(href="/os/#{osname}/type/#{i.name}") #{i.name}
-                            //a(href="/os/#{osname}/type/#{i.name}?argName1=#{i.idtype}") #{i.id} #{i.name}
-                            //&nbsp; #{i.kind} #{i.sizeof} #{i.isVolatile} #{i.isConst}
+                for i in enums
+                    li: p
+                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+
         div
             h3 Unions:
             ul
-                for i in res
-                    if i.kind==Union && i.name!=null
-                        li: p
-                            a(href="/os/#{osname}/type/#{i.name}") #{i.name}
-                            //&nbsp; #{i.kind} #{i.sizeof} #{i.isVolatile} #{i.isConst}
-                            //a(href="/os/#{osname}/type/#{i.name}?argName1=#{i.idtype}") #{i.id} #{i.name}
-                            //&nbsp; #{i.kind} #{i.sizeof} #{i.isVolatile} #{i.isConst}
+                for i in unions
+                    li: p
+                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+

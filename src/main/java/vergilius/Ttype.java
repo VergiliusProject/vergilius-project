@@ -1,8 +1,14 @@
 package vergilius;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -120,17 +126,18 @@ public class Ttype {
         this.isVolatile = isVolatile;
     }
 
-    public static List<Ttype> filterResults(List<Ttype> list)
+    public static List<Ttype>FilterByTypes(List<Ttype> list, Kind param)
     {
-        List<Ttype> filter = new ArrayList<>();
-        for(int i = 0; i < list.size(); i++)
+        List<Ttype> retVal = new ArrayList<>();
+        for(Ttype i: list)
         {
-            if(list.get(i).isIsVolatile() == false && list.get(i).isIsConst() == false)
+            //if(i.getName() != null && i.getKind().name().equals(param.name()))
+            if(i.getName() != null && i.getKind() == param)
             {
-                filter.add(list.get(i));
+                retVal.add(i);
             }
         }
-        return filter;
+        return retVal;
     }
 
     public String toString()
