@@ -5,27 +5,14 @@ import java.util.stream.Collectors;
 
 public class EnumConverter {
 
-    public static List<Tdata> sortByOrdinal(Set<Tdata> set)
-    {
-        List<Tdata> arr = new ArrayList<>();
-        List<Tdata> arr2 = new ArrayList<>();
-        Iterator<Tdata> iter = set.iterator();
-
-        while(iter.hasNext())
-        {
-            arr.add(iter.next());
-        }
-
-        Comparator<Tdata> byOrdinal = (e1, e2) -> Integer.compare(e1.getOrdinal(), e2.getOrdinal());
-        return arr.stream().sorted(byOrdinal).collect(Collectors.toList());
-    }
-
     public static String converts(Ttype myEnum)
     {
-        List<Tdata> tmpData = EnumConverter.sortByOrdinal(myEnum.getData());
+        List<Tdata> tmpData = Sorter.sortByOrdinal(myEnum.getData());
+
+        StringBuilder result = new StringBuilder("");
+        result.append((myEnum.getName() != null)? "enum " + myEnum.getName() + "\n{\n" : "enum " + "\n{\n");
 
         StringBuilder strdata = new StringBuilder("");
-        String result;
         int i = 0;
         while(i < tmpData.size() - 1 )
         {
@@ -34,9 +21,9 @@ public class EnumConverter {
         }
         if(i == tmpData.size() - 1) strdata.append("\t" + tmpData.get(i).getName() + " = " + tmpData.get(i).getOffset());
 
-        result = (myEnum.getName() != null)? "enum " + myEnum.getName()+ "\n{\n" + strdata + "\n};\n": "enum " + "\n{\n" + strdata + "\n{\n";
+        result.append(strdata + "\n};");
 
-        return result;
+        return result.toString();
     }
 
 }

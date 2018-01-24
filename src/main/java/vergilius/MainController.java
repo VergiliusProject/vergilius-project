@@ -66,14 +66,14 @@ public class MainController{
     @PostMapping("/admin")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-    /*
+/*
         try(InputStream res = file.getInputStream()) {
+
             Yaml yaml = new Yaml();
             yaml.setBeanAccess(BeanAccess.FIELD);
             RootOs fromYaml = yaml.loadAs(res, RootOs.class);
             List<Os> mylist = fromYaml.getOpersystems();
             rep1.save(mylist);
-
 
             Yaml yaml = new Yaml();
             yaml.setBeanAccess(BeanAccess.FIELD);
@@ -81,7 +81,7 @@ public class MainController{
 
             List<Ttype> obj = fromYaml.getTypes();
 
-            for(int i = 0; i < fromYaml.getTypes().size(); i++)
+            for(int i = 0; i < obj.size(); i++)
             {
                 Set<Tdata> tmp = obj.get(i).getData();
 
@@ -97,10 +97,10 @@ public class MainController{
             rep2.save(obj);
         }
         catch(IOException e){}
-
+*/
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
-    */
+
         return "redirect:/admin";
     }
 
@@ -148,7 +148,23 @@ public class MainController{
             enumsArr.add(EnumConverter.converts(t));
         }
 
+        List<String> structsArr = new ArrayList<>();
+
+        for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.STRUCT))
+        {
+            structsArr.add(StructConverter.converts(t, rep2, "struct "));
+        }
+
+        List<String> unionsArr = new ArrayList<>();
+
+        for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.UNION))
+        {
+            structsArr.add(UnionConverter.converts(t, rep2, "union "));
+        }
+
         model.addAttribute("res1", enumsArr);
+        model.addAttribute("res2", structsArr);
+        model.addAttribute("res3", unionsArr);
 
         return "tdata";
     }

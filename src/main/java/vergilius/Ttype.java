@@ -131,7 +131,6 @@ public class Ttype {
         List<Ttype> retVal = new ArrayList<>();
         for(Ttype i: list)
         {
-            //if(i.getName() != null && i.getKind().name().equals(param.name()))
             if(i.getName() != null && i.getKind() == param)
             {
                 retVal.add(i);
@@ -139,13 +138,14 @@ public class Ttype {
         }
         return retVal;
     }
-
+/*
     public String toString()
     {
         return "" + getIdtype();
-        /*return "" + getIdtype() + " " + getName() + " " + getId() + " " + getKind()+ " " + getSizeof() + " " +
-                isIsConst() + " "+ isIsVolatile() + " " + getData();*/
+        //return "" + getIdtype() + " " + getName() + " " + getId() + " " + getKind()+ " " + getSizeof() + " " +
+                //isIsConst() + " "+ isIsVolatile() + " " + getData();
     }
+*/
 }
 
 
