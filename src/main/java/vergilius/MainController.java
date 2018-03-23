@@ -66,14 +66,15 @@ public class MainController{
     @PostMapping("/admin")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-/*
-        try(InputStream res = file.getInputStream()) {
 
+        try(InputStream res = file.getInputStream()) {
+/*
             Yaml yaml = new Yaml();
             yaml.setBeanAccess(BeanAccess.FIELD);
             RootOs fromYaml = yaml.loadAs(res, RootOs.class);
             List<Os> mylist = fromYaml.getOpersystems();
             rep1.save(mylist);
+
 
             Yaml yaml = new Yaml();
             yaml.setBeanAccess(BeanAccess.FIELD);
@@ -95,9 +96,10 @@ public class MainController{
                 }
             }
             rep2.save(obj);
+*/
         }
         catch(IOException e){}
-*/
+
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
