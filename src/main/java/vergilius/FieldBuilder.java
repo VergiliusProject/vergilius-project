@@ -3,137 +3,113 @@ package vergilius;
 import vergilius.repos.TtypeRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FieldBuilder
 {
-    private String name;
-    private StringBuilder type;
-    private StringBuilder dim;
-    private StringBuilder retval;
-    private StringBuilder args;
+    private String name = new String();
+    private StringBuilder type = new StringBuilder();
+    private StringBuilder dim = new StringBuilder();
+    private StringBuilder retval = new StringBuilder();
+    private StringBuilder args = new StringBuilder();
 
-    public FieldBuilder()
+    public String toString()
     {
-        name = new String();
-        type = new StringBuilder("");
-        dim = new StringBuilder("");
-        retval = new StringBuilder("");
-        args = new StringBuilder("");
+        if(retval.toString().isEmpty()) //isn't a function
+        {
+            return type + " " + name + dim; // array, base, pointer
+        }
+        return retval + "(" + type + " " + name + ")" + "(" + args + ")";
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setType(StringBuilder type) {
-        this.type = type;
-    }
-
-    public StringBuilder getType() {
-        return type;
-    }
-
-    public void setDim(StringBuilder dim) {
-        this.dim = dim;
-    }
-
-    public StringBuilder getDim() {
-        return dim;
-    }
-
-    public StringBuilder getArgs() {
-        return args;
-    }
-
-    public void setArgs(StringBuilder args) {
-        this.args = args;
-    }
-
-    public void setRetval(StringBuilder retval) {
-        this.retval = retval;
-    }
-
-    public StringBuilder getRetval() {
-        return retval;
-    }
-
-    public static String modifConstructor(Ttype typeOfField)
+    public static String getModifier(Ttype typeOfField)
     {
-        return typeOfField.isIsConst()?"const ":"".concat(typeOfField.isIsVolatile() ? "volatile " : "");
+        return (typeOfField.isIsConst() ? "const " : "") + (typeOfField.isIsVolatile() ? "volatile " : "");
     }
 
-    public FieldBuilder recoursionProcessing(TtypeRepository rep2, Ttype typeOfField)
+    public static FieldBuilder recoursionProcessing(TtypeRepository rep2, Ttype typeOfField)
     {
         if (typeOfField.getKind() == Ttype.Kind.BASE)
         {
-            setType(new StringBuilder(modifConstructor(typeOfField) + typeOfField.getName()).append(type));
-            return this;
+            FieldBuilder fb = new FieldBuilder();
+            fb.type.append(getModifier(typeOfField)).append(typeOfField.getName());
+            return fb;
         }
 
         if (typeOfField.getKind() == Ttype.Kind.POINTER)
         {
-            setType(new StringBuilder("* " + modifConstructor(typeOfField) + type));
-            Optional<Tdata> fieldOfType = typeOfField.getData().stream().findFirst();
-            if (!fieldOfType.isPresent())
-            {
-                type = new StringBuilder("\n\tis empty");
-                return this;
-            }
+            Tdata fieldOfType = typeOfField.getData().stream().findFirst().orElseThrow(()-> new NoSuchElementException());
+            FieldBuilder fb = recoursionProcessing(rep2, rep2.findOne(fieldOfType.getId()));
+            fb.type.append("*" + (getModifier(typeOfField).isEmpty() ? "" : " " + getModifier(typeOfField)));
 
-            typeOfField = rep2.findOne(fieldOfType.get().getId());
-           return recoursionProcessing(rep2, typeOfField);
+            return fb;
         }
 
         if (typeOfField.getKind() == Ttype.Kind.ARRAY)
         {
-            Optional<Tdata> fieldOfType = typeOfField.getData().stream().findFirst();
-            if (!fieldOfType.isPresent())
-            {
-                type = new StringBuilder("\n\tis empty");
-                return this;
-            }
-            int offset = fieldOfType.get().getOffset();
-            dim.append("[").append(offset).append("]");
-            typeOfField = rep2.findOne(fieldOfType.get().getId());
-            return recoursionProcessing(rep2, typeOfField);
+            Tdata fieldOfType = typeOfField.getData().stream().findFirst().orElseThrow(()-> new NoSuchElementException());
+            typeOfField = rep2.findOne(fieldOfType.getId());
+            FieldBuilder fb = recoursionProcessing(rep2, typeOfField);
+            int offset = fieldOfType.getOffset();
+            fb.dim = new StringBuilder("[" + offset + "]" + fb.dim);
+            return fb;
         }
 
         if(typeOfField.getKind() == Ttype.Kind.FUNCTION)
         {
+            FieldBuilder fb = new FieldBuilder();
+
             List<Tdata> fieldOfFunc = Sorter.sortByOrdinal(typeOfField.getData().stream().collect(Collectors.toSet()));
 
             int counter = 0;
             for (Tdata k : fieldOfFunc)
             {
-                typeOfField = rep2.findOne(k.getId());
-                FieldBuilder tmp = recoursionProcessing(rep2, typeOfField);
+                Ttype typeOfField2 = rep2.findOne(k.getId());
+                FieldBuilder tmp = recoursionProcessing(rep2, typeOfField2);
 
-                if (k.getName() != null && k.getName().equals("return"))
+                if ("return".equals(k.getName()))
                 {
-                    retval = tmp.getType();
-                    type = new StringBuilder("");
+                    fb.retval.append(tmp.toString());
                 }
                 else
                 {
-                    if(counter == (fieldOfFunc.size() - 1))
+                    tmp.name = "arg"  + counter;
+                    fb.args.append(tmp.toString());
+                    if(counter != (fieldOfFunc.size() - 1))
                     {
-                        args.append(tmp.getType() + " " + "arg" + counter);
+                        fb.args.append(", ");
                     }
-                    else
-                    {
-                        args.append(tmp.getType() + " " + "arg" + counter + ", ");
-                    }
-                    type = new StringBuilder("");
                 }
                 counter++;
             }
-            return recoursionProcessing(rep2, typeOfField);
+            return fb;
+        }
+        if(typeOfField.getKind() == Ttype.Kind.ENUM)
+        {
+            FieldBuilder fb = new FieldBuilder();
+            fb.type.append("enum " + getModifier(typeOfField)).append(typeOfField.getName());
+            return fb;
+        }
+
+        if(typeOfField.getKind() == Ttype.Kind.UNION)
+        {
+            FieldBuilder fb = new FieldBuilder();
+            fb.type.append("union " + getModifier(typeOfField)).append(typeOfField.getName());
+            return fb;
+        }
+
+        if(typeOfField.getKind() == Ttype.Kind.STRUCT)
+        {
+            FieldBuilder fb = new FieldBuilder();
+            fb.type.append("struct " + getModifier(typeOfField)).append(typeOfField.getName());
+            return fb;
         }
         return new FieldBuilder();
     }
