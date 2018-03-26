@@ -131,7 +131,8 @@ public class Ttype {
         List<Ttype> retVal = new ArrayList<>();
         for(Ttype i: list)
         {
-            if(i.getName() != null && i.getKind() == param)
+            String name = i.getName();
+            if(name != null && !name.equals("<unnamed-tag>") && i.getKind() == param)
             {
                 retVal.add(i);
             }

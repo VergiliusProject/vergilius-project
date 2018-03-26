@@ -74,8 +74,8 @@ public class MainController{
             RootOs fromYaml = yaml.loadAs(res, RootOs.class);
             List<Os> mylist = fromYaml.getOpersystems();
             rep1.save(mylist);
-
-
+*/
+/*
             Yaml yaml = new Yaml();
             yaml.setBeanAccess(BeanAccess.FIELD);
             Root fromYaml = yaml.loadAs(res, Root.class);
@@ -151,6 +151,8 @@ public class MainController{
         }
 
         List<String> structsArr = new ArrayList<>();
+
+        // C H A N G E D    H E R E -> FilterByTypes
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.STRUCT))
         {
