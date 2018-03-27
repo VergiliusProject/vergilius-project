@@ -14,6 +14,18 @@ public class FieldBuilder
     private StringBuilder retval = new StringBuilder();
     private StringBuilder args = new StringBuilder();
 
+    public static String retIndent(int indent)
+    {
+        int i = 0;
+        StringBuilder str = new StringBuilder();
+        while(i < indent)
+        {
+            i++;
+            str.append("\t");
+        }
+        return str.toString();
+    }
+
     public String toString()
     {
         if(retval.toString().isEmpty())
@@ -33,7 +45,7 @@ public class FieldBuilder
         return (typeOfField.isIsConst() ? "const " : "") + (typeOfField.isIsVolatile() ? "volatile " : "");
     }
 
-    public static FieldBuilder recoursionProcessing(TtypeRepository rep2, Ttype typeOfField)
+    public static FieldBuilder recoursionProcessing(TtypeRepository rep2, Ttype typeOfField, int indent)
     {
         switch (typeOfField.getKind())
         {
@@ -51,7 +63,7 @@ public class FieldBuilder
 
                 if(rep2.findOne(fieldOfType.getId()).getKind() == Ttype.Kind.STRUCT && name.equals("<unnamed-tag>"))
                 {
-                    FieldBuilder fb = FieldBuilder.recoursionProcessing(rep2,  rep2.findOne(fieldOfType.getId()));
+                    FieldBuilder fb = FieldBuilder.recoursionProcessing(rep2,  rep2.findOne(fieldOfType.getId()), indent);
                     fb.type.append("*" + (getModifier(typeOfField).isEmpty() ? "" : " " + getModifier(typeOfField)));
                     return fb;
                 }
@@ -64,7 +76,7 @@ public class FieldBuilder
                     return fb;
                 }
 
-                FieldBuilder fb = recoursionProcessing(rep2, rep2.findOne(fieldOfType.getId()));
+                FieldBuilder fb = recoursionProcessing(rep2, rep2.findOne(fieldOfType.getId()), indent);
                 fb.type.append("*" + (getModifier(typeOfField).isEmpty() ? "" : " " + getModifier(typeOfField)));
                 return fb;
             }
@@ -72,7 +84,7 @@ public class FieldBuilder
             {
                 Tdata fieldOfType = typeOfField.getData().stream().findFirst().orElseThrow(()-> new NoSuchElementException());
                 typeOfField = rep2.findOne(fieldOfType.getId());
-                FieldBuilder fb = recoursionProcessing(rep2, typeOfField);
+                FieldBuilder fb = recoursionProcessing(rep2, typeOfField, indent);
                 int offset = fieldOfType.getOffset();
                 fb.dim = new StringBuilder("[" + offset + "]" + fb.dim);
                 return fb;
@@ -87,7 +99,7 @@ public class FieldBuilder
                 for (Tdata k : fieldOfFunc)
                 {
                     Ttype typeOfField2 = rep2.findOne(k.getId());
-                    FieldBuilder tmp = recoursionProcessing(rep2, typeOfField2);
+                    FieldBuilder tmp = recoursionProcessing(rep2, typeOfField2, indent);
 
                     if ("return".equals(k.getName()))
                     {
@@ -113,19 +125,20 @@ public class FieldBuilder
 
                 if(typeOfField.getData() != null)
                 {
-                    fb.type.append("\n{\n");
+                    fb.type.append("\n").append(retIndent(indent)).append("{");
+                    indent++;
                     List<Tdata> StructFields = Sorter.sortByOrdinal(typeOfField.getData());
 
                     for(Tdata i: StructFields)
                     {
                         typeOfField = rep2.findOne(i.getId());
-                        FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField);
+                        FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
                         field.setName(i.getName());
-                        fb.type.append("\n\t").append(field.toString()).append(";");
+                        fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
                     }
-                    fb.type.append("\n}\n");
+                    fb.type.append("\n").append(retIndent(--indent)).append("}");
+                    if(indent == 0) fb.type.append(";");
                 }
-
                 return fb;
             }
             case ENUM:
