@@ -139,14 +139,6 @@ public class Ttype {
         }
         return retVal;
     }
-/*
-    public String toString()
-    {
-        return "" + getIdtype();
-        //return "" + getIdtype() + " " + getName() + " " + getId() + " " + getKind()+ " " + getSizeof() + " " +
-                //isIsConst() + " "+ isIsVolatile() + " " + getData();
-    }
-*/
 }
 
 

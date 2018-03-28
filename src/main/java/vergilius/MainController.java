@@ -152,18 +152,16 @@ public class MainController{
 
         List<String> structsArr = new ArrayList<>();
 
-        // C H A N G E D    H E R E -> FilterByTypes
-
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.STRUCT))
         {
-            structsArr.add(StructConverter.converts(t, rep2, "struct "));
+            structsArr.add(StructConverter.converts(t,rep2));
         }
 
         List<String> unionsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.UNION))
         {
-            structsArr.add(UnionConverter.converts(t, rep2, "union "));
+            structsArr.add(UnionConverter.converts(t, rep2));
         }
 
         model.addAttribute("res1", enumsArr);

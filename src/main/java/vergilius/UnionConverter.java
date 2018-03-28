@@ -3,8 +3,8 @@ package vergilius;
 import vergilius.repos.TtypeRepository;
 
 public class UnionConverter {
-    public static String converts(Ttype myUnion, TtypeRepository rep2, String keyWord)
+    public static String converts(Ttype myUnion, TtypeRepository rep2)
     {
-        return StructConverter.converts(myUnion, rep2, "union ");
+        return FieldBuilder.recoursionProcessing(rep2, myUnion, 0).toString();
     }
 }

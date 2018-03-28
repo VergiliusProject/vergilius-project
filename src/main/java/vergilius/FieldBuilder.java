@@ -16,11 +16,9 @@ public class FieldBuilder
 
     public static String retIndent(int indent)
     {
-        int i = 0;
         StringBuilder str = new StringBuilder();
-        while(i < indent)
+        for(int i = 0; i < indent; i++)
         {
-            i++;
             str.append("\t");
         }
         return str.toString();
@@ -136,8 +134,8 @@ public class FieldBuilder
                         field.setName(i.getName());
                         fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
                     }
+
                     fb.type.append("\n").append(retIndent(--indent)).append("}");
-                    if(indent == 0) fb.type.append(";");
                 }
                 return fb;
             }
@@ -150,8 +148,60 @@ public class FieldBuilder
             case UNION:
             {
                 FieldBuilder fb = new FieldBuilder();
-                String name = typeOfField.getName().equals("<unnamed-tag>") ? "" : typeOfField.getName();
-                fb.type.append("union " + getModifier(typeOfField)).append(name);
+                if(typeOfField.getName().equals("<unnamed-tag>"))
+                {
+                    fb.type.append("union " + getModifier(typeOfField));
+
+                    if(typeOfField.getData() != null)
+                    {
+                        fb.type.append("\n").append(retIndent(indent)).append("{");
+                        indent++;
+                        List<Tdata> StructFields = Sorter.sortByOrdinal(typeOfField.getData());
+
+                        int nextI = -1;
+                        boolean end = false;
+                        for(int i = 0; i < StructFields.size() - 1; i++)
+                        {
+                            typeOfField = rep2.findOne(StructFields.get(i).getId());
+                            FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
+                            if(i == nextI)
+                            {
+                                field.type = new StringBuilder(retIndent(indent - 1) + field.type);
+                                end = true;
+                            }
+                            if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && i != nextI)
+                            {
+                                nextI = i + 1;
+                                field.type = new StringBuilder("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.type);
+                            }
+
+                            field.setName(StructFields.get(i).getName());
+                            if(end && i != StructFields.size() - 2)
+                            {
+                                fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";\n" + retIndent(indent) + "}").append(";");
+                                end = false;
+                            }
+                            else
+                            {
+                                fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+                            }
+                        }
+                        //Last iteration
+                        //Add checking
+                        typeOfField = rep2.findOne(StructFields.get(StructFields.size() - 1).getId());
+                        FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
+                        field.setName(StructFields.get(StructFields.size() - 1).getName());
+                        fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+
+                        fb.type.append("\n").append(retIndent(--indent)).append("}");
+                        if(indent == 0) fb.type.append(";");
+                    }
+
+                }
+                else
+                {
+                    fb.type.append("union " + getModifier(typeOfField)).append(typeOfField.getName());
+                }
                 return fb;
             }
             default:
