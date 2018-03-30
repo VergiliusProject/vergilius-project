@@ -134,7 +134,7 @@ public class FieldBuilder
                         field.setName(i.getName());
                         fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
                     }
-
+                    //WHITESPACE !!!
                     fb.type.append("\n").append(retIndent(--indent)).append("}");
                 }
                 return fb;
@@ -155,48 +155,45 @@ public class FieldBuilder
                     if(typeOfField.getData() != null)
                     {
                         fb.type.append("\n").append(retIndent(indent)).append("{");
-                        indent++;
                         List<Tdata> StructFields = Sorter.sortByOrdinal(typeOfField.getData());
+                        indent++;
 
-                        int nextI = -1;
-                        boolean end = false;
-                        for(int i = 0; i < StructFields.size() - 1; i++)
+                        boolean begin = false;
+                        int last = StructFields.size() - 1;
+                        for(int i = 0; i < StructFields.size(); i++)
                         {
                             typeOfField = rep2.findOne(StructFields.get(i).getId());
                             FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
-                            if(i == nextI)
+                            field.setName(StructFields.get(i).getName());
+
+                            if(i == last)
                             {
-                                field.type = new StringBuilder(retIndent(indent - 1) + field.type);
-                                end = true;
-                            }
-                            if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && i != nextI)
-                            {
-                                nextI = i + 1;
-                                field.type = new StringBuilder("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.type);
+                                if(begin) fb.type.append("\n").append(retIndent(indent)).append("}").append(";");
+                                fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+                                break;
                             }
 
-                            field.setName(StructFields.get(i).getName());
-                            if(end && i != StructFields.size() - 2)
-                            {
-                                fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";\n" + retIndent(indent) + "}").append(";");
-                                end = false;
-                            }
-                            else
+                            if(StructFields.get(i).getOffset() == StructFields.get(i + 1).getOffset())
                             {
                                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
                             }
+
+                            if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && !begin)
+                            {
+                                field.type = new StringBuilder("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.type);
+                                fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+                                begin = true;
+                            }
+                            else if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && begin)
+                            {
+                                begin = false;
+                                fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString()).append(";");
+                                fb.type.append("\n").append(retIndent(indent)).append("}").append(";");
+                            }
+
                         }
-                        //Last iteration
-                        //Add checking
-                        typeOfField = rep2.findOne(StructFields.get(StructFields.size() - 1).getId());
-                        FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
-                        field.setName(StructFields.get(StructFields.size() - 1).getName());
-                        fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-
                         fb.type.append("\n").append(retIndent(--indent)).append("}");
-                        if(indent == 0) fb.type.append(";");
                     }
-
                 }
                 else
                 {
