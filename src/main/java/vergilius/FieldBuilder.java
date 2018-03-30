@@ -30,7 +30,7 @@ public class FieldBuilder
         {
             return type + " " + name + dim;
         }
-        return retval + "(" + type + " " + name + ")" + "(" + args + ")";
+        return retval + "(" + type + " " + name + dim + ")" + "(" + args + ")";
     }
 
     public void setName(String name) {
