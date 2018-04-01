@@ -1,26 +1,28 @@
-html
-    head
-        title Vergilius Project
-    body
-        div
-            h3 Structures:
-            ul
-                for i in structs
-                    li: p
-                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+extends /partials/page
+
+block title
+    title Vergilius Project
+
+block content
+    div
+        h3 Structures:
+        ul
+            for i in structs
+                li: p
+                    a(href="/os/#{osname}/type/#{i.name}") #{i.name}
 
 
-        div
-            h3 Enums:
-            ul
-                for i in enums
-                    li: p
-                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+    div
+        h3 Enums:
+        ul
+            for i in enums
+                li: p
+                    a(href="/os/#{osname}/type/#{i.name}") #{i.name}
 
-        div
-            h3 Unions:
-            ul
-                for i in unions
-                    li: p
-                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+    div
+        h3 Unions:
+        ul
+            for i in unions
+                li: p
+                    a(href="/os/#{osname}/type/#{i.name}") #{i.name}
 

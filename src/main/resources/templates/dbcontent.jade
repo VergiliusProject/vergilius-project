@@ -1,70 +1,72 @@
-html
-    head
-        title My database
-    body
-        h3 Table: Os
-        table(border="1")
-            thead
+extends /partials/page
+
+block title
+    title My database
+
+block content
+    h3 Table: Os
+    table(border="1")
+        thead
+            tr
+                td
+                    b id
+                td
+                    b name
+        tbody
+            each i in osrows
                 tr
-                    td
-                        b id
-                    td
-                        b name
-            tbody
-                each i in osrows
-                    tr
-                        td #{i.idopersys}
-                        td #{i.osname}
-        h3 Table: Type
-        table(border="1")
-            thead
+                    td #{i.idopersys}
+                    td #{i.osname}
+    h3 Table: Type
+    table(border="1")
+        thead
+            tr
+                td
+                    b id type
+                td
+                    b name
+                td
+                    b id
+                td
+                    b size
+                td
+                    b kind
+                td
+                    b const
+                td
+                    b volatile
+                td
+                    b id Os
+        tbody
+            each i in trows
                 tr
-                    td
-                        b id type
-                    td
-                        b name
-                    td
-                        b id
-                    td
-                        b size
-                    td
-                        b kind
-                    td
-                        b const
-                    td
-                        b volatile
-                    td
-                        b id Os
-            tbody
-                each i in trows
-                    tr
-                        td #{i.idtype}
-                        td #{i.name}
-                        td #{i.id}
-                        td #{i.sizeof}
-                        td #{i.kind}
-                        td #{i.isConst}
-                        td #{i.tvolatile}
-                        td #{i.opersys}
-        h3 Table: Data
-        table(border="1")
-            thead
+                    td #{i.idtype}
+                    td #{i.name}
+                    td #{i.id}
+                    td #{i.sizeof}
+                    td #{i.kind}
+                    td #{i.isConst}
+                    td #{i.tvolatile}
+                    td #{i.opersys}
+    h3 Table: Data
+    table(border="1")
+        thead
+            tr
+                td
+                    b id data
+                td
+                    b offset
+                td
+                    b id
+                td
+                    b name
+                td
+                    b id Type
+        tbody
+            each i in drows
                 tr
-                    td
-                        b id data
-                    td
-                        b offset
-                    td
-                        b id
-                    td
-                        b name
-                    td
-                        b id Type
-            tbody
-                each i in drows
-                    tr
-                        td #{i.iddata}
-                        td #{i.offset}
-                        td #{i.id}
-                        td #{i.name}
-                        td #{i.ttype}
+                    td #{i.iddata}
+                    td #{i.offset}
+                    td #{i.id}
+                    td #{i.name}
+                    td #{i.ttype}

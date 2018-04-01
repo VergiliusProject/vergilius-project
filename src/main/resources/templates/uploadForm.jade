@@ -1,23 +1,25 @@
-html
-    head
-        title Hello!
-    body
-        div
-            if message
-                = message
-        div
-            form(method="post" enctype="multipart/form-data" action="/admin")
-                table
-                    tr
-                        td File to upload:
-                        td
-                            input(type="file" name="file")
-                    tr
-                        td
-                        td
-                            input(type="submit" value="Upload")
-        //div
-            ul
-                for file in files
-                    li: p
-                        a(href="#{file}") #{file}
+extends /partials/page
+
+block title
+    title Vergilius Project
+
+block content
+    div
+        if message
+            = message
+    div
+        form(method="post" enctype="multipart/form-data" action="/admin")
+            table
+                tr
+                    td File to upload:
+                    td
+                        input(type="file" name="file")
+                tr
+                    td
+                    td
+                        input(type="submit" value="Upload")
+    //div
+        ul
+            for file in files
+                li: p
+                    a(href="#{file}") #{file}

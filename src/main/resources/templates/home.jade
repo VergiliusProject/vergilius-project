@@ -1,11 +1,13 @@
-html
-    head
-        title Vergilius Project
-    body
-        div
-            h3 Operating systems
-        div
-            ul
-                for i in os
-                    li: p
-                        a(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+extends /partials/page
+
+block title
+    title Vergilius Project
+
+block content
+    div
+        h3 Operating systems
+    div
+        ul
+            for i in os
+                li: p
+                    a(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
