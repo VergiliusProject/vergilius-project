@@ -5,7 +5,8 @@ block title
 
 block content
     div
-        h3 Structures:
+        h5
+            &nbsp Structures:
         ul
             for i in structs
                 li: p
@@ -13,14 +14,16 @@ block content
 
 
     div
-        h3 Enums:
+        h5
+            &nbsp Enums:
         ul
             for i in enums
                 li: p
                     a(href="/os/#{osname}/type/#{i.name}") #{i.name}
 
     div
-        h3 Unions:
+        h5
+            &nbsp Unions:
         ul
             for i in unions
                 li: p
