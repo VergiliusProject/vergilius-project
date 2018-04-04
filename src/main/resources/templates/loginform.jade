@@ -1,0 +1,26 @@
+extends /partials/page
+
+block title
+    title Vergilius Project
+
+block content
+    .row(style='min-height: 630px;')
+        // Panel
+        .col-sm-12
+            .card
+                .card-body
+                    h5.card-title.text-center  Fill the fields below
+                    .container(style='margin-left: 580px;')
+                        form.form-horizontal(action='/action_page.php')
+                            .form-group
+                                label.control-label.col-sm-2(for='email') Email:
+                                .col-sm-10
+                                    input#email.form-control(type='email', style='width: 321px;', placeholder='Enter email')
+                            .form-group
+                                label.control-label.col-sm-2(for='pwd') Password:
+                                .col-sm-10
+                                    input#pwd.form-control(type='password', style='width: 321px;', placeholder='Enter password')
+                            .form-group
+                                .col-sm-offset-2.col-sm-10
+                                    button.btn.btn-default(type='submit') Submit
+                            a(href="/admin") Redirect to admin page

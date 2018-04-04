@@ -58,6 +58,11 @@ public class MainController{
         return "dbcontent";
     }
 
+    @GetMapping("/loginform")
+    public String displayLoginform(Model model) throws IOException {
+        return "loginform";
+    }
+
     @GetMapping("/admin")
     public String displayUploadForm(Model model) throws IOException {
         return "uploadForm";
