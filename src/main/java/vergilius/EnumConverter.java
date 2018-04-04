@@ -10,16 +10,31 @@ public class EnumConverter {
         List<Tdata> tmpData = Sorter.sortByOrdinal(myEnum.getData());
 
         StringBuilder result = new StringBuilder("");
-        result.append((myEnum.getName() != null)? "enum " + myEnum.getName() + "\n{\n" : "enum " + "\n{\n");
+        result.append((myEnum.getName() != null)? "enum " + myEnum.getName() + "\n{" : "enum " + "\n{");
+
+        //SIZE OF ENUM
+        result.append(" //0x" + Integer.toHexString(myEnum.getSizeof()) + " bytes (sizeof)" + "\n");
 
         StringBuilder strdata = new StringBuilder("");
         int i = 0;
+        int forOffsets = 0;
         while(i < tmpData.size() - 1 )
         {
-            strdata.append("\t" + tmpData.get(i).getName() + " = " + tmpData.get(i).getOffset() + ", " + "\n");
+            strdata.append("\t" + tmpData.get(i).getName() + " = " + tmpData.get(i).getOffset() + ",");
+
+            //OFFSET
+            forOffsets += tmpData.get(i).getOffset();
+            strdata.append("      //0x" + Integer.toHexString(forOffsets) + "\n");
             i++;
         }
-        if(i == tmpData.size() - 1) strdata.append("\t" + tmpData.get(i).getName() + " = " + tmpData.get(i).getOffset());
+        if(i == tmpData.size() - 1)
+        {
+            strdata.append("\t" + tmpData.get(i).getName() + " = " + tmpData.get(i).getOffset());
+
+            //OFFSET
+            forOffsets += tmpData.get(i).getOffset();
+            strdata.append("      //0x" + Integer.toHexString(forOffsets) + "\n");
+        }
 
         result.append(strdata + "\n};");
 

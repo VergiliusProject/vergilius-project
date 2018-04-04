@@ -161,7 +161,7 @@ public class MainController{
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.UNION))
         {
-            structsArr.add(UnionConverter.converts(t, rep2));
+            unionsArr.add(UnionConverter.converts(t, rep2));
         }
 
         model.addAttribute("res1", enumsArr);
