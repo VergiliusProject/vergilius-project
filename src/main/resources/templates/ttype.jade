@@ -5,27 +5,26 @@ block title
 
 block content
     div
-        h5
-            &nbsp Structures:
-        ul
-            for i in structs
-                li: p
-                    a(href="/os/#{osname}/type/#{i.name}") #{i.name}
-
-
-    div
-        h5
-            &nbsp Enums:
-        ul
-            for i in enums
-                li: p
-                    a(href="/os/#{osname}/type/#{i.name}") #{i.name}
-
-    div
-        h5
-            &nbsp Unions:
-        ul
-            for i in unions
-                li: p
-                    a(href="/os/#{osname}/type/#{i.name}") #{i.name}
-
+        .row(style='min-height: 630px;')
+            // Panel
+            .col-sm-12
+                .card
+                    .card-body
+                        h4.card-title Structures:
+                        div
+                            ul
+                                for i in structs
+                                    li: p
+                                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+                        h4.card-title Enums:
+                        div
+                            ul
+                                for i in enums
+                                    li: p
+                                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+                        h4.card-title Unions:
+                        div
+                            ul
+                                for i in unions
+                                    li: p
+                                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}

@@ -1,17 +1,19 @@
 nav.navbar.navbar-expand-lg.navbar-light.bg-light
-    a.navbar-brand
-        b Vergilius Project
-    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+    h3.navbar-brand-md(style='width: 185px;') Vergilius Project
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarColor03', aria-controls='navbarColor03', aria-expanded='false', aria-label='Toggle navigation', style='')
         span.navbar-toggler-icon
-    #navbarSupportedContent.collapse.navbar-collapse
+    #navbarColor03.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
             li.nav-item.active
                 a.nav-link(href='/')
-                    | Home
+                    h6 Home
                     span.sr-only (current)
             li.nav-item
-                a.nav-link(href='/about') About
-            li.nav-item
-                a.nav-link(href='/admin') Admin
+                a.nav-link(href='/about')
+                    h6 About
+        ul.nav.navbar-nav.navbar-right
+            li
+                a.nav-link(href='/admin')
+                    h6 Admin
 
 

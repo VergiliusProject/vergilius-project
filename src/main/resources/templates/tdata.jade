@@ -2,21 +2,25 @@ extends /partials/page
 
 block title
     title Vergilius Project
-
 block content
-    div
-        ul
-            for i in res1
-                //li(type="none"): p(style='white-space:pre;') #{i}
-                pre
-                    code(class="c") #{i}
-        ul
-            for j in res2
-                //li(type="none"): p(style='white-space:pre;') #{j}
-                pre
-                    code(class="c") #{j}
-        ul
-            for k in res3
-                //li(type="none"): p(style='white-space:pre;') #{k}
-                pre
-                    code(class="c") #{k}
+    .row(style='min-height: 630px;')
+        // Panel
+        .col-sm-12
+            .card
+                .card-body
+                div
+                    ul
+                        for i in res1
+                            //li(type="none"): p(style='white-space:pre;') #{i}
+                            pre
+                                code(class="c") #{i}
+                    ul
+                        for j in res2
+                            //li(type="none"): p(style='white-space:pre;') #{j}
+                            pre
+                                code(class="c") #{j}
+                    ul
+                        for k in res3
+                            //li(type="none"): p(style='white-space:pre;') #{k}
+                            pre
+                                code(class="c") #{k}

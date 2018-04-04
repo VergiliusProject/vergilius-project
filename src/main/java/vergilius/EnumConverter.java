@@ -36,7 +36,7 @@ public class EnumConverter {
             strdata.append("      //0x" + Integer.toHexString(forOffsets) + "\n");
         }
 
-        result.append(strdata + "\n};");
+        result.append(strdata + "};");
 
         return result.toString();
     }
