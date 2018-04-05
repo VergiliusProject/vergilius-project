@@ -10,10 +10,8 @@ public class EnumConverter {
         List<Tdata> tmpData = Sorter.sortByOrdinal(myEnum.getData());
 
         StringBuilder result = new StringBuilder("");
+        result.append("//0x" + Integer.toHexString(myEnum.getSizeof()) + " bytes (sizeof)" + "\n");
         result.append((myEnum.getName() != null)? "enum " + myEnum.getName() + "\n{" : "enum " + "\n{");
-
-        //SIZE OF ENUM
-        result.append(" //0x" + Integer.toHexString(myEnum.getSizeof()) + " bytes (sizeof)" + "\n");
 
         StringBuilder strdata = new StringBuilder("");
         int i = 0;

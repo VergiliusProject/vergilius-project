@@ -25,8 +25,9 @@ public class FieldBuilder
         return str.toString();
     }
 
-    public String retComment(int currentOffset)
+    public String retComment(int currentOffset, int length)
     {
+        /*
         if(currentOffset == -1)
         {
             offsetSum = 0;
@@ -34,6 +35,25 @@ public class FieldBuilder
         }
         offsetSum += currentOffset;
         return "      //0x" + Integer.toHexString(offsetSum);
+        */
+
+        if(currentOffset == -1)
+        {
+            offsetSum = 0;
+            return "";
+        }
+        offsetSum += currentOffset;
+        if(length <= 50)
+        {
+            StringBuilder strOffset = new StringBuilder();
+            for (int i = 1; i < 50 - length; i++){
+                strOffset.append(" ");
+            }
+            return strOffset + "//0x" + Integer.toHexString(offsetSum);
+        }
+
+        return "    //0x" + Integer.toHexString(offsetSum);
+
     }
 
     public String toString()
@@ -138,14 +158,15 @@ public class FieldBuilder
             case STRUCT:
             {
                 FieldBuilder fb = new FieldBuilder();
+                if(indent == 0)
+                {
+                    fb.type.append("//0x" + Integer.toHexString(typeOfField.getSizeof()) + " bytes (sizeof)\n");
+                }
                 fb.type.append("struct " + getModifier(typeOfField)).append(typeOfField.getName().equals("<unnamed-tag>") ? "" : typeOfField.getName());
 
                 if(typeOfField.getData() != null && typeOfField.getSizeof() != 0)
                 {
                     fb.type.append("\n").append(retIndent(indent)).append("{");
-
-                    //SIZE OF STRUCTURE
-                    fb.type.append(" //0x" + Integer.toHexString(typeOfField.getSizeof()) + " bytes (sizeof)");
 
                     indent++;
                     List<Tdata> StructFields = Sorter.sortByOrdinal(typeOfField.getData());
@@ -158,12 +179,12 @@ public class FieldBuilder
                         fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
 
                         //OFFSET
-                        fb.type.append(fb.retComment(i.getOffset()));
+                        fb.type.append(fb.retComment(i.getOffset(), (field.toString() + ";").length()));
                     }
 
                     //WHITESPACE
                     fb.type.append("\n").append(retIndent(--indent)).append("}");
-                    fb.retComment(-1);
+                    fb.retComment(-1, 0);
                 }
                 return fb;
             }
@@ -184,9 +205,6 @@ public class FieldBuilder
                     {
                         fb.type.append("\n").append(retIndent(indent)).append("{");
 
-                        //SIZE OF UNION
-                        fb.type.append(" //0x" + Integer.toHexString(typeOfField.getSizeof()) + " bytes (sizeof)");
-
                         List<Tdata> StructFields = Sorter.sortByOrdinal(typeOfField.getData());
                         indent++;
 
@@ -204,7 +222,7 @@ public class FieldBuilder
                                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
 
                                 //OFFSET
-                                fb.type.append(fb.retComment(StructFields.get(i).getOffset()));
+                                fb.type.append(fb.retComment(StructFields.get(i).getOffset(), fb.type.length()));
 
                                 break;
                             }
@@ -212,19 +230,17 @@ public class FieldBuilder
                             if(StructFields.get(i).getOffset() == StructFields.get(i + 1).getOffset())
                             {
                                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-                                fb.type.append(fb.retComment(StructFields.get(i).getOffset()));
+                                fb.type.append(fb.retComment(StructFields.get(i).getOffset(), fb.type.length()));
                             }
 
                             if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && !begin)
                             {
-                                //SIZE
-                                String off = " //0x" + Integer.toHexString(typeOfField.getSizeof()) + " bytes (sizeof)";
-                                field.type = new StringBuilder("struct\n" + retIndent(indent) + "{" + off + "\n" + retIndent(indent + 1) + field.type);
+                                field.type = new StringBuilder("struct\n" + retIndent(indent) + "{" + "\n" + retIndent(indent + 1) + field.type);
 
                                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
 
                                 //OFFSET
-                                fb.type.append(fb.retComment(StructFields.get(i).getOffset()));
+                                fb.type.append(fb.retComment(StructFields.get(i).getOffset(), fb.type.length()));
                                 begin = true;
                             }
                             else if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && begin)
@@ -233,7 +249,7 @@ public class FieldBuilder
                                 fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString()).append(";");
 
                                 //OFFSET
-                                fb.type.append(fb.retComment(StructFields.get(i).getOffset()));
+                                fb.type.append(fb.retComment(StructFields.get(i).getOffset(), fb.type.length()));
 
                                 fb.type.append("\n").append(retIndent(indent)).append("}").append(";");
                             }

@@ -63,6 +63,11 @@ public class MainController{
         return "loginform";
     }
 
+    @PostMapping("/loginform")
+    public String submitResult() throws IOException {
+        return "redirect:/uploadForm";
+    }
+
     @GetMapping("/admin")
     public String displayUploadForm(Model model) throws IOException {
         return "uploadForm";
