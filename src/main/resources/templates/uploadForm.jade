@@ -4,24 +4,20 @@ block title
     title Vergilius Project
 
 block content
-    div
+    .container
         if message
             = message
-    .row(style='min-height: 630px;')
-        // Panel
-        .col-sm-12
-            .card
-                .card-body
-                    form(method='post', enctype='multipart/form-data', action='/admin')
-                        div(style='text-align: center')
-                            div(style='width: 50%; margin: 0 auto; text-align: center; margin-top: 20px;')
-                                | File to upload:
-                                label.btn.btn-primary.btn-file.btn-sm
-                                    | Browse
-                                    input(type='file', name='file')
-                        div(style='text-align: center; width: 1645px')
-                            div(style='width: 50%; margin: 0 auto; text-align: center')
-                                input.btn.btn-success.btn-sm(type='submit', value='Upload')
+    .container
+        form(method='post', enctype='multipart/form-data', action='/admin')
+            div(style='text-align: center')
+                div(style='width: 50%; margin: 0 auto; text-align: center; margin-top: 20px;')
+                    | File to upload:
+                    label.btn.btn-primary.btn-file.btn-sm
+                        | Browse
+                        input(type='file', name='file')
+            div(style='width: 50%; margin: 0 auto; text-align: center; margin-top: 20px;')
+                div(style='width: 50%; margin: 0 auto; text-align: center')
+                    input.btn.btn-success.btn-sm(type='submit', value='Upload')
 
     //div
         form(method="post" enctype="multipart/form-data" action="/admin")

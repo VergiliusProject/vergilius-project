@@ -21,3 +21,11 @@
     cursor: inherit;
     display: block;
 }
+.line
+{
+    border-top: 1px solid rgba(223,215,202,0.75);
+}
+.line2
+{
+    border-bottom: 1px solid rgba(223,215,202,0.75);
+}

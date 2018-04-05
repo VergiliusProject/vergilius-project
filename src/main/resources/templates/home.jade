@@ -4,17 +4,11 @@ block title
     title Vergilius Project
 
 block content
-    .row(style='min-height: 630px;')
-        // Panel
-        .col-sm-12
-            .card
-                .card-body
-                    h4.card-title Operating systems:
-                    div
-                        ul
-                            for i in os
-                                li: p
-                                    a(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
-
-
+    .container
+        h4(style='text-align: left') Operating systems:
+            div
+                ul
+                    for i in os
+                        li: p
+                            a(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
 
