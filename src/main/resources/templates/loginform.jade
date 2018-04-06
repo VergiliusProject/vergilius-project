@@ -4,8 +4,10 @@ block title
     title Vergilius Project
 
 block content
-    .container
-        h5(style='text-align: left') Fill the fields below
+    .container.mycontainer
+        div(style='margin-top: 8px; margin-bottom: 5px;')
+            h5(style='text-align: center') Fill the fields below
+        div.d-flex.justify-content-center
             form.form-horizontal(action='/admin')
                 .form-group
                     label.control-label.col-sm-2(for='email') Email:

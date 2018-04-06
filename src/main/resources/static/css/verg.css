@@ -4,7 +4,6 @@
     padding-left: 0.6rem;
 }
 .btn-file {
-    position: relative;
     overflow: hidden;
 }
 .btn-file input[type=file] {
@@ -20,6 +19,16 @@
     background: white;
     cursor: inherit;
     display: block;
+}
+.mycontainer
+{
+    min-height: 635px;
+    min-width: 1440px;
+    padding-top: 10px;
+}
+ul
+{
+    font-size: 18px;
 }
 .line
 {
