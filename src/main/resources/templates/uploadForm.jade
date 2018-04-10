@@ -2,36 +2,24 @@ extends /partials/page
 
 block title
     title Vergilius Project
-
+    //hidden attr -> input
 block content
-    .container
-        if message
-            = message
-    .container
-        form(method='post', enctype='multipart/form-data', action='/admin')
-            div(style='text-align: center')
-                div(style='width: 50%; margin: 0 auto; text-align: center; margin-top: 20px;')
-                    | File to upload:
-                    label.btn.btn-primary.btn-file.btn-sm
-                        | Browse
+    div
+        ul.list-inline.breadcrumb(type='none')
+            li.list-inline-item
+                a(href="/") Home
+            li.list-inline-item.active Upload form
+    .container.mycontainer
+        div(style='text-align:center;')
+            if message
+                = message
+        div
+            form(method="post" enctype="multipart/form-data" action="/admin")
+                div(style='text-align:center;')
+                    |Choose a file to upload:
+                    label.btn.btn-default
                         input(type='file', name='file')
-            div(style='width: 50%; margin: 0 auto; text-align: center; margin-top: 20px;')
-                div(style='width: 50%; margin: 0 auto; text-align: center')
-                    input.btn.btn-success.btn-sm(type='submit', value='Upload')
-
-    //div
-        form(method="post" enctype="multipart/form-data" action="/admin")
-            table
-                tr
-                    td File to upload:
-                    td
-                        input(type="file" name="file")
-                tr
-                    td
-                    td
-                        input(type="submit" value="Upload")
-    //div
-        ul
-            for file in files
-                li: p
-                    a(href="#{file}") #{file}
+                div(style='text-align:center;')
+                    |Upload your file:
+                    label.btn.btn-default
+                        input(type='submit', value='Upload')

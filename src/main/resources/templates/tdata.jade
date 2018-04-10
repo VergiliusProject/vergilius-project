@@ -3,7 +3,14 @@ extends /partials/page
 block title
     title Vergilius Project
 block content
-    .container
+    div
+        ul.list-inline.breadcrumb(type='none')
+            li.list-inline-item
+                a(href="/") Home
+            li.list-inline-item
+                a(href="/os/#{osname}") #{osname}
+            li.list-inline-item.active #{i.name}
+    .container.mycontainer
         div
             ul
                 for i in res1

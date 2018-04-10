@@ -2,8 +2,10 @@ extends /partials/page
 
 block title
     title Vergilius Project
-
 block content
+    div
+        ul.list-inline.breadcrumb(type='none')
+            li.list-inline-item.active Home
     .container.mycontainer
         div(style="padding-bottom: 3px;")
             h4(style='text-align: left') Operating systems:
@@ -12,4 +14,3 @@ block content
                 for i in os
                     li: p
                         a(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
-

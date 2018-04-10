@@ -22,7 +22,7 @@
 }
 .mycontainer
 {
-    min-height: 635px;
+    min-height: 650px;
     min-width: 1440px;
     padding-top: 10px;
 }
@@ -37,4 +37,35 @@ ul
 .line2
 {
     border-bottom: 1px solid rgba(223,215,202,0.75);
+}
+/* Style the list */
+ul.breadcrumb {
+    list-style: none;
+    border-radius: 0rem;
+    border: 0px;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+    display: inline;
+    font-size: 18px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
 }
