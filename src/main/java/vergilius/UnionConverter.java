@@ -5,28 +5,20 @@ import vergilius.repos.TtypeRepository;
 import java.util.List;
 
 public class UnionConverter {
-    public static String converts(Ttype myUnion, TtypeRepository rep2)
+    public static String converts(Ttype currentUnion, TtypeRepository rep2)
     {
-        List<Tdata> tmpData = Sorter.sortByOrdinal(myUnion.getData());
+        List<Tdata> unionData = Sorter.sortByOrdinal(currentUnion.getData());
 
         FieldBuilder fb = new FieldBuilder();
+        fb.setType(new StringBuilder((currentUnion.getName() != null)? "union " + currentUnion.getName() + "\n{\n" : "union\n{\n"));
 
-        fb.setType(new StringBuilder("//0x" + Integer.toHexString(myUnion.getSizeof()) + " bytes (sizeof)\n"));
-
-        String rec = (myUnion.getName() != null)? "union " + myUnion.getName() + "\n{\n" : "union " + "\n{\n";
-        fb.setType(fb.getType().append(rec));
-
-        int forOffsets = 0;
-        for(Tdata i: tmpData)
+        for(Tdata i: unionData)
         {
             Ttype typeOfField = rep2.findOne(i.getId());
-
             FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, 0);
             field.setName(i.getName() + ";");
 
-            //OFFSET
-            forOffsets += i.getOffset();
-            fb.setType(new StringBuilder(fb.getType() + "\t" + field.toString() + "      //0x" + Integer.toHexString(forOffsets) +"\n"));
+            fb.setType(new StringBuilder(fb.getType() + "    " + field.toString() + "\n"));
         }
         fb.setType(fb.getType().append("};"));
 

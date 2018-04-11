@@ -12,6 +12,12 @@ block content
             li.list-inline-item.active #{i.name}
     .container.mycontainer
         div
+            button#copy-button.button(data-clipboard-target='#copyblock') Copy
+            script(type='text/javascript').
+                (function () {
+                    new Clipboard('#copy-button');
+                })();
+        #copyblock
             ul
                 for i in res1
                     //li(type="none"): p(style='white-space:pre;') #{i}

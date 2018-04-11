@@ -5,36 +5,18 @@ import java.util.stream.Collectors;
 
 public class EnumConverter {
 
-    public static String converts(Ttype myEnum)
+    public static String converts(Ttype enumeration)
     {
-        List<Tdata> tmpData = Sorter.sortByOrdinal(myEnum.getData());
+        List<Tdata> enumData = Sorter.sortByOrdinal(enumeration.getData());
 
-        StringBuilder result = new StringBuilder("");
-        result.append("//0x" + Integer.toHexString(myEnum.getSizeof()) + " bytes (sizeof)" + "\n");
-        result.append((myEnum.getName() != null)? "enum " + myEnum.getName() + "\n{" : "enum " + "\n{");
+        StringBuilder result = new StringBuilder().append((enumeration.getName() != null)? "enum " + enumeration.getName() + "\n{\n" : "enum\n{\n");
 
-        StringBuilder strdata = new StringBuilder("");
-        int i = 0;
-        int forOffsets = 0;
-        while(i < tmpData.size() - 1 )
+        for(int i = 0; i < enumData.size() - 1; i++)
         {
-            strdata.append("\t" + tmpData.get(i).getName() + " = " + tmpData.get(i).getOffset() + ",");
-
-            //OFFSET
-            forOffsets += tmpData.get(i).getOffset();
-            strdata.append("      //0x" + Integer.toHexString(forOffsets) + "\n");
-            i++;
-        }
-        if(i == tmpData.size() - 1)
-        {
-            strdata.append("\t" + tmpData.get(i).getName() + " = " + tmpData.get(i).getOffset());
-
-            //OFFSET
-            forOffsets += tmpData.get(i).getOffset();
-            strdata.append("      //0x" + Integer.toHexString(forOffsets) + "\n");
+            result.append("    " + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + ",\n");
         }
 
-        result.append(strdata + "};");
+        result.append("    " + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset()+ "\n};");
 
         return result.toString();
     }

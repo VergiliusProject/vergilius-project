@@ -8,52 +8,21 @@ import java.util.stream.Collectors;
 
 public class FieldBuilder
 {
+
     private String name = new String();
     private StringBuilder type = new StringBuilder();
     private StringBuilder dim = new StringBuilder();
     private StringBuilder retval = new StringBuilder();
     private StringBuilder args = new StringBuilder();
-    public static int offsetSum = 0;
 
     public static String retIndent(int indent)
     {
         StringBuilder str = new StringBuilder();
         for(int i = 0; i < indent; i++)
         {
-            str.append("\t");
+            str.append("    ");
         }
         return str.toString();
-    }
-
-    public String retComment(int currentOffset, int length)
-    {
-        /*
-        if(currentOffset == -1)
-        {
-            offsetSum = 0;
-            return "";
-        }
-        offsetSum += currentOffset;
-        return "      //0x" + Integer.toHexString(offsetSum);
-        */
-
-        if(currentOffset == -1)
-        {
-            offsetSum = 0;
-            return "";
-        }
-        offsetSum += currentOffset;
-        if(length <= 50)
-        {
-            StringBuilder strOffset = new StringBuilder();
-            for (int i = 1; i < 50 - length; i++){
-                strOffset.append(" ");
-            }
-            return strOffset + "//0x" + Integer.toHexString(offsetSum);
-        }
-
-        return "    //0x" + Integer.toHexString(offsetSum);
-
     }
 
     public String toString()
@@ -64,6 +33,7 @@ public class FieldBuilder
         }
         return retval + "(" + type + " " + name + dim + ")" + "(" + args + ")";
     }
+
 
     public void setName(String name) {
         this.name = name;
@@ -158,10 +128,7 @@ public class FieldBuilder
             case STRUCT:
             {
                 FieldBuilder fb = new FieldBuilder();
-                if(indent == 0)
-                {
-                    fb.type.append("//0x" + Integer.toHexString(typeOfField.getSizeof()) + " bytes (sizeof)\n");
-                }
+
                 fb.type.append("struct " + getModifier(typeOfField)).append(typeOfField.getName().equals("<unnamed-tag>") ? "" : typeOfField.getName());
 
                 if(typeOfField.getData() != null && typeOfField.getSizeof() != 0)
@@ -169,22 +136,18 @@ public class FieldBuilder
                     fb.type.append("\n").append(retIndent(indent)).append("{");
 
                     indent++;
-                    List<Tdata> StructFields = Sorter.sortByOrdinal(typeOfField.getData());
+                    List<Tdata> structFields = Sorter.sortByOrdinal(typeOfField.getData());
 
-                    for(Tdata i: StructFields)
+                    for(Tdata i: structFields)
                     {
                         typeOfField = rep2.findOne(i.getId());
                         FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
                         field.setName(i.getName());
                         fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-
-                        //OFFSET
-                        fb.type.append(fb.retComment(i.getOffset(), (field.toString() + ";").length()));
                     }
 
                     //WHITESPACE
                     fb.type.append("\n").append(retIndent(--indent)).append("}");
-                    fb.retComment(-1, 0);
                 }
                 return fb;
             }
@@ -213,16 +176,14 @@ public class FieldBuilder
                         for(int i = 0; i < StructFields.size(); i++)
                         {
                             typeOfField = rep2.findOne(StructFields.get(i).getId());
+
                             FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
                             field.setName(StructFields.get(i).getName());
 
                             if(i == last)
                             {
-                                if(begin) fb.type.append("\n").append(retIndent(indent)).append("}").append(";");
+                                if(begin) fb.type.append("\n").append(retIndent(indent)).append("};");
                                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-
-                                //OFFSET
-                                fb.type.append(fb.retComment(StructFields.get(i).getOffset(), fb.type.length()));
 
                                 break;
                             }
@@ -230,28 +191,22 @@ public class FieldBuilder
                             if(StructFields.get(i).getOffset() == StructFields.get(i + 1).getOffset())
                             {
                                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-                                fb.type.append(fb.retComment(StructFields.get(i).getOffset(), fb.type.length()));
+
                             }
 
                             if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && !begin)
                             {
-                                field.type = new StringBuilder("struct\n" + retIndent(indent) + "{" + "\n" + retIndent(indent + 1) + field.type);
+                                field.type = new StringBuilder("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.type);
 
                                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
 
-                                //OFFSET
-                                fb.type.append(fb.retComment(StructFields.get(i).getOffset(), fb.type.length()));
                                 begin = true;
                             }
                             else if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && begin)
                             {
                                 begin = false;
                                 fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString()).append(";");
-
-                                //OFFSET
-                                fb.type.append(fb.retComment(StructFields.get(i).getOffset(), fb.type.length()));
-
-                                fb.type.append("\n").append(retIndent(indent)).append("}").append(";");
+                                fb.type.append("\n").append(retIndent(indent)).append("};");
                             }
 
                         }
