@@ -86,6 +86,7 @@ public class FieldBuilder
                 FieldBuilder fb = recoursionProcessing(rep2, rep2.findOne(fieldOfType.getId()), indent);
                 fb.type.append("*" + (getModifier(typeOfField).isEmpty() ? "" : " " + getModifier(typeOfField)));
                 return fb;
+
             }
             case ARRAY:
             {
@@ -129,7 +130,7 @@ public class FieldBuilder
             {
                 FieldBuilder fb = new FieldBuilder();
 
-                fb.type.append("struct " + getModifier(typeOfField)).append(typeOfField.getName().equals("<unnamed-tag>") ? "" : typeOfField.getName());
+                fb.type.append("struct" + getModifier(typeOfField)).append(typeOfField.getName().equals("<unnamed-tag>") ? "" : " " + typeOfField.getName());
 
                 if(typeOfField.getData() != null && typeOfField.getSizeof() != 0)
                 {
@@ -138,85 +139,124 @@ public class FieldBuilder
                     indent++;
                     List<Tdata> structFields = Sorter.sortByOrdinal(typeOfField.getData());
 
-                    for(Tdata i: structFields)
+                    for (Tdata i : structFields)
                     {
                         typeOfField = rep2.findOne(i.getId());
                         FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
                         field.setName(i.getName());
                         fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
                     }
-
-                    //WHITESPACE
                     fb.type.append("\n").append(retIndent(--indent)).append("}");
+                }
+                if(indent == 0)
+                {
+                    fb.type.append(";");
                 }
                 return fb;
             }
             case ENUM:
             {
                 FieldBuilder fb = new FieldBuilder();
-                fb.type.append("enum " + getModifier(typeOfField)).append(typeOfField.getName());
+                if(indent == 0)
+                {
+                    List<Tdata> enumData = Sorter.sortByOrdinal(typeOfField.getData());
+
+                    fb.type.append(new StringBuilder().append((typeOfField.getName() != null)? "enum " + typeOfField.getName() + "\n{\n" : "enum\n{\n"));
+
+                    for(int i = 0; i < enumData.size() - 1; i++)
+                    {
+                        fb.type.append("    " + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + ",\n");
+                    }
+
+                    fb.type.append("    " + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset()+ "\n};");
+
+                }
+                else {
+
+                    fb.type.append("enum " + getModifier(typeOfField)).append(typeOfField.getName());
+                }
                 return fb;
             }
             case UNION:
             {
                 FieldBuilder fb = new FieldBuilder();
-                if(typeOfField.getName().equals("<unnamed-tag>"))
+                if(indent == 0)
                 {
-                    fb.type.append("union " + getModifier(typeOfField));
+                    List<Tdata> unionData = Sorter.sortByOrdinal(typeOfField.getData());
 
-                    if(typeOfField.getData() != null)
+                    fb.setType(new StringBuilder((typeOfField.getName() != null)? "union " + typeOfField.getName() + "\n{\n" : "union\n{\n"));
+
+                    for(Tdata i: unionData)
                     {
-                        fb.type.append("\n").append(retIndent(indent)).append("{");
+                        typeOfField = rep2.findOne(i.getId());
+                        FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, 0);
+                        field.setName(i.getName() + ";");
 
-                        List<Tdata> StructFields = Sorter.sortByOrdinal(typeOfField.getData());
-                        indent++;
-
-                        boolean begin = false;
-                        int last = StructFields.size() - 1;
-                        for(int i = 0; i < StructFields.size(); i++)
-                        {
-                            typeOfField = rep2.findOne(StructFields.get(i).getId());
-
-                            FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
-                            field.setName(StructFields.get(i).getName());
-
-                            if(i == last)
-                            {
-                                if(begin) fb.type.append("\n").append(retIndent(indent)).append("};");
-                                fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-
-                                break;
-                            }
-
-                            if(StructFields.get(i).getOffset() == StructFields.get(i + 1).getOffset())
-                            {
-                                fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-
-                            }
-
-                            if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && !begin)
-                            {
-                                field.type = new StringBuilder("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.type);
-
-                                fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-
-                                begin = true;
-                            }
-                            else if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && begin)
-                            {
-                                begin = false;
-                                fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString()).append(";");
-                                fb.type.append("\n").append(retIndent(indent)).append("};");
-                            }
-
-                        }
-                        fb.type.append("\n").append(retIndent(--indent)).append("}");
+                        fb.setType(new StringBuilder(fb.getType() + "    " + field.toString() + "\n"));
                     }
+                    fb.setType(fb.getType().append("};"));
                 }
                 else
                 {
-                    fb.type.append("union " + getModifier(typeOfField)).append(typeOfField.getName());
+                    if(typeOfField.getName().equals("<unnamed-tag>"))
+                    {
+                        fb.type.append("union " + getModifier(typeOfField));
+
+                        if(typeOfField.getData() != null)
+                        {
+                            fb.type.append("\n").append(retIndent(indent)).append("{");
+
+                            List<Tdata> StructFields = Sorter.sortByOrdinal(typeOfField.getData());
+                            indent++;
+
+                            boolean begin = false;
+                            int last = StructFields.size() - 1;
+                            for(int i = 0; i < StructFields.size(); i++)
+                            {
+                                typeOfField = rep2.findOne(StructFields.get(i).getId());
+
+                                FieldBuilder field = FieldBuilder.recoursionProcessing(rep2, typeOfField, indent);
+                                field.setName(StructFields.get(i).getName());
+
+                                if(i == last)
+                                {
+                                    if(begin) fb.type.append("\n").append(retIndent(indent)).append("};");
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+
+                                    break;
+                                }
+
+                                if(StructFields.get(i).getOffset() == StructFields.get(i + 1).getOffset())
+                                {
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+
+                                }
+
+                                if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && !begin)
+                                {
+                                    field.type = new StringBuilder("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.type);
+
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+
+                                    begin = true;
+                                }
+                                else if(StructFields.get(i).getOffset() != StructFields.get(i + 1).getOffset() && begin)
+                                {
+                                    begin = false;
+                                    fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString()).append(";");
+                                    fb.type.append("\n").append(retIndent(indent)).append("};");
+                                }
+
+                            }
+                            fb.type.append("\n").append(retIndent(--indent)).append("}");
+                        }
+                    }
+                    else
+                    {
+                        fb.type.append("union " + getModifier(typeOfField)).append(typeOfField.getName());
+                    }
                 }
+
                 return fb;
             }
             default:

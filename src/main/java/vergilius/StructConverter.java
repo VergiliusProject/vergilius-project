@@ -4,8 +4,10 @@ import vergilius.repos.TtypeRepository;
 
 public class StructConverter {
 
-    public static String converts(Ttype Struct, TtypeRepository rep2)
+    public static String converts(Ttype currentStruct, TtypeRepository rep2)
     {
-        return FieldBuilder.recoursionProcessing(rep2, Struct, 0).toString().trim() + ";";
+        //???
+        //.trim() + ";";
+        return FieldBuilder.recoursionProcessing(rep2, currentStruct, 0).toString();
     }
 }

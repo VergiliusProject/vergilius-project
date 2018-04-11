@@ -157,7 +157,7 @@ public class MainController{
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.ENUM))
         {
-            enumsArr.add(EnumConverter.converts(t));
+            enumsArr.add(EnumConverter.converts(t, rep2));
         }
 
         List<String> structsArr = new ArrayList<>();
