@@ -29,35 +29,6 @@ public class MainController{
     private List<Ttype> listTypes;
     private List<Tdata> listData;
 
-    /*unused method*/
-    @GetMapping("/db")
-    public String showAllContent(Model model) throws IOException {
-
-        listOs = new ArrayList<>();
-        for(Os i : rep1.findAll())
-        {
-            listOs.add(i);
-        }
-        model.addAttribute("osrows", listOs);
-
-
-        listTypes = new ArrayList<>();
-        for(Ttype j : rep2.findAll())
-        {
-            listTypes.add(j);
-        }
-        model.addAttribute("trows", listTypes);
-
-        listData = new ArrayList<>();
-        for(Tdata k : rep3.findAll())
-        {
-            listData.add(k);
-        }
-        model.addAttribute("drows", listData);
-
-        return "dbcontent";
-    }
-
     @GetMapping("/loginform")
     public String displayLoginform(Model model) throws IOException {
         return "loginform";
@@ -153,25 +124,27 @@ public class MainController{
         Os opersys = rep1.findByOsname(osname);
         List<Ttype> typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
 
+        //String address = "/os/" + osname + "/type/" + name;
+
         List<String> enumsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.ENUM))
         {
-            enumsArr.add(EnumConverter.converts(t, rep2));
+            enumsArr.add(FieldBuilder.recoursionProcessing(rep2,t,0).toString());
         }
 
         List<String> structsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.STRUCT))
         {
-            structsArr.add(StructConverter.converts(t,rep2));
+            structsArr.add(FieldBuilder.recoursionProcessing(rep2,t,0).toString());
         }
 
         List<String> unionsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.UNION))
         {
-            unionsArr.add(UnionConverter.converts(t, rep2));
+            unionsArr.add(FieldBuilder.recoursionProcessing(rep2,t,0).toString());
         }
 
         model.addAttribute("res1", enumsArr);

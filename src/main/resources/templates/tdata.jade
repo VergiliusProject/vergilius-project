@@ -22,14 +22,15 @@ block content
                 for i in res1
                     //li(type="none"): p(style='white-space:pre;') #{i}
                     pre
-                        code(class="c") #{i}
+                        code(class="c") !{i}
+                        //escaping, changed from "#"
             ul
                 for j in res2
                     //li(type="none"): p(style='white-space:pre;') #{j}
                     pre
-                        code(class="c") #{j}
+                        code(class="c") !{j}
             ul
                 for k in res3
                     //li(type="none"): p(style='white-space:pre;') #{k}
                     pre
-                        code(class="c") #{k}
+                        code(class="c") !{k}

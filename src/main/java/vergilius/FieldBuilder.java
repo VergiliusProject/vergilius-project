@@ -2,13 +2,13 @@ package vergilius;
 
 import vergilius.repos.TtypeRepository;
 
+import java.net.URL;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class FieldBuilder
 {
-
     private String name = new String();
     private StringBuilder type = new StringBuilder();
     private StringBuilder dim = new StringBuilder();
@@ -130,7 +130,7 @@ public class FieldBuilder
             {
                 FieldBuilder fb = new FieldBuilder();
 
-                fb.type.append("struct" + getModifier(typeOfField)).append(typeOfField.getName().equals("<unnamed-tag>") ? "" : " " + typeOfField.getName());
+                fb.type.append("struct" + getModifier(typeOfField)).append(typeOfField.getName().equals("<unnamed-tag>") ? "" : " " +  typeOfField.getName());
 
                 if(typeOfField.getData() != null && typeOfField.getSizeof() != 0)
                 {
