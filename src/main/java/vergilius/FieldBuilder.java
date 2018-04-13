@@ -2,7 +2,6 @@ package vergilius;
 
 import vergilius.repos.TtypeRepository;
 
-import java.net.URL;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -21,9 +20,58 @@ public class FieldBuilder
         StringBuilder str = new StringBuilder();
         for(int i = 0; i < indent; i++)
         {
+            //4 spaces
             str.append("    ");
         }
         return str.toString();
+    }
+
+    public static String retSpaces(int length)
+    {
+        StringBuilder outputBuffer = new StringBuilder();
+        if(length <= 50)
+        {
+            for (int i = 0; i <= 50 - length; i++){
+                outputBuffer.append(" ");
+            }
+            return outputBuffer.toString();
+        }
+        else
+        {
+            //8 spaces
+            return "        ";
+        }
+    }
+
+    public static boolean isTopLevel(int indent)
+    {
+        return indent == 0;
+    }
+
+    public static void printStructFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int sumOffset)
+    {
+        //if structure isn't bodiless
+        if(type.getData() != null && type.getSizeof() != 0)
+        {
+            fb.type.append("\n").append(retIndent(indent)).append("{");
+
+            indent++; //all structure fields have a deeper level of nesting
+            List<Tdata> structFields = Sorter.sortByOrdinal(type.getData());
+
+            for (Tdata currentField : structFields)
+            {
+                type = repo.findOne(currentField.getId());
+
+                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset + currentField.getOffset());
+                field.setName(currentField.getName());
+
+                fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+
+                //OFFSET
+                if(indent == 1) fb.type.append(retSpaces(field.toString().length()) + "//0x" + sumOffset + currentField.getOffset()); //tmp decision
+            }
+            fb.type.append("\n").append(retIndent(--indent)).append("}");// braces are always on the same level with a word 'struct'
+        }
     }
 
     public String toString()
@@ -32,7 +80,7 @@ public class FieldBuilder
         {
             return type + " " + name + dim;
         }
-        return retval + "(" + type + " " + name + dim + ")" + "(" + args + ")";
+        return retval + "(" + type + name + dim + ")" + "(" + args + ")";
     }
 
 
@@ -51,18 +99,18 @@ public class FieldBuilder
     //The method checks type's modifier (const or volatile)
     public static String getModifier(Ttype typeOfField)
     {
-        return (typeOfField.isIsConst() ? "const " : "") + (typeOfField.isIsVolatile() ? "volatile " : "");
+        return (typeOfField.isIsConst() ? "const" : "") + (typeOfField.isIsVolatile() ? "volatile" : "");
     }
 
     //The method returns an object(fb), which represents some type.
-    public static FieldBuilder recoursionProcessing(TtypeRepository rep, Ttype type, int indent)
+    public static FieldBuilder recursionProcessing(TtypeRepository repo, Ttype type, int indent, int sumOffset)
     {
         switch (type.getKind())
         {
             case BASE:
             {
                 FieldBuilder fb = new FieldBuilder();
-                fb.type.append(getModifier(type)).append(type.getName()); //type.getName() -> int, char etc.
+                fb.type.append(getModifier(type).isEmpty()? type.getName():getModifier(type) + " " + type.getName()); //type.getName() -> int, char etc.
                 return fb;
             }
             case POINTER:
@@ -70,23 +118,25 @@ public class FieldBuilder
                 //getting a new type on which "current" type points to
                 Tdata refType = type.getData().stream().findFirst().orElseThrow(()-> new NoSuchElementException());
 
-                String name = rep.findOne(refType.getId()).getName();
+                String name = repo.findOne(refType.getId()).getName();
 
-                if(rep.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT && name.equals("<unnamed-tag>"))
+                if(repo.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT && name.equals("<unnamed-tag>"))
                 {
-                    FieldBuilder fb = FieldBuilder.recoursionProcessing(rep,  rep.findOne(refType.getId()), indent);
+                    FieldBuilder fb = FieldBuilder.recursionProcessing(repo, repo.findOne(refType.getId()), indent, sumOffset);
                     fb.type.append("*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
                     return fb;
                 }
 
-                if(rep.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT)
+                //union, enum...
+                if(repo.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT)
                 {
                     FieldBuilder fb = new FieldBuilder();
                     fb.type.append("struct " + name + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
                     return fb;
                 }
 
-                FieldBuilder fb = recoursionProcessing(rep, rep.findOne(refType.getId()), indent);
+                FieldBuilder fb = recursionProcessing(repo, repo.findOne(refType.getId()), indent, sumOffset);
+               
                 fb.type.append("*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
                 return fb;
 
@@ -94,8 +144,8 @@ public class FieldBuilder
             case ARRAY:
             {
                 Tdata refType = type.getData().stream().findFirst().orElseThrow(()-> new NoSuchElementException());
-                type = rep.findOne(refType.getId());
-                FieldBuilder fb = recoursionProcessing(rep, type, indent);
+                type = repo.findOne(refType.getId());
+                FieldBuilder fb = recursionProcessing(repo, type, indent, sumOffset);
                 fb.dim = new StringBuilder("[" + refType.getOffset() + "]" + fb.dim);
                 return fb;
             }
@@ -108,8 +158,8 @@ public class FieldBuilder
                 int counter = 0;
                 for (Tdata component : funcComponents)
                 {
-                    Ttype typeOfComponent = rep.findOne(component.getId());
-                    FieldBuilder fbType = recoursionProcessing(rep, typeOfComponent, indent);
+                    Ttype typeOfComponent = repo.findOne(component.getId());
+                    FieldBuilder fbType = recursionProcessing(repo, typeOfComponent, indent, sumOffset);
 
                     if ("return".equals(component.getName()))
                     {
@@ -132,37 +182,35 @@ public class FieldBuilder
             {
                 FieldBuilder fb = new FieldBuilder();
 
-                fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : " " +  type.getName());
-
-                //if structure isn't bodiless
-                if(type.getData() != null && type.getSizeof() != 0)
+                if(isTopLevel(indent))
                 {
-                    fb.type.append("\n").append(retIndent(indent)).append("{");
-                    indent++; //all structure fields have a deeper level of nesting
-                    List<Tdata> structFields = Sorter.sortByOrdinal(type.getData());
+                    //hex SIZE
+                    fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
-                    for (Tdata currentField : structFields)
-                    {
-                        type = rep.findOne(currentField.getId());
-                        FieldBuilder field = FieldBuilder.recoursionProcessing(rep, type, indent);
-                        field.setName(currentField.getName());
-                        fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
-                    }
-                    fb.type.append("\n").append(retIndent(--indent)).append("}");// braces are always on the same level with a word 'struct'
-                }
-                //???
-                if(indent == 0)
-                {
+                    fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : " " +  type.getName());
+                    printStructFields(fb, type, repo, indent, sumOffset);
                     fb.type.append(";");
+                }
+                else
+                {
+                    //hex SIZE
+                    fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)");
+
+                    fb.type.append("\n" + retIndent(indent) + "struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : " " +  type.getName());
+                    printStructFields(fb, type, repo, indent, sumOffset);
                 }
                 return fb;
             }
             case ENUM:
             {
                 FieldBuilder fb = new FieldBuilder();
-                if(indent == 0)
+                if(isTopLevel(indent))
                 {
                     List<Tdata> enumData = Sorter.sortByOrdinal(type.getData());
+
+                    //hex SIZE
+                    fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
+
                     fb.type.append(new StringBuilder().append((type.getName() != null)? "enum " + type.getName() + "\n{\n" : "enum\n{\n"));
 
                     indent++;
@@ -184,29 +232,35 @@ public class FieldBuilder
             case UNION:
             {
                 FieldBuilder fb = new FieldBuilder();
-                if(indent == 0)
+                if(isTopLevel(indent))
                 {
                     List<Tdata> unionFields = Sorter.sortByOrdinal(type.getData());
 
-                    fb.setType(new StringBuilder((type.getName() != null)? "union " + type.getName() + "\n{\n" : "union\n{\n"));
+                    //hex SIZE
+                    fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
+
+                    fb.type.append(new StringBuilder((type.getName() != null)? "union " + type.getName() + "\n{\n" : "union\n{\n"));
 
                     indent++;
 
-                    for(Tdata i: unionFields)
+                    for(Tdata unionField: unionFields)
                     {
-                        type = rep.findOne(i.getId());
-                        FieldBuilder field = FieldBuilder.recoursionProcessing(rep, type, 0);
-                        field.setName(i.getName() + ";");
-                        fb.setType(new StringBuilder(fb.getType() + retIndent(indent) + field.toString() + "\n"));
+                        type = repo.findOne(unionField.getId());
+                        FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, 0, sumOffset);
+                        field.setName(unionField.getName() + ";");
+
+                        fb.type.append(retIndent(indent) + field.toString() + "\n");
                     }
-                    fb.setType(fb.getType().append(retIndent(--indent) + "};"));
+                    fb.type.append(retIndent(--indent) + "};");
                 }
                 else
                 {
                     //unnamed unions sometimes include structures
                     if(type.getName().equals("<unnamed-tag>"))
                     {
-                        fb.type.append("union " + getModifier(type));
+                        //hex SIZE
+                        fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)");
+                        fb.type.append("\n" + retIndent(indent) + "union " + getModifier(type));
 
                         if(type.getData() != null)
                         {
@@ -221,15 +275,18 @@ public class FieldBuilder
                             int last = fields.size() - 1;
                             for(int i = 0; i < fields.size(); i++)
                             {
-                                type = rep.findOne(fields.get(i).getId());
+                                type = repo.findOne(fields.get(i).getId());
 
-                                FieldBuilder field = FieldBuilder.recoursionProcessing(rep, type, indent);
+                                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset);
                                 field.setName(fields.get(i).getName());
 
                                 if(i == last)
                                 {
                                     //on last iteration we close braces for nested structure (if there was such structure before this iteration)
-                                    if(beginning) fb.type.append("\n").append(retIndent(indent)).append("};");
+                                    if(beginning)
+                                    {
+                                        fb.type.append("\n").append(retIndent(indent)).append("};");
+                                    }
 
                                     //processing of the last iteration
                                     fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
@@ -251,8 +308,12 @@ public class FieldBuilder
 
                                     field.type = new StringBuilder("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.type);
 
+                                    //hex SIZE
+                                    fb.type.append("\n" + retIndent(indent) + "//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)");
+
                                     //processing of current iteration
                                     fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+
                                 }
                                 else if(fields.get(i).getOffset() != fields.get(i + 1).getOffset() && beginning)
                                 {
@@ -260,6 +321,7 @@ public class FieldBuilder
                                     //processing a current iteration and 'closing' the structure
                                     beginning = false;
                                     fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString()).append(";");
+
                                     fb.type.append("\n").append(retIndent(indent)).append("};");
                                 }
 

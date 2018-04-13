@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.introspector.BeanAccess;
 import vergilius.repos.TdataRepository;
 import vergilius.repos.OsRepository;
 import vergilius.repos.TtypeRepository;
@@ -130,21 +128,21 @@ public class MainController{
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.ENUM))
         {
-            enumsArr.add(FieldBuilder.recoursionProcessing(rep2, t,0).toString());
+            enumsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0).toString());
         }
 
         List<String> structsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.STRUCT))
         {
-            structsArr.add(FieldBuilder.recoursionProcessing(rep2, t,0).toString());
+            structsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0).toString());
         }
 
         List<String> unionsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.UNION))
         {
-            unionsArr.add(FieldBuilder.recoursionProcessing(rep2, t,0).toString());
+            unionsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0).toString());
         }
 
         model.addAttribute("res1", enumsArr);
