@@ -122,27 +122,27 @@ public class MainController{
         Os opersys = rep1.findByOsname(osname);
         List<Ttype> typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
 
-        //String address = "/os/" + osname + "/type/" + name;
+        String link = "/os/" + osname + "/type/";
 
         List<String> enumsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.ENUM))
         {
-            enumsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0).toString());
+            enumsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0, link).toString());
         }
 
         List<String> structsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.STRUCT))
         {
-            structsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0).toString());
+            structsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0, link).toString());
         }
 
         List<String> unionsArr = new ArrayList<>();
 
         for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.UNION))
         {
-            unionsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0).toString());
+            unionsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0, link).toString());
         }
 
         model.addAttribute("res1", enumsArr);

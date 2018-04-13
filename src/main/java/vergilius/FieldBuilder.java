@@ -48,7 +48,7 @@ public class FieldBuilder
         return indent == 0;
     }
 
-    public static void printStructFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int sumOffset)
+    public static void printStructFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int sumOffset, String link)
     {
         //if structure isn't bodiless
         if(type.getData() != null && type.getSizeof() != 0)
@@ -62,7 +62,7 @@ public class FieldBuilder
             {
                 type = repo.findOne(currentField.getId());
 
-                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset + currentField.getOffset());
+                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset + currentField.getOffset(), link);
                 field.setName(currentField.getName());
 
                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
@@ -103,7 +103,7 @@ public class FieldBuilder
     }
 
     //The method returns an object(fb), which represents some type.
-    public static FieldBuilder recursionProcessing(TtypeRepository repo, Ttype type, int indent, int sumOffset)
+    public static FieldBuilder recursionProcessing(TtypeRepository repo, Ttype type, int indent, int sumOffset, String link)
     {
         switch (type.getKind())
         {
@@ -122,7 +122,7 @@ public class FieldBuilder
 
                 if(repo.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT && name.equals("<unnamed-tag>"))
                 {
-                    FieldBuilder fb = FieldBuilder.recursionProcessing(repo, repo.findOne(refType.getId()), indent, sumOffset);
+                    FieldBuilder fb = FieldBuilder.recursionProcessing(repo, repo.findOne(refType.getId()), indent, sumOffset, link);
                     fb.type.append("*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
                     return fb;
                 }
@@ -131,11 +131,11 @@ public class FieldBuilder
                 if(repo.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT)
                 {
                     FieldBuilder fb = new FieldBuilder();
-                    fb.type.append("struct " + name + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
+                    fb.type.append("struct " + "<a href='" + link + name +"'>" + name +  "</a>" + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
                     return fb;
                 }
 
-                FieldBuilder fb = recursionProcessing(repo, repo.findOne(refType.getId()), indent, sumOffset);
+                FieldBuilder fb = recursionProcessing(repo, repo.findOne(refType.getId()), indent, sumOffset, link);
                
                 fb.type.append("*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
                 return fb;
@@ -145,7 +145,7 @@ public class FieldBuilder
             {
                 Tdata refType = type.getData().stream().findFirst().orElseThrow(()-> new NoSuchElementException());
                 type = repo.findOne(refType.getId());
-                FieldBuilder fb = recursionProcessing(repo, type, indent, sumOffset);
+                FieldBuilder fb = recursionProcessing(repo, type, indent, sumOffset, link);
                 fb.dim = new StringBuilder("[" + refType.getOffset() + "]" + fb.dim);
                 return fb;
             }
@@ -159,7 +159,7 @@ public class FieldBuilder
                 for (Tdata component : funcComponents)
                 {
                     Ttype typeOfComponent = repo.findOne(component.getId());
-                    FieldBuilder fbType = recursionProcessing(repo, typeOfComponent, indent, sumOffset);
+                    FieldBuilder fbType = recursionProcessing(repo, typeOfComponent, indent, sumOffset, link);
 
                     if ("return".equals(component.getName()))
                     {
@@ -187,8 +187,8 @@ public class FieldBuilder
                     //hex SIZE
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
-                    fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : " " +  type.getName());
-                    printStructFields(fb, type, repo, indent, sumOffset);
+                    fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  type.getName()));
+                    printStructFields(fb, type, repo, indent, sumOffset, link);
                     fb.type.append(";");
                 }
                 else
@@ -196,8 +196,8 @@ public class FieldBuilder
                     //hex SIZE
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)");
 
-                    fb.type.append("\n" + retIndent(indent) + "struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : " " +  type.getName());
-                    printStructFields(fb, type, repo, indent, sumOffset);
+                    fb.type.append("\n" + retIndent(indent) + "struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  "<a href='" + link + type.getName() +"'>" + type.getName()) +  "</a>");
+                    printStructFields(fb, type, repo, indent, sumOffset, link);
                 }
                 return fb;
             }
@@ -225,7 +225,7 @@ public class FieldBuilder
                 }
                 else
                 {
-                    fb.type.append("enum " + getModifier(type)).append(type.getName());
+                    fb.type.append("enum " + getModifier(type)).append("<a href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
                 }
                 return fb;
             }
@@ -239,14 +239,14 @@ public class FieldBuilder
                     //hex SIZE
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
-                    fb.type.append(new StringBuilder((type.getName() != null)? "union " + type.getName() + "\n{\n" : "union\n{\n"));
+                    fb.type.append(new StringBuilder((type.getName() != null)? ("union " +  type.getName() + "\n{\n") : "union\n{\n"));
 
                     indent++;
 
                     for(Tdata unionField: unionFields)
                     {
                         type = repo.findOne(unionField.getId());
-                        FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, 0, sumOffset);
+                        FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, 0, sumOffset, link);
                         field.setName(unionField.getName() + ";");
 
                         fb.type.append(retIndent(indent) + field.toString() + "\n");
@@ -277,7 +277,7 @@ public class FieldBuilder
                             {
                                 type = repo.findOne(fields.get(i).getId());
 
-                                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset);
+                                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset, link);
                                 field.setName(fields.get(i).getName());
 
                                 if(i == last)
@@ -331,7 +331,7 @@ public class FieldBuilder
                     }
                     else
                     {
-                        fb.type.append("union " + getModifier(type)).append(type.getName());
+                        fb.type.append("union " + getModifier(type)).append("<a href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
                     }
                 }
 
