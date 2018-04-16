@@ -3,6 +3,7 @@ package vergilius;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -13,31 +14,40 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter
+{
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http
             .authorizeRequests()
                 .antMatchers("/", "/os/{osname:.+}", "/os/{osname:.+}/type/{name}", "/about").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-                .loginPage("/loginform")
+                .loginPage("/login")
                 .permitAll()
                 .and()
             .logout()
-                .permitAll();
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
+    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/*.css");
+        web.ignoring().antMatchers("/*.js");
     }
 
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
         UserDetails user =
-                User.withUsername("user")
+                User.withUsername("username")
                         .password("password")
                         .roles("USER")
                         .build();
 
-        return new InMemoryUserDetailsManager( Arrays.asList(user));
+        return new InMemoryUserDetailsManager(Arrays.asList(user));
     }
 }

@@ -4,16 +4,26 @@ block title
     title Vergilius Project
 
 block content
-    div
+    form(action='/login', method='post')
+        p
+            label(for='username') Username
+            input#username(type='text', name='username')
+        p
+            label(for='password') Password
+            input#password(type='password', name='password')
+        input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
+        button.btn(type='submit') Log in
+
+    //div
         ul.list-inline.breadcrumb(type='none')
             li.list-inline-item
                 a(href="/") Home
-            li.list-inline-item.active Login form
-    .container.mycontainer
+            li.list-inline-item.active Log in
+    //.container.mycontainer
         div(style='margin-top: 8px; margin-bottom: 5px;')
             h5(style='text-align: center') Fill the fields below
         div.d-flex.justify-content-center
-            form.form-horizontal(action='/admin')
+            form.form-horizontal(action='/loginform' method='post')
                 .form-group
                     label.control-label.col-sm-2(for='email') Email:
                     .col-sm-10
@@ -22,6 +32,9 @@ block content
                     label.control-label.col-sm-2(for='pwd') Password:
                     .col-sm-10
                         input#pwd.form-control(type='password', style='width: 321px;', placeholder='Enter password')
+                //.form-group
+                    .col-sm-10
+                        input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
                 .form-group
                     .col-sm-offset-2.col-sm-10
                         button.btn.btn-default(type='submit' style='margin-left:255px') Submit

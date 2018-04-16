@@ -13,6 +13,7 @@ public class FieldBuilder
     private StringBuilder dim = new StringBuilder();
     private StringBuilder retval = new StringBuilder();
     private StringBuilder args = new StringBuilder();
+    private int pocket = 0;
 
     //The method returns a string indent for a type, which depends on nesting level of this type
     public static String retIndent(int indent)
@@ -64,11 +65,12 @@ public class FieldBuilder
 
                 FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset + currentField.getOffset(), link);
                 field.setName(currentField.getName());
+                field.pocket = sumOffset + currentField.getOffset();
 
                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
 
                 //OFFSET
-                if(indent == 1) fb.type.append(retSpaces(field.toString().length()) + "//0x" + sumOffset + currentField.getOffset()); //tmp decision
+                fb.type.append(retSpaces(field.toString().length()) + "//0x" + field.pocket);
             }
             fb.type.append("\n").append(retIndent(--indent)).append("}");// braces are always on the same level with a word 'struct'
         }
@@ -124,6 +126,9 @@ public class FieldBuilder
                 {
                     FieldBuilder fb = FieldBuilder.recursionProcessing(repo, repo.findOne(refType.getId()), indent, sumOffset, link);
                     fb.type.append("*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
+
+                    fb.pocket = sumOffset;
+
                     return fb;
                 }
 
@@ -193,10 +198,7 @@ public class FieldBuilder
                 }
                 else
                 {
-                    //hex SIZE
-                    fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)");
-
-                    fb.type.append("\n" + retIndent(indent) + "struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  "<a href='" + link + type.getName() +"'>" + type.getName()) +  "</a>");
+                    fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  "<a href='" + link + type.getName() +"'>" + type.getName()) +  "</a>");
                     printStructFields(fb, type, repo, indent, sumOffset, link);
                 }
                 return fb;
@@ -258,9 +260,7 @@ public class FieldBuilder
                     //unnamed unions sometimes include structures
                     if(type.getName().equals("<unnamed-tag>"))
                     {
-                        //hex SIZE
-                        fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)");
-                        fb.type.append("\n" + retIndent(indent) + "union " + getModifier(type));
+                        fb.type.append("union " + getModifier(type));
 
                         if(type.getData() != null)
                         {
@@ -277,8 +277,9 @@ public class FieldBuilder
                             {
                                 type = repo.findOne(fields.get(i).getId());
 
-                                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset, link);
+                                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, sumOffset + fields.get(i).getOffset(), link);
                                 field.setName(fields.get(i).getName());
+                                field.pocket = sumOffset + fields.get(i).getOffset();
 
                                 if(i == last)
                                 {
@@ -289,7 +290,7 @@ public class FieldBuilder
                                     }
 
                                     //processing of the last iteration
-                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length()) + "//0x" + field.pocket);
 
                                     break; //cause comparing 'fields.size()-1' and 'fields.size()' iteration will lead to exception
                                 }
@@ -297,7 +298,7 @@ public class FieldBuilder
                                 //a same offset between two fields means that they are the fields of the same union or the same structure
                                 if(fields.get(i).getOffset() == fields.get(i + 1).getOffset())
                                 {
-                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length())  + "//0x" + field.pocket);
                                 }
 
                                 //a different offset and the fields aren't inside of structure
@@ -308,11 +309,9 @@ public class FieldBuilder
 
                                     field.type = new StringBuilder("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.type);
 
-                                    //hex SIZE
-                                    fb.type.append("\n" + retIndent(indent) + "//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)");
 
                                     //processing of current iteration
-                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length()) + "//0x" + field.pocket);
 
                                 }
                                 else if(fields.get(i).getOffset() != fields.get(i + 1).getOffset() && beginning)
@@ -320,7 +319,7 @@ public class FieldBuilder
                                     //a different offset and previous field was inside of structure ->
                                     //processing a current iteration and 'closing' the structure
                                     beginning = false;
-                                    fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString()).append(";");
+                                    fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString() + ";" + retSpaces(field.toString().length())  + "//0x" + field.pocket);
 
                                     fb.type.append("\n").append(retIndent(indent)).append("};");
                                 }
@@ -334,7 +333,6 @@ public class FieldBuilder
                         fb.type.append("union " + getModifier(type)).append("<a href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
                     }
                 }
-
                 return fb;
             }
             default:

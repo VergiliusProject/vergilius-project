@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vergilius.repos.TdataRepository;
 import vergilius.repos.OsRepository;
 import vergilius.repos.TtypeRepository;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -27,19 +34,20 @@ public class MainController{
     private List<Ttype> listTypes;
     private List<Tdata> listData;
 
-    @GetMapping("/loginform")
-    public String displayLoginform(Model model) throws IOException {
-        return "loginform";
+    @GetMapping("/login")
+    public String displayLogin(Model model) throws IOException {
+        return "login";
     }
-
-    @PostMapping("/loginform")
-    public String submitResult() throws IOException {
-        return "redirect:/uploadForm";
+    @PostMapping("/login")
+    public String handleLogin(@RequestParam(name="username") String username, @RequestParam(name="password") String password, HttpSession session, Model model) throws IOException {
+        model.addAttribute(username);
+        model.addAttribute(password);
+        return "login";
     }
 
     @GetMapping("/admin")
-    public String displayUploadForm(Model model) throws IOException {
-        return "uploadForm";
+    public String displayAdmin(Model model) throws IOException {
+        return "admin";
     }
 
     @PostMapping("/admin")
@@ -96,9 +104,22 @@ public class MainController{
         model.addAttribute("os", listOfOperSystems);
         return "home";
     }
-
+    @RequestMapping(value="/logout", method=RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "/";
+    }
     @GetMapping("/about")
     public String displayAbout(Model model)
+    {
+        return "about";
+    }
+
+    @PostMapping("/about")
+    public String handleAbout(Model model)
     {
         return "about";
     }
