@@ -14,6 +14,7 @@ public class FieldBuilder
     private StringBuilder retval = new StringBuilder();
     private StringBuilder args = new StringBuilder();
     private int pocket = 0;
+    private int realLength = 0;
 
     //The method returns a string indent for a type, which depends on nesting level of this type
     public static String retIndent(int indent)
@@ -35,13 +36,22 @@ public class FieldBuilder
             for (int i = 0; i <= 50 - length; i++){
                 outputBuffer.append(" ");
             }
-            return outputBuffer.toString();
+            return outputBuffer.toString() + "//0x";
         }
         else
         {
             //8 spaces
-            return "        ";
+            return "        " + "//0x";
         }
+    }
+
+    public String toString()
+    {
+        if(retval.toString().isEmpty())
+        {
+            return type + " " + name + dim;
+        }
+        return retval + "(" + type + name + dim + ")" + "(" + args + ")";
     }
 
     public static boolean isTopLevel(int indent)
@@ -70,21 +80,19 @@ public class FieldBuilder
                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";");
 
                 //OFFSET
-                fb.type.append(retSpaces(field.toString().length()) + "//0x" + field.pocket);
+                if(field.realLength != 0)
+                {
+                    fb.type.append(retSpaces(field.realLength) + field.pocket);
+                }
+                else
+                {
+                    fb.type.append(retSpaces(field.toString().length()) + field.pocket);
+                }
+
             }
             fb.type.append("\n").append(retIndent(--indent)).append("}");// braces are always on the same level with a word 'struct'
         }
     }
-
-    public String toString()
-    {
-        if(retval.toString().isEmpty())
-        {
-            return type + " " + name + dim;
-        }
-        return retval + "(" + type + name + dim + ")" + "(" + args + ")";
-    }
-
 
     public void setName(String name) {
         this.name = name;
@@ -113,6 +121,7 @@ public class FieldBuilder
             {
                 FieldBuilder fb = new FieldBuilder();
                 fb.type.append(getModifier(type).isEmpty()? type.getName():getModifier(type) + " " + type.getName()); //type.getName() -> int, char etc.
+
                 return fb;
             }
             case POINTER:
@@ -136,7 +145,11 @@ public class FieldBuilder
                 if(repo.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT)
                 {
                     FieldBuilder fb = new FieldBuilder();
-                    fb.type.append("struct " + "<a href='" + link + name +"'>" + name +  "</a>" + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
+
+                    fb.type.append("struct " + "<a href='" + link + name + "'>" + name + "</a>" + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
+
+                    fb.realLength = (fb.type.toString() + " " + ";").length() - ("<a href='" + link +"'>" + "</a>").length();
+
                     return fb;
                 }
 
@@ -228,6 +241,7 @@ public class FieldBuilder
                 else
                 {
                     fb.type.append("enum " + getModifier(type)).append("<a href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
+                    fb.realLength = ("enum " + getModifier(type) + " " + type.getName() + ";").length();
                 }
                 return fb;
             }
@@ -290,7 +304,7 @@ public class FieldBuilder
                                     }
 
                                     //processing of the last iteration
-                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length()) + "//0x" + field.pocket);
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length()) + field.pocket);
 
                                     break; //cause comparing 'fields.size()-1' and 'fields.size()' iteration will lead to exception
                                 }
@@ -298,7 +312,7 @@ public class FieldBuilder
                                 //a same offset between two fields means that they are the fields of the same union or the same structure
                                 if(fields.get(i).getOffset() == fields.get(i + 1).getOffset())
                                 {
-                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length())  + "//0x" + field.pocket);
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length()) + field.pocket);
                                 }
 
                                 //a different offset and the fields aren't inside of structure
@@ -311,7 +325,7 @@ public class FieldBuilder
 
 
                                     //processing of current iteration
-                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length()) + "//0x" + field.pocket);
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length()) + field.pocket);
 
                                 }
                                 else if(fields.get(i).getOffset() != fields.get(i + 1).getOffset() && beginning)
@@ -319,7 +333,7 @@ public class FieldBuilder
                                     //a different offset and previous field was inside of structure ->
                                     //processing a current iteration and 'closing' the structure
                                     beginning = false;
-                                    fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString() + ";" + retSpaces(field.toString().length())  + "//0x" + field.pocket);
+                                    fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString() + ";" + retSpaces(field.toString().length())  + field.pocket);
 
                                     fb.type.append("\n").append(retIndent(indent)).append("};");
                                 }
@@ -331,6 +345,7 @@ public class FieldBuilder
                     else
                     {
                         fb.type.append("union " + getModifier(type)).append("<a href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
+                        fb.realLength = ("union " + getModifier(type) + " " + type.getName() + ";").length();
                     }
                 }
                 return fb;
