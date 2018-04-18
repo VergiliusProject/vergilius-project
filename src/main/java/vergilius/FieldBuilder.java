@@ -82,11 +82,11 @@ public class FieldBuilder
                 //OFFSET
                 if(field.realLength != 0)
                 {
-                    fb.type.append(retSpaces(field.realLength) + field.fbOffset);
+                    fb.type.append(retSpaces(field.realLength) + Integer.toHexString(field.fbOffset));
                 }
                 else
                 {
-                    fb.type.append(retSpaces(field.toString().length()) + field.fbOffset);
+                    fb.type.append(retSpaces(field.toString().length()) + Integer.toHexString(field.fbOffset));
                 }
 
             }
@@ -224,11 +224,11 @@ public class FieldBuilder
 
                     for(int i = 0; i < enumData.size() - 1; i++)
                     {
-                        fb.type.append(retIndent(indent) + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + "," + retSpaces((enumData.get(i).getName() + " = " + enumData.get(i).getOffset()).length() + 1) + enumData.get(i).getOffset() +"\n");
+                        fb.type.append(retIndent(indent) + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + "," + retSpaces((enumData.get(i).getName() + " = " + enumData.get(i).getOffset()).length() + 1) + Integer.toHexString(enumData.get(i).getOffset()) +"\n");
                     }
 
-                    //"," = 1
-                    fb.type.append(retIndent(indent) + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset() + retSpaces((enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset()).length())+ enumData.get(enumData.size() - 1).getOffset());
+                    //"+ 1" means adding the length of ","
+                    fb.type.append(retIndent(indent) + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset() + retSpaces((enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset()).length())+ Integer.toHexString(enumData.get(enumData.size() - 1).getOffset()));
                     fb.type.append(retIndent(--indent) + "\n};");
                 }
                 else
@@ -260,7 +260,7 @@ public class FieldBuilder
 
                         field.fbOffset = rpOffset + unionField.getOffset();
 
-                        fb.type.append(retIndent(indent) + field.toString() + retSpaces(field.toString().length()) + field.fbOffset + "\n");
+                        fb.type.append(retIndent(indent) + field.toString() + retSpaces(field.toString().length()) + Integer.toHexString(field.fbOffset) + "\n");
                     }
                     fb.type.append(retIndent(--indent) + "};");
                 }
@@ -299,7 +299,8 @@ public class FieldBuilder
                                     }
 
                                     //processing of the last iteration
-                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length() + 1) + field.fbOffset);
+                                    //here and below "+ 1" means adding the length of ";"
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length() + 1) + Integer.toHexString(field.fbOffset));
 
                                     break; //comparing 'fields.size()-1' and 'fields.size()' iteration will lead to exception
                                 }
@@ -307,7 +308,7 @@ public class FieldBuilder
                                 //a same offset between two fields means that they are the fields of the same union or the same structure
                                 if(fields.get(i).getOffset() == fields.get(i + 1).getOffset())
                                 {
-                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length() + 1) + field.fbOffset);
+                                    fb.type.append("\n").append(retIndent(indent)).append(field.toString() + ";" + retSpaces(field.toString().length() + 1) + Integer.toHexString(field.fbOffset));
                                 }
 
                                 //a different offset and the fields aren't inside of structure
@@ -317,7 +318,7 @@ public class FieldBuilder
                                     beginning = true;
 
                                     //processing of current iteration
-                                    fb.type.append("\n").append(retIndent(indent)).append("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.toString() + ";" + retSpaces(field.toString().length() + 1) + field.fbOffset);
+                                    fb.type.append("\n").append(retIndent(indent)).append("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.toString() + ";" + retSpaces(field.toString().length() + 1) + Integer.toHexString(field.fbOffset));
 
                                 }
                                 else if(fields.get(i).getOffset() != fields.get(i + 1).getOffset() && beginning)
@@ -326,7 +327,7 @@ public class FieldBuilder
                                     //processing a current iteration and 'closing' the structure
                                     beginning = false;
 
-                                    fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString() + ";" + retSpaces(field.toString().length() + 1)  + field.fbOffset);
+                                    fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString() + ";" + retSpaces(field.toString().length() + 1)  + Integer.toHexString(field.fbOffset));
 
                                     fb.type.append("\n").append(retIndent(indent)).append("};");
 
