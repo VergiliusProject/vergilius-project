@@ -3,14 +3,27 @@ extends /partials/page
 block title
     title Vergilius Project
 block content
-    div
-        ul.list-inline.breadcrumb(type='none')
-            li.list-inline-item.active Home
-    .container.mycontainer
-        div(style="padding-bottom: 3px;")
-            h4(style='text-align: left') Operating systems:
-        div
-            ul(type='none', style='padding-left: 25px;')
-                for i in os
-                    li: p
-                        a(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+    nav.site-header
+        .site-header__container.header-sticky
+            a.header-logo__image(href='/')
+            ul.site-header__links
+                li
+                    a.header-link.active(href='/') Home
+                li
+                    a.header-link(href='/about') About
+                li
+                    a.header-link(href='/admin') Admin
+    .container
+        .cmd
+            ul.list-inline.breadcrumb(type='none')
+                li.list-inline-item.active
+                    | >
+                    a(href='/')  Home
+    .container
+        .mainblock
+            p(style='text-align: left; font-size: 33px') Operating systems:
+                div
+                    ul(type='none')
+                        for i in os
+                            li: p
+                                a(href="/os/#{i.osname}" class='listos') #{i.idopersys} #{i.osname}

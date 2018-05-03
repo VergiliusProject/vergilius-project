@@ -3,27 +3,40 @@ extends /partials/page
 block title
     title Vergilius Project
 block content
-    div
-        ul.list-inline.breadcrumb(type='none')
-            li.list-inline-item
-                a(href="/") Home
-            li.list-inline-item.active #{osname}
-    .container.mycontainer
-        h5 Structures:
-        div
-            ul
-                for i in structs
-                    li: p
-                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
-        h5 Enums:
-        div
-            ul
-                for i in enums
-                    li: p
-                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
-        h5 Unions:
-        div
-            ul
-                for i in unions
-                    li: p
-                        a(href="/os/#{osname}/type/#{i.name}") #{i.name}
+    nav.site-header
+        .site-header__container.header-sticky
+            a.header-logo__image(href='/')
+            ul.site-header__links
+                li
+                    a.header-link.active(href='/') Home
+                li
+                    a.header-link(href='/about') About
+                li
+                    a.header-link(href='/admin') Admin
+    .container
+        .cmd
+            ul.list-inline.breadcrumb(type='none')
+                li.list-inline-item
+                    | >
+                    a(href="/")  Home
+                li.list-inline-item.active #{osname}
+    .container
+        .mainblock
+            p(style='font-size:28px') Structures:
+            div
+                ul(type='none')
+                    for i in structs
+                        li: p
+                            a(class='listos' href="/os/#{osname}/type/#{i.name}") #{i.name}
+            p(style='font-size:28px') Enums:
+            div
+                ul(type='none')
+                    for i in enums
+                        li: p
+                            a(class='listos' href="/os/#{osname}/type/#{i.name}") #{i.name}
+            p(style='font-size:28px') Unions:
+            div
+                ul(type='none')
+                    for i in unions
+                        li: p
+                            a(class='listos' href="/os/#{osname}/type/#{i.name}") #{i.name}

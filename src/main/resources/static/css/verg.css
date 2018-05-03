@@ -1,71 +1,228 @@
-.navbar-nav .nav-link
+body {
+    font-size:106.25%;
+    line-height:1;
+}
+.header-sticky, .transparent-header {
+    position:relative;
+    background:#141422;
+}
+body, button, figure {
+    margin:0;
+}
+*, ::after, ::before {
+    box-sizing:border-box;
+}
+.transparent-header .site-header {
+    left:0;
+    position:absolute;
+    right:0;
+    top:0;
+}
+.site-header {
+    background-color:#141422;
+    font-size: 1rem;
+    width:100%;
+}
+.transparent-header .site-header {
+    z-index:2000;
+}
+
+.element.style {
+    background-color:rgba(20, 20, 34, 0.9);
+}
+.header-sticky {
+    background-color:#141422;
+    border-bottom:2px solid #262633;
+    width:100%;
+    z-index:100;
+}
+.site-header__container {
+    background-color: rgba(20, 20, 34, 0.9);
+    align-items:center;
+    display:flex;
+    height:70px;
+    justify-content:space-between;
+
+}
+.site-footer ul li, .site-header__links li {
+    display:inline-block;
+    text-decoration:none;
+}
+dl dd, dl dt, h3, h4, h5, h6, ol li, ul li {
+    line-height:1.7rem;
+}
+
+.container {
+    padding-left:20px;
+    padding-right:20px;
+    padding-top: 5px;
+    background-color:#141422;
+}
+.site-header__links {
+    align-items:center;
+    display:flex;
+    font-size:inherit;
+    margin:0;
+}
+ul {
+    padding-left:0;
+}
+ol, ul {
+    margin-bottom:1.7rem;
+    margin-top:1.7rem;
+}
+
+a.header-link {
+    cursor:pointer;
+}
+
+.header-link {
+    font-weight:700;
+    padding:0.25em 0.75em;
+    display:inline-block;
+    margin-left:0.5em;
+}
+.header-link:hover
 {
-    padding-top: 1rem;
-    padding-left: 0.6rem;
+    border-bottom: solid 3px yellow;
+    text-decoration: none;
 }
-.btn-file {
-    overflow: hidden;
-}
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-}
-.mycontainer
+.header-link.active
 {
-    min-height: 650px;
-    min-width: 1440px;
+    border-bottom: solid 3px rgba(208, 208, 210, 0.5);
+    text-decoration: none;
+}
+
+.transparent-footer--alt.index .site-footer .artist a, .transparent-header a.header-link {
+    color:#E0CD61;
+}
+
+a.header-link, span.header-link.interactive {
+    color:#E0CD61;
+}
+
+dl a, ol a, p a, ul a {
+    font-weight:700;
+    text-decoration:none;
+}
+
+a, body {
+    font-family:"Open Sans", sans-serif;
+}
+.site-footer {
+    border-top:2px solid #262633;
+    font-size:0.95rem;
+    background-color:#141422;
+    width:100%;
+}
+.site-footer .container {
+    padding-bottom:0.85rem;
+    padding-top:0.85rem;
+}
+.site-footer__copyright {
+    margin-top:5px;
+    text-align:center;
+    color:#D0D0D2;
+}
+p {
+    font-family:"Open Sans", sans-serif;
+    margin-bottom:0;
+}
+blockquote, p {
+    line-height:1.7rem;
+}
+
+.mainblock {
+    background-color:#262633;
+    border-radius:0.5rem;
+    margin-bottom:15px;
+    color:#1CC1CC;
+    min-height: 675px;
+    font-size: 16px;
+    padding-left: 15px;
     padding-top: 10px;
 }
-ul
-{
-    font-size: 18px;
+
+.header-logo__image {
+    /*display:inline-block;*/
+    height:54px;
+    width:340px;
+    background-image:url("pp.png")
 }
-.line
+.footer-link:hover
 {
-    border-top: 1px solid rgba(223,215,202,0.75);
+    color:#E0CD61;
 }
-.line2
-{
-    border-bottom: 1px solid rgba(223,215,202,0.75);
+.footer-link {
+    color:#E0CD61;
+    font-size: 0.95rem;
+    display:inline-block;
+    line-height:1;
+    text-decoration:none;
 }
 /* Style the list */
 ul.breadcrumb {
     list-style: none;
-    border-radius: 0rem;
-    border: 0px;
+    border-radius:0.5rem;
+    background: #262633;
+    font-weight: 700;
 }
 
 /* Display list items side by side */
 ul.breadcrumb li {
     display: inline;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* Add a slash symbol (/) before/behind each list item */
 ul.breadcrumb li+li:before {
-    padding: 8px;
-    color: black;
+    /*padding: 1px; */
+    color: white;
     content: "/\00a0";
 }
 
 /* Add a color to all links inside the list */
 ul.breadcrumb li a {
-    color: #0275d8;
+    color: white;
     text-decoration: none;
 }
 
 /* Add a color on mouse-over */
 ul.breadcrumb li a:hover {
-    color: #01447e;
+    color: white;
     text-decoration: underline;
+}
+.cmd
+{
+    color: white;
+    padding-top: 5px;
+    text-align: center;
+    margin-top: 70px;
+    height: 65px;
+}
+.listos
+{
+    font-size: 23px;
+    color: #bfe4ca;
+    padding-left: 30px;
+}
+a.listos:hover
+{
+    color: #bfe4ca;
+}
+#copy-button
+{
+    margin-left: 975px;
+    font-size: 18px;
+    border-radius: 0.5rem;
+    border: transparent;
+}
+#copyblock
+{
+    padding-right: 15px;
+    padding-bottom: 12px;
+}
+pre
+{
+    border-radius: 0.7rem;
 }

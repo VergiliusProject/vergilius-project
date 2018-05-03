@@ -4,37 +4,38 @@ block title
     title Vergilius Project
 
 block content
-    form(action='/login', method='post')
-        p
-            label(for='username') Username
-            input#username(type='text', name='username')
-        p
-            label(for='password') Password
-            input#password(type='password', name='password')
-        input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
-        button.btn(type='submit') Log in
-
-    //div
-        ul.list-inline.breadcrumb(type='none')
-            li.list-inline-item
-                a(href="/") Home
-            li.list-inline-item.active Log in
-    //.container.mycontainer
-        div(style='margin-top: 8px; margin-bottom: 5px;')
-            h5(style='text-align: center') Fill the fields below
-        div.d-flex.justify-content-center
-            form.form-horizontal(action='/loginform' method='post')
+    nav.site-header
+        .site-header__container.header-sticky
+            a.header-logo__image(href='/')
+            ul.site-header__links
+                li
+                    a.header-link(href='/') Home
+                li
+                    a.header-link(href='/about') About
+                li
+                    a.header-link.active(href='/admin') Admin
+    .container
+        .cmd
+            ul.list-inline.breadcrumb(type='none')
+                li.list-inline-item.active
+                    | >
+                    a(href='/')  Home
+                li.list-inline-item.active
+                    a(href='/admin')  Admin
+    .container
+        .mainblock
+            h3(style='text-align: center') Please, log in!
+            form.form-horizontal(style='width:35%; margin:auto;', action='/login', method='post')
                 .form-group
-                    label.control-label.col-sm-2(for='email') Email:
+                    label.control-label.col-sm-2(for='username') Username:
                     .col-sm-10
-                        input#email.form-control(type='email', style='width: 321px;', placeholder='Enter email')
+                        input#username.form-control(type='text', name='username', style='width: 355px;', placeholder='Enter username')
                 .form-group
-                    label.control-label.col-sm-2(for='pwd') Password:
+                    label.control-label.col-sm-2(for='password') Password:
                     .col-sm-10
-                        input#pwd.form-control(type='password', style='width: 321px;', placeholder='Enter password')
-                //.form-group
-                    .col-sm-10
-                        input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
-                .form-group
+                        input#password.form-control(type='password', name='password', style='width: 355px;', placeholder='Enter password')
+                .form-group(align='right')
                     .col-sm-offset-2.col-sm-10
-                        button.btn.btn-default(type='submit' style='margin-left:255px') Submit
+                        input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
+                        button.btn.btn-default(type='submit') Log in
+

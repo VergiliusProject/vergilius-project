@@ -139,7 +139,7 @@ public class FieldBuilder
 
                     fb.type.append("struct " + "<a href='" + link + name + "'>" + name + "</a>" + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
 
-                    fb.realLength = (fb.type.toString() + " " +    ";").length() - ("<a href='" + link +"'>" + "</a>").length();
+                    fb.realLength = (fb.type.toString() + " " + ";").length() - ("<a href='" + link +"'>" + "</a>").length();
 
                     return fb;
                 }

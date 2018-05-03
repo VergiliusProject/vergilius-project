@@ -4,4 +4,22 @@ block title
     title Vergilius Project
 
 block content
-    p Log out loud!
+    nav.site-header
+        .site-header__container.header-sticky
+            a.header-logo__image(href='/')
+            ul.site-header__links
+                li
+                    a.header-link.active(href='/') Home
+                li
+                    a.header-link(href='/about') About
+                li
+                    a.header-link(href='/admin') Admin
+    .container
+        .cmd
+            ul.list-inline.breadcrumb(type='none')
+                li.list-inline-item.active
+                    | >
+                    a(href='/')  Home
+    .container
+        .mainblock
+            p Log out loud!
