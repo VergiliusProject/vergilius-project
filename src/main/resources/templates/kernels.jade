@@ -12,7 +12,7 @@ block content
                 li
                     .dropdown
                         button.dropbtn
-                            a.header-link(href='/kernels') Kernels
+                            a.header-link.active(href='/kernels') Kernels
                         .dropdown-content
                             ul(type='none')
                                 for i in os
@@ -21,7 +21,7 @@ block content
                 li
                     a.header-link(href='/statistics') Statistics
                 li
-                    a.header-link.active(href='/about') About
+                    a.header-link(href='/about') About
                 li
                     a.header-link(href='/admin') Admin
     .container
@@ -30,7 +30,12 @@ block content
                 li.list-inline-item
                     | >
                     a(href='/')  Home
-                li.list-inline-item About
+                li.list-inline-item Kernels
     .container.indent
         .mainblock
-            h4 Vergilius: welcome to hell :)
+            p(style='text-align: left; font-size: 33px; font-weight: 600') Kernels:
+                div
+                    ul(type='none')
+                        for i in os
+                            li: p
+                                a(href="/os/#{i.osname}" class='listos') #{i.idopersys} #{i.osname}

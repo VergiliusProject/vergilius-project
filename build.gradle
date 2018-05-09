@@ -25,6 +25,7 @@ jar {
 
 repositories {
     mavenCentral()
+    maven{ url "https://repo.spring.io/plugins-release/"}
 }
 
 sourceCompatibility = 1.8
@@ -36,7 +37,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'mysql:mysql-connector-java'
 
-    compile "com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.1"
+    compile 'com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.1'
     compile "org.springframework.boot:spring-boot-starter-web"
     compile("org.springframework:spring-core") {
         exclude module: 'commons-logging'

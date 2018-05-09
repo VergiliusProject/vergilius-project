@@ -10,20 +10,22 @@ block content
                 li
                     a.header-link.active(href='/') Home
                 li
+                    .dropdown
+                        button.dropbtn
+                            a.header-link(href='/kernels') Kernels
+                        .dropdown-content
+                            ul(type='none')
+                                for i in os
+                                    li: p
+                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+                li
+                    a.header-link(href='/statistics') Statistics
+                li
                     a.header-link(href='/about') About
                 li
                     a.header-link(href='/admin') Admin
-    .container
-        .cmd
-            ul.list-inline.breadcrumb(type='none')
-                li.list-inline-item.active
-                    | >
-                    a(href='/')  Home
-    .container
-        .mainblock
-            p(style='text-align: left; font-size: 33px') Operating systems:
-                div
-                    ul(type='none')
-                        for i in os
-                            li: p
-                                a(href="/os/#{i.osname}" class='listos') #{i.idopersys} #{i.osname}
+    .hero-image
+        .hero-text
+            h1 I LOVE CSS!!!
+            h3 Kernels Kernels Kernels
+            p Jade. Spring. Java

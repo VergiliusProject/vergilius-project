@@ -8,7 +8,18 @@ block content
             a.header-logo__image(href='/')
             ul.site-header__links
                 li
-                    a.header-link.active(href='/') Home
+                    a.header-link(href='/') Home
+                li
+                    .dropdown
+                        button.dropbtn
+                            a.header-link(href='/kernels') Kernels
+                        .dropdown-content
+                            ul(type='none')
+                                for i in os
+                                    li: p
+                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+                li
+                    a.header-link(href='/statistics') Statistics
                 li
                     a.header-link(href='/about') About
                 li
@@ -19,8 +30,10 @@ block content
                 li.list-inline-item
                     | >
                     a(href="/")  Home
-                li.list-inline-item.active #{osname}
-    .container
+                li.list-inline-item
+                    a(href="/kernels") Kernels
+                li.list-inline-item #{osname}
+    .container.indent
         .mainblock
             p(style='font-size:28px') Structures:
             div

@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 import vergilius.repos.TdataRepository;
 import vergilius.repos.OsRepository;
 import vergilius.repos.TtypeRepository;
@@ -30,23 +32,22 @@ public class MainController{
     @Autowired
     public TdataRepository rep3;
 
-    private List<Os> listOs;
-    private List<Ttype> listTypes;
-    private List<Tdata> listData;
-
     @GetMapping("/login")
     public String displayLogin(Model model) throws IOException {
+        model.addAttribute("os", getListOs());
         return "login";
     }
     @PostMapping("/login")
     public String handleLogin(@RequestParam(name="username") String username, @RequestParam(name="password") String password, HttpSession session, Model model) throws IOException {
         model.addAttribute(username);
         model.addAttribute(password);
+        model.addAttribute("os", getListOs());
         return "login";
     }
 
     @GetMapping("/admin")
     public String displayAdmin(Model model) throws IOException {
+        model.addAttribute("os", getListOs());
         return "admin";
     }
 
@@ -83,7 +84,8 @@ public class MainController{
                 }
             }
             rep2.save(obj);
-    */
+*/
+
         }
         catch(IOException e){}
 
@@ -93,19 +95,39 @@ public class MainController{
         return "redirect:/admin";
     }
 
-    @GetMapping("/")
-    public String displayHome(Model model)
+    public List<Os> getListOs()
     {
-       List<Os> listOfOperSystems = new ArrayList<>();
+        List<Os> listOfOperSystems = new ArrayList<>();
         for(Os i : rep1.findAll())
         {
             listOfOperSystems.add(i);
         }
-        model.addAttribute("os", listOfOperSystems);
+        return listOfOperSystems;
+    }
+    @GetMapping("/")
+    public String displayHome(Model model)
+    {
+        model.addAttribute("os", getListOs());
         return "home";
     }
+
+    @GetMapping("/statistics")
+    public String displayStatistics(Model model)
+    {
+        model.addAttribute("os", getListOs());
+        return "statistics";
+    }
+
+    @GetMapping("/kernels")
+    public String displayKernels(Model model)
+    {
+       model.addAttribute("os", getListOs());
+       return "kernels";
+    }
+
     @RequestMapping(value="/logout", method=RequestMethod.GET)
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+    public String logoutPage(Model model, HttpServletRequest request, HttpServletResponse response) {
+        model.addAttribute("os", getListOs());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
@@ -115,17 +137,12 @@ public class MainController{
     @GetMapping("/about")
     public String displayAbout(Model model)
     {
-        return "about";
-    }
-
-    @PostMapping("/about")
-    public String handleAbout(Model model)
-    {
+        model.addAttribute("os", getListOs());
         return "about";
     }
 
     @RequestMapping(value = "/os/{osname:.+}", method = RequestMethod.GET)
-    public String displayOs(@PathVariable String osname, Model model)
+    public String displayKinds(@PathVariable String osname, Model model)
     {
         Os opersys = rep1.findByOsname(osname);
         List<Ttype> reslist = rep2.findByOpersysAndIsConstFalseAndIsVolatileFalse(opersys);
@@ -133,6 +150,8 @@ public class MainController{
         model.addAttribute("structs", Ttype.FilterByTypes(reslist, Ttype.Kind.STRUCT));
         model.addAttribute("unions", Ttype.FilterByTypes(reslist, Ttype.Kind.UNION));
         model.addAttribute("enums", Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM));
+
+        model.addAttribute("os", getListOs());
 
         return "ttype";
     }
@@ -144,31 +163,14 @@ public class MainController{
         List<Ttype> typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
 
         String link = "/os/" + osname + "/type/";
-
-        List<String> enumsArr = new ArrayList<>();
-
-        for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.ENUM))
+        for(int i = 0; i < typeslist.size(); i++)
         {
-            enumsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0, link).toString());
+            if(typeslist.get(i).getName().equals(name))
+            {
+                model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist.get(i),0, 0, link).toString());
+            }
         }
-
-        List<String> structsArr = new ArrayList<>();
-
-        for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.STRUCT))
-        {
-            structsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0, link).toString());
-        }
-
-        List<String> unionsArr = new ArrayList<>();
-
-        for(Ttype t: Ttype.FilterByTypes(typeslist, Ttype.Kind.UNION))
-        {
-            unionsArr.add(FieldBuilder.recursionProcessing(rep2, t,0, 0, link).toString());
-        }
-
-        model.addAttribute("res1", enumsArr);
-        model.addAttribute("res2", structsArr);
-        model.addAttribute("res3", unionsArr);
+        model.addAttribute("os", getListOs());
 
         return "tdata";
     }

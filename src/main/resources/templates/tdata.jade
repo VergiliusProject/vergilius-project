@@ -8,7 +8,18 @@ block content
             a.header-logo__image(href='/')
             ul.site-header__links
                 li
-                    a.header-link.active(href='/') Home
+                    a.header-link(href='/') Home
+                li
+                    .dropdown
+                        button.dropbtn
+                            a.header-link(href='/kernels') Kernels
+                        .dropdown-content
+                            ul(type='none')
+                                for i in os
+                                    li: p
+                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+                li
+                    a.header-link(href='/statistics') Statistics
                 li
                     a.header-link(href='/about') About
                 li
@@ -20,31 +31,22 @@ block content
                     | >
                     a(href="/")  Home
                 li.list-inline-item
+                    a(href="/kernels") Kernels
+                li.list-inline-item
                     a(href="/os/#{osname}") #{osname}
-                li.list-inline-item.active #{i.name}
-    .container
+                li.list-inline-item #{i.name}
+    .container.indent
         .mainblock
             p(style="font-size:28px; font-weight:700")
                 |#{i.name}
-                button#copy-button.button(data-clipboard-target='#copyblock').btn-info copy
+                //button#copy-button.button(data-clipboard-target='#copyblock').btn-info copy
             script(type='text/javascript').
                 (function () {
                     new Clipboard('#copy-button');
                 })();
-            #copyblock
-                ul
-                    for i in res1
-                        //li(type="none"): p(style='white-space:pre;') #{i}
-                        pre
-                            code(class="c") !{i}
-                            //escaping, changed from "#"
-                ul
-                    for j in res2
-                        //li(type="none"): p(style='white-space:pre;') #{j}
-                        pre
-                            code(class="c") !{j}
-                ul
-                    for k in res3
-                        //li(type="none"): p(style='white-space:pre;') #{k}
-                        pre
-                            code(class="c") !{k}
+            #copyblock222
+                //escaping, changed from "#"
+                pre
+                    code(class="c")
+                        button#copy-button.button(data-clipboard-target='#copyblock').btn-info copy
+                        div#copyblock !{ttype}

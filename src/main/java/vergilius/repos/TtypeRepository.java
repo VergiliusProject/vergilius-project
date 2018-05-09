@@ -17,4 +17,6 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
     @Query("select u from Ttype u where u.name = :name and u.opersys = :opersys")
     List<Ttype> findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(@Param("name") String name, @Param("opersys")Os opersys);
 
+
+
 }

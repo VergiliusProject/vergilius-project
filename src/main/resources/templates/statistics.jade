@@ -19,32 +19,18 @@ block content
                                     li: p
                                         a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
                 li
-                    a.header-link(href='') Statistics
+                    a.header-link.active(href='/statistics') Statistics
                 li
                     a.header-link(href='/about') About
                 li
-                    a.header-link.active(href='/admin') Admin
+                    a.header-link(href='/admin') Admin
     .container
         .cmd
             ul.list-inline.breadcrumb(type='none')
                 li.list-inline-item
                     | >
-                    a(href="/")  Home
-                li.list-inline-item Admin
+                    a(href='/')  Home
+                li.list-inline-item Statistics
     .container.indent
         .mainblock
-            div(style='text-align:center;')
-                if message
-                    = message
-            div
-                a(class="logout" href="/logout") Log out
-            div
-                form(method="post" enctype="multipart/form-data" action="/admin")
-                    div(style='text-align:center;')
-                        |Choose a file to upload:
-                        label.btn.btn-default
-                            input(type='file', name='file')
-                    div(style='text-align:center;')
-                        |Upload your file:
-                        label.btn.btn-default
-                            input(type='submit', value='Upload')
+            h4 Look at some interesting information below ^-^

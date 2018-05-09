@@ -196,6 +196,8 @@ public class FieldBuilder
                     //hex SIZE
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
+                    //fb.type.append("<button class=\"button btn-info\" id=\"copy-button\" data-clipboard-target=\"copyblock\">copy</button> <script type=\"text/javascript\">(function () { new Clipboard('copy-button');})();</script>");
+
                     fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  type.getName()));
                     printStructFields(fb, type, repo, indent, rpOffset, link);
                     fb.type.append(";");

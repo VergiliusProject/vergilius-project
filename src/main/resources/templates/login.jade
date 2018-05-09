@@ -11,20 +11,30 @@ block content
                 li
                     a.header-link(href='/') Home
                 li
+                    .dropdown
+                        button.dropbtn
+                            a.header-link(href='/kernels') Kernels
+                        .dropdown-content
+                            ul(type='none')
+                                for i in os
+                                    li: p
+                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+                li
+                    a.header-link(href='/statistics') Statistics
+                li
                     a.header-link(href='/about') About
                 li
-                    a.header-link.active(href='/admin') Admin
+                    a.header-link(href='/admin') Admin
     .container
         .cmd
             ul.list-inline.breadcrumb(type='none')
-                li.list-inline-item.active
+                li.list-inline-item
                     | >
                     a(href='/')  Home
-                li.list-inline-item.active
-                    a(href='/admin')  Admin
-    .container
+                li.list-inline-item Admin
+    .container.indent
         .mainblock
-            h3(style='text-align: center') Please, log in!
+            h3(style='text-align: center') Welcome!
             form.form-horizontal(style='width:35%; margin:auto;', action='/login', method='post')
                 .form-group
                     label.control-label.col-sm-2(for='username') Username:
@@ -37,5 +47,5 @@ block content
                 .form-group(align='right')
                     .col-sm-offset-2.col-sm-10
                         input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
-                        button.btn.btn-default(type='submit') Log in
+                        button.btn.btn-info(type='submit') Submit
 
