@@ -43,7 +43,7 @@ dependencies {
         exclude module: 'commons-logging'
     }
 
-    compile 'de.neuland-bfi:spring-jade4j:1.2.1'
-    compile 'de.neuland-bfi:jade4j:1.2.1'
+    compile 'de.neuland-bfi:spring-jade4j:1.2.7'
+    compile 'de.neuland-bfi:jade4j:1.2.7'
     testCompile("junit:junit")
 }

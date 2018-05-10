@@ -2,35 +2,13 @@ extends /partials/page
 
 block title
     title Vergilius Project
-
 block content
-    nav.site-header
-        .site-header__container.header-sticky
-            a.header-logo__image(href='/')
-            ul.site-header__links
-                li
-                    a.header-link(href='/') Home
-                li
-                    .dropdown
-                        button.dropbtn
-                            a.header-link(href='/kernels') Kernels
-                        .dropdown-content
-                            ul(type='none')
-                                for i in os
-                                    li: p
-                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
-                li
-                    a.header-link(href='/statistics') Statistics
-                li
-                    a.header-link(href='/about') About
-                li
-                    a.header-link(href='/admin') Admin
     .container
         .cmd
             ul.list-inline.breadcrumb(type='none')
                 li.list-inline-item
                     | >
-                    a(href='/')  Home
+                    a(href='/' tabindex="-1")  Home
                 li.list-inline-item Admin
     .container.indent
         .mainblock
@@ -39,13 +17,13 @@ block content
                 .form-group
                     label.control-label.col-sm-2(for='username') Username:
                     .col-sm-10
-                        input#username.form-control(type='text', name='username', style='width: 355px;', placeholder='Enter username')
+                        input#username.form-control(type='text', name='username', style='width: 355px;', placeholder='Enter username', tabindex="-1")
                 .form-group
                     label.control-label.col-sm-2(for='password') Password:
                     .col-sm-10
-                        input#password.form-control(type='password', name='password', style='width: 355px;', placeholder='Enter password')
+                        input#password.form-control(type='password', name='password', style='width: 355px;', placeholder='Enter password', tabindex="-1")
                 .form-group(align='right')
                     .col-sm-offset-2.col-sm-10
                         input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
-                        button.btn.btn-info(type='submit') Submit
+                        button.btn.btn-info(type='submit', tabindex="-1") Submit
 

@@ -2,30 +2,13 @@ extends /partials/page
 
 block title
     title Vergilius Project
+    -var selected = 'Home';
 block content
-    nav.site-header
-        .site-header__container.header-sticky
-            a.header-logo__image(href='/')
-            ul.site-header__links
-                li
-                    a.header-link.active(href='/') Home
-                li
-                    .dropdown
-                        button.dropbtn
-                            a.header-link(href='/kernels') Kernels
-                        .dropdown-content
-                            ul(type='none')
-                                for i in os
-                                    li: p
-                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
-                li
-                    a.header-link(href='/statistics') Statistics
-                li
-                    a.header-link(href='/about') About
-                li
-                    a.header-link(href='/admin') Admin
     .hero-image
         .hero-text
             h1 I LOVE CSS!!!
             h3 Kernels Kernels Kernels
             p Jade. Spring. Java
+
+
+

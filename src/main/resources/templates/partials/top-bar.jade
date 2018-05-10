@@ -1,20 +1,52 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light.line2
-    h3.navbar-brand-md(style='width: 185px;') Vergilius Project
-    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarColor03', aria-controls='navbarColor03', aria-expanded='false', aria-label='Toggle navigation', style='')
-        span.navbar-toggler-icon
-    #navbarColor03.collapse.navbar-collapse
-        ul.navbar-nav.mr-auto
-            li.nav-item.active
-                a.nav-link(href='/')
-                    h6 Home
-                    span.sr-only (current)
-            li.nav-item
-                a.nav-link(href='/about')
-                    h6 About
-        ul.nav.navbar-nav.navbar-right
-            li
-                a.nav-link(href='/admin')
-                    h6 Admin
+nav.site-header
+    .site-header__container.header-sticky
+        a.header-logo__image(href='/' tabindex="-1")
+        ul.site-header__links
+            if selected == "Home"
+                li
+                    a.header-link.active(href='/' tabindex="-1") Home
+            else
+                li
+                    a.header-link(href='/' tabindex="-1") Home
+            if selected == "Kernels"
+                li
+                    .dropdown
+                        button.dropbtn(tabindex="-1")
+                            a.header-link.active(href='/kernels' tabindex="-1") Kernels
+                        .dropdown-content
+                            ul(type='none')
+                                for i in os
+                                    li: p
+                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+            else
+                li
+                    .dropdown
+                        button.dropbtn(tabindex="-1")
+                            a.header-link(href='/kernels' tabindex="-1") Kernels
+                        .dropdown-content
+                            ul(type='none')
+                                for i in os
+                                    li: p
+                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+            if selected == "Statistics"
+                li
+                    a.header-link.active(href='/statistics' tabindex="-1") Statistics
+            else
+                li
+                    a.header-link(href='/statistics' tabindex="-1") Statistics
+            if selected == "About"
+                li
+                    a.header-link.active(href='/about' tabindex="-1") About
+            else
+                li
+                    a.header-link(href='/about' tabindex="-1") About
+            if selected == "Admin"
+                li
+                    a.header-link.active(href='/admin' tabindex="-1") Admin
+            else
+                li
+                    a.header-link(href='/admin' tabindex="-1") Admin
+
 
 
 

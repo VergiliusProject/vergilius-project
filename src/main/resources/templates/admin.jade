@@ -2,34 +2,14 @@ extends /partials/page
 
 block title
     title Vergilius Project
+    -var selected = 'Admin';
 block content
-    nav.site-header
-        .site-header__container.header-sticky
-            a.header-logo__image(href='/')
-            ul.site-header__links
-                li
-                    a.header-link(href='/') Home
-                li
-                    .dropdown
-                        button.dropbtn
-                            a.header-link(href='/kernels') Kernels
-                        .dropdown-content
-                            ul(type='none')
-                                for i in os
-                                    li: p
-                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
-                li
-                    a.header-link(href='') Statistics
-                li
-                    a.header-link(href='/about') About
-                li
-                    a.header-link.active(href='/admin') Admin
     .container
         .cmd
             ul.list-inline.breadcrumb(type='none')
                 li.list-inline-item
                     | >
-                    a(href="/")  Home
+                    a(href="/" tabindex="-1")  Home
                 li.list-inline-item Admin
     .container.indent
         .mainblock
@@ -37,14 +17,14 @@ block content
                 if message
                     = message
             div
-                a(class="logout" href="/logout") Log out
+                a(class="logout" href="/logout" tabindex="-1") Log out
             div
                 form(method="post" enctype="multipart/form-data" action="/admin")
                     div(style='text-align:center;')
                         |Choose a file to upload:
                         label.btn.btn-default
-                            input(type='file', name='file')
+                            input(type='file', name='file', tabindex="-1")
                     div(style='text-align:center;')
                         |Upload your file:
                         label.btn.btn-default
-                            input(type='submit', value='Upload')
+                            input(type='submit', value='Upload', tabindex="-1")

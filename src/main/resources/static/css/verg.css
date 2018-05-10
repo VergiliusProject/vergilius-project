@@ -92,6 +92,7 @@ a.header-link {
     border-bottom: solid 3px yellow;
     text-decoration: none;
 }
+
 .header-link.active
 {
     border-bottom: solid 3px rgba(208, 208, 210, 0.5);
@@ -140,17 +141,14 @@ blockquote, p {
 .mainblock {
     background-color:#262633;
     border-radius:0.5rem;
-    padding-bottom:10px;
     color:#1CC1CC;
     min-height: 675px;
     font-size: 18px;
     font-weight: 400;
-    padding-left: 15px;
-    padding-top: 10px;
+    padding: 10px 15px;
 }
 
 .header-logo__image{
-    /*display:inline-block;*/
     height:54px;
     width:340px;
     background-image:url("pp.png");
@@ -224,7 +222,7 @@ a.listos:hover
     border: transparent;
     float: right;
     color: white;
-    margin-right: 16px;
+    /*margin-right: 16px;*/
 }
 #copyblock
 {

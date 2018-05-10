@@ -2,36 +2,16 @@ extends /partials/page
 
 block title
     title Vergilius Project
+    -var selected = 'Kernels';
 block content
-    nav.site-header
-        .site-header__container.header-sticky
-            a.header-logo__image(href='/')
-            ul.site-header__links
-                li
-                    a.header-link(href='/') Home
-                li
-                    .dropdown
-                        button.dropbtn
-                            a.header-link(href='/kernels') Kernels
-                        .dropdown-content
-                            ul(type='none')
-                                for i in os
-                                    li: p
-                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
-                li
-                    a.header-link(href='/statistics') Statistics
-                li
-                    a.header-link(href='/about') About
-                li
-                    a.header-link(href='/admin') Admin
     .container
         .cmd
             ul.list-inline.breadcrumb(type='none')
                 li.list-inline-item
                     | >
-                    a(href="/")  Home
+                    a(href="/" tabindex="-1")  Home
                 li.list-inline-item
-                    a(href="/kernels") Kernels
+                    a(href="/kernels" tabindex="-1") Kernels
                 li.list-inline-item #{osname}
     .container.indent
         .mainblock
@@ -40,16 +20,16 @@ block content
                 ul(type='none')
                     for i in structs
                         li: p
-                            a(class='listos' href="/os/#{osname}/type/#{i.name}") #{i.name}
+                            a(class='listos' href="/os/#{osname}/type/#{i.name}" tabindex="-1") #{i.name}
             p(style='font-size:28px') Enums:
             div
                 ul(type='none')
                     for i in enums
                         li: p
-                            a(class='listos' href="/os/#{osname}/type/#{i.name}") #{i.name}
+                            a(class='listos' href="/os/#{osname}/type/#{i.name}" tabindex="-1") #{i.name}
             p(style='font-size:28px') Unions:
             div
                 ul(type='none')
                     for i in unions
                         li: p
-                            a(class='listos' href="/os/#{osname}/type/#{i.name}") #{i.name}
+                            a(class='listos' href="/os/#{osname}/type/#{i.name}" tabindex="-1") #{i.name}
