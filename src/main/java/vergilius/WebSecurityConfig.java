@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         http.csrf().disable();
         http
             .authorizeRequests()
-                .antMatchers("/", "/os/{osname:.+}", "/os/{osname:.+}/type/{name}", "/about", "/kernels", "/statistics").permitAll()
+                .antMatchers("/", "/os/{osname:.+}", "/os/{osname:.+}/type/{name}", "/about", "/kernels", "/statistics", "/kernels/{famname:.+}").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/*.css", "/css/*.png", "/css/*.jpg");
+        web.ignoring().antMatchers("/css/*.css", "/css/*.png", "/css/*.gif", "/css/*.jpg");
         web.ignoring().antMatchers("/*.js");
     }
 

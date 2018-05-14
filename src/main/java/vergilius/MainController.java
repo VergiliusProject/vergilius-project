@@ -34,20 +34,37 @@ public class MainController{
 
     @GetMapping("/login")
     public String displayLogin(Model model) throws IOException {
-        model.addAttribute("os", getListOs());
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
         return "login";
     }
     @PostMapping("/login")
     public String handleLogin(@RequestParam(name="username") String username, @RequestParam(name="password") String password, HttpSession session, Model model) throws IOException {
         model.addAttribute(username);
         model.addAttribute(password);
-        model.addAttribute("os", getListOs());
+
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
         return "login";
     }
 
     @GetMapping("/admin")
     public String displayAdmin(Model model) throws IOException {
-        model.addAttribute("os", getListOs());
+
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
         return "admin";
     }
 
@@ -104,30 +121,53 @@ public class MainController{
         }
         return listOfOperSystems;
     }
+
+    public List<String> getListOfFamilies(List<Os> opers)
+    {
+        List<String> fam = new ArrayList<>(); // set allows only unique elements -> CHANGE LATER
+        for(Os i: opers)
+        {
+            if(!fam.contains(i.getFamily()))
+            {
+                fam.add(i.getFamily());
+            }
+        }
+        return fam;
+    }
+
     @GetMapping("/")
     public String displayHome(Model model)
     {
-        model.addAttribute("os", getListOs());
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
         return "home";
     }
 
     @GetMapping("/statistics")
     public String displayStatistics(Model model)
     {
-        model.addAttribute("os", getListOs());
-        return "statistics";
-    }
+        List<Os> os = getListOs();
 
-    @GetMapping("/kernels")
-    public String displayKernels(Model model)
-    {
-       model.addAttribute("os", getListOs());
-       return "kernels";
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
+        return "statistics";
     }
 
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logoutPage(Model model, HttpServletRequest request, HttpServletResponse response) {
-        model.addAttribute("os", getListOs());
+
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
@@ -137,8 +177,41 @@ public class MainController{
     @GetMapping("/about")
     public String displayAbout(Model model)
     {
-        model.addAttribute("os", getListOs());
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
         return "about";
+    }
+
+    @GetMapping("/kernels")
+    public String displaySpace(Model model)
+    {
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
+        return "kernels";
+    }
+
+    @RequestMapping(value="/kernels/{famname:.+}")
+    public String displayFamily(@PathVariable String famname, Model model)
+    {
+        List<Os> fam = rep1.findByFamily(famname);
+
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+
+        model.addAttribute("fam", fam);
+
+        return "family";
     }
 
     @RequestMapping(value = "/os/{osname:.+}", method = RequestMethod.GET)
@@ -151,7 +224,11 @@ public class MainController{
         model.addAttribute("unions", Ttype.FilterByTypes(reslist, Ttype.Kind.UNION));
         model.addAttribute("enums", Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM));
 
-        model.addAttribute("os", getListOs());
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "ttype";
     }
@@ -170,7 +247,12 @@ public class MainController{
                 model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist.get(i),0, 0, link).toString());
             }
         }
-        model.addAttribute("os", getListOs());
+
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "tdata";
     }

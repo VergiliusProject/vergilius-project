@@ -42,4 +42,24 @@ public class Os{
         return "" + getIdopersys();
 
     }
+
+    /* New fields*/
+    private String family;
+    private int year;
+
+    public String getFamily() {
+        return family;
+    }
+
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 }

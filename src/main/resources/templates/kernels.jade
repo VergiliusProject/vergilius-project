@@ -3,6 +3,7 @@ extends /partials/page
 block title
     title Vergilius Project
     -var selected = 'Kernels';
+    -var i = 0;
 block content
     .container
         .cmd
@@ -12,10 +13,40 @@ block content
                     a(href='/' tabindex="-1")  Home
                 li.list-inline-item Kernels
     .container.indent
-        .mainblock
-            p(style='text-align: left; font-size: 33px; font-weight: 600') Kernels:
-                div
-                    ul(type='none')
-                        for i in os
-                            li: p
-                                a(href="/os/#{i.osname}" class='listos' tabindex="-1") #{i.idopersys} #{i.osname}
+        .mainblock(style="background: url(/css/blackspace.png);")
+            .col-lg-12
+                h2.text-center(style="font-weight:900;") To the depths of kernel...
+                ul.timeline
+                    each a in families
+                        if(i % 2 != 0)
+                            li
+                                .timeline-image
+                                    img.img-circle.img-responsive(src='/css/edit.gif', alt='', width='185px', height='188px')
+                                .timeline-panel
+                                    .timeline-heading
+                                        h4
+                                            a(href="/kernels/#{a}" tabindex="-1") #{a}
+                                        //h4.subheading year: 1234
+                                    .timeline-body
+                                        each b in os
+                                            if a.toString() == (b.family).toString()
+                                                a(href="/os/#{b.osname}" class="akern" tabindex="-1") #{b.osname} (#{b.year})
+                                if(i < numberOfFamilies-1)
+                                    .line
+                                -var i=i+1
+                        else
+                            li.timeline-inverted
+                                .timeline-image
+                                    img.img-circle.img-responsive(src='/css/edit.gif', alt='', width='185px', height='188px')
+                                .timeline-panel
+                                    .timeline-heading
+                                        h4
+                                            a(href="/kernels/#{a}" tabindex="-1") #{a}
+                                        //h4.subheading year: 1234
+                                    .timeline-body
+                                        each c in os
+                                            if a.toString() == (c.family).toString()
+                                                a(href="/os/#{c.osname}" class="akern" tabindex="-1") #{c.osname} (#{c.year})
+                                if(i < numberOfFamilies-1)
+                                    .line
+                                -var i=i+1

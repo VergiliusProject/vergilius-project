@@ -15,9 +15,9 @@ nav.site-header
                             a.header-link.active(href='/kernels' tabindex="-1") Kernels
                         .dropdown-content
                             ul(type='none')
-                                for i in os
+                                for i in families
                                     li: p
-                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+                                        a.drp(href="/kernels/#{i}") #{i}
             else
                 li
                     .dropdown
@@ -25,9 +25,9 @@ nav.site-header
                             a.header-link(href='/kernels' tabindex="-1") Kernels
                         .dropdown-content
                             ul(type='none')
-                                for i in os
+                                for i in families
                                     li: p
-                                        a.drp(href="/os/#{i.osname}") #{i.idopersys} #{i.osname}
+                                        a.drp(href="/kernels/#{i}") #{i}
             if selected == "Statistics"
                 li
                     a.header-link.active(href='/statistics' tabindex="-1") Statistics
