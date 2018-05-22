@@ -137,9 +137,9 @@ public class FieldBuilder
                 {
                     FieldBuilder fb = new FieldBuilder();
 
-                    fb.type.append("struct " + "<a href='" + link + name + "'>" + name + "</a>" + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
+                    fb.type.append("struct " + "<a tabindex ='-1' href='" + link + name + "'>" + name + "</a>" + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
 
-                    fb.realLength = (fb.type.toString() + " " + ";").length() - ("<a href='" + link +"'>" + "</a>").length();
+                    fb.realLength = (fb.type.toString() + " " + ";").length() - ("<a tabindex ='-1' href='" + link +"'>" + "</a>").length();
 
                     return fb;
                 }
@@ -204,7 +204,7 @@ public class FieldBuilder
                 }
                 else
                 {
-                    fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  "<a href='" + link + type.getName() +"'>" + type.getName()) +  "</a>");
+                    fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  "<a tabindex ='-1' href='" + link + type.getName() +"'>" + type.getName()) +  "</a>");
                     printStructFields(fb, type, repo, indent, rpOffset, link);
                 }
                 return fb;
@@ -235,7 +235,7 @@ public class FieldBuilder
                 }
                 else
                 {
-                    fb.type.append("enum " + getModifier(type)).append("<a href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
+                    fb.type.append("enum " + getModifier(type)).append("<a tabindex ='-1' href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
                     fb.realLength = ("enum " + getModifier(type) + " " + type.getName() + ";").length();
                 }
                 return fb;
@@ -341,7 +341,7 @@ public class FieldBuilder
                     }
                     else
                     {
-                        fb.type.append("union " + getModifier(type)).append("<a href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
+                        fb.type.append("union " + getModifier(type)).append("<a tabindex ='-1' href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
                         fb.realLength = ("union " + getModifier(type) + " " + type.getName() + ";").length();
                     }
                 }

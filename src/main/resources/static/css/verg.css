@@ -150,10 +150,35 @@ blockquote, p {
 
 .header-logo__image{
     height:54px;
-    width:340px;
-    background-image:url("pp.png");
-    border: none
+    display: inline-block;
+    text-align: right;
+    /*width:340px;*/
+    width: 60px;
+    /*background-image:url("pp.png");*/
+    background-image:url("logo.png");
+    background-repeat: no-repeat;
+    border: none;
 }
+h1.title
+{
+    font-size: 50px;
+    font-weight: 900;
+    color: #f6f1a3;
+    font-family: padmaa-Bold.1.1;
+    vertical-align: text-bottom;
+    text-align: right;
+    display: inline-block;
+    margin-bottom: 0px;
+    line-height: 54px;
+}
+.logoblock
+{
+    /*border: 1px red solid;*/
+    padding-top: 4px;
+    height: 70px;
+    width: 340px;
+}
+
 .footer-link:hover
 {
     color:#E0CD61;
@@ -301,8 +326,8 @@ body, html {
 /* The hero image */
 .hero-image {
     /* The image used */
-    background: url("Windows10.jpg");
-    background-color: #0b1fb6;
+    background: url("bigback.jpg");
+    background-color: #040c13;
     min-height: 710px;
     /* Set a specific height */
     height: 50%;
@@ -318,10 +343,13 @@ body, html {
 .hero-text {
     text-align: center;
     position: absolute;
-    top: 70%;
-    left: 50%;
+    top: 50%;
+    left: 25%;
     transform: translate(-50%, -50%);
     color: white;
+}
+.hero-text h1, h3 {
+    font-weight: 900;
 }
 /*T I M E L I N E*/
 
@@ -486,71 +514,127 @@ a.akern:hover
     transform: rotate(44deg);
     box-shadow: 0 0 5px #4582ec;
 }
-/* Medium Devices, .visible-md-* */
-@media (min-width: 992px) and (max-width: 1199px) {
-    .timeline > li:nth-child(even) {
-        margin-bottom: 0px;
-        min-height: 0px;
-        right: 0px;
-    }
-    .timeline > li:nth-child(odd) {
-        margin-bottom: 0px;
-        min-height: 0px;
-        left: 0px;
-    }
-    .timeline>li:nth-child(even) .timeline-image {
-        left: 0;
-        margin-left: 0px;
-    }
-    .timeline>li:nth-child(odd) .timeline-image {
-        left: 690px;
-        margin-left: 0px;
-    }
-    .timeline > li:nth-child(even) .timeline-panel {
-        width: 76%;
-        padding: 0 0 20px 0px;
-        text-align: left;
-    }
-    .timeline > li:nth-child(odd) .timeline-panel {
-        width: 70%;
-        padding: 0 0 20px 0px;
-        text-align: right;
-    }
-    .timeline > li .line {
-        display: none;
-    }
+
+.bs-wizard {margin-top: 40px;}
+
+/*Form Wizard*/
+.bs-wizard
+{
+    border-bottom: solid 1px #e0e0e0;
+    padding: 0 0 10px 0;
 }
-/* Small Devices, Tablets */
-@media (min-width: 768px) and (max-width: 991px) {
-    .timeline > li:nth-child(even) {
-        margin-bottom: 0px;
-        min-height: 0px;
-        right: 0px;
-    }
-    .timeline > li:nth-child(odd) {
-        margin-bottom: 0px;
-        min-height: 0px;
-        left: 0px;
-    }
-    .timeline>li:nth-child(even) .timeline-image {
-        left: 0;
-        margin-left: 0px;
-    }
-    .timeline>li:nth-child(odd) .timeline-image {
-        left: 520px;
-        margin-left: 0px;
-    }
-    .timeline > li:nth-child(even) .timeline-panel {
-        width: 70%;
-        padding: 0 0 20px 0px;
-        text-align: left;
-    }
-    .timeline > li:nth-child(odd) .timeline-panel {
-        width: 70%;
-        padding: 0 0 20px 0px;
-        text-align: right;
-    }
-    .timeline > li .line {
-        display: none;
-    }
+.bs-wizard > .bs-wizard-step
+{
+    padding: 0;
+    position: relative;
 }
+.bs-wizard > .bs-wizard-step + .bs-wizard-step {}
+.bs-wizard > .bs-wizard-step .bs-wizard-stepnum
+{
+    color: rgb(255, 245, 197);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.bs-wizard > .bs-wizard-step .bs-wizard-info
+{
+    color: #ffffff;
+    font-size: 14px;
+}
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot
+{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: block;
+    background: #ed2724;
+    top: 45px;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-radius: 50%;
+}
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after
+{
+    content: ' ';
+    width: 14px;
+    height: 14px;
+    background: #ffaa18;
+    border-radius: 50px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
+.bs-wizard > .bs-wizard-step > .progress
+{
+    position: relative;
+    border-radius: 0px;
+    height: 8px;
+    box-shadow: none;
+    margin: 20px 0;
+    background-color: #005495;
+}
+.bs-wizard > .bs-wizard-step.disabled > .progress
+{
+    background: repeating-linear-gradient(
+            90deg,
+            #005495 20px,
+            #262633 40px
+    )
+}
+.bs-wizard > .bs-wizard-step > .progress > .progress-bar
+{
+    width:0px;
+    box-shadow: none;
+    background: #005495;
+}
+.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar
+{
+    width:100%;
+}
+.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar
+{
+    width:50%;
+}
+.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar
+{
+    width:0%;
+}
+.bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar
+{
+    width: 100%;
+}
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot
+{
+    /*disabled dots color*/
+    background-color: #f5f5f5;
+}
+
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after
+{
+    opacity: 0;
+}
+.bs-wizard > .bs-wizard-step:first-child  > .progress
+{
+    left: 50%;
+    width: 50%;
+}
+.bs-wizard > .bs-wizard-step:last-child  > .progress
+{
+    width: 50%;
+}
+.bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot
+{
+    pointer-events: none;
+}
+.wizard-links
+{
+    color: rgb(255, 245, 197);
+}
+.wizard-links:hover
+{
+    color: rgb(255, 245, 197);
+}
+/*END Form Wizard*/
+
+

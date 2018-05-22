@@ -101,8 +101,7 @@ public class MainController{
                 }
             }
             rep2.save(obj);
-*/
-
+            */
         }
         catch(IOException e){}
 
@@ -250,9 +249,19 @@ public class MainController{
 
         List<Os> os = getListOs();
 
+        Map<String, Integer> map = new HashMap<>();
+        Map<Integer, String> mapInverted = new HashMap<>();
+        for(int i = 1; i <= 8; i++)
+        {
+            map.put(os.get(i - 1).getOsname(), i);
+            mapInverted.put(i, os.get(i - 1).getOsname());
+        }
+
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
         model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
+        model.addAttribute("mapos", map);
+        model.addAttribute("invertMapos", mapInverted);
 
         return "tdata";
     }

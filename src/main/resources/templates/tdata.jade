@@ -17,9 +17,46 @@ block content
                 li.list-inline-item #{i.name}
     .container.indent
         .mainblock
-            p(style="font-size:28px; font-weight:700")
-                |#{i.name}
-                //button#copy-button.button(data-clipboard-target='#copyblock').btn-info copy
+            p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 2px;")
+                | #{i.name}
+            .row.bs-wizard(style='border-bottom:0;')
+                if invertMapos[mapos[osname]-1] == null
+                    .col-sm-4.bs-wizard-step.disabled
+                        .text-center.bs-wizard-stepnum &nbsp;#{invertMapos[mapos[osname]-1]}
+                        .progress
+                            .progress-bar
+                        a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname]-1]}/type/#{i.name}' tabindex="-1")
+                else
+                    .col-sm-4.bs-wizard-step.completed
+                        .text-center.bs-wizard-stepnum
+                            a.wizard-links(href='/os/#{invertMapos[mapos[osname]-1]}/type/#{i.name}' tabindex="-1") #{invertMapos[mapos[osname] - 1]}
+                        .progress
+                            .progress-bar
+                        a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname] - 1]}/type/#{i.name}' tabindex="-1")
+                .col-sm-4.bs-wizard-step.complete
+                    // complete
+                    .text-center.bs-wizard-stepnum
+                        a.wizard-links(href='/os/#{invertMapos[mapos[osname]]}/type/#{i.name}' tabindex="-1") #{invertMapos[mapos[osname]]}
+                    .progress
+                        .progress-bar
+                    a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname]]}/type/#{i.name}' tabindex="-1")
+                if invertMapos[mapos[osname]+1] == null
+                    .col-sm-4.bs-wizard-step.disabled
+                        // complete
+                        .text-center.bs-wizard-stepnum &nbsp;#{invertMapos[mapos[osname]+1]}
+                        .progress
+                            .progress-bar
+                        a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname]+1]}/type/#{i.name}' tabindex="-1")
+                else
+                    .col-sm-4.bs-wizard-step.completed
+                        // complete
+                        .text-center.bs-wizard-stepnum
+                            a.wizard-links(href='/os/#{invertMapos[mapos[osname] + 1]}/type/#{i.name}' tabindex="-1") #{invertMapos[mapos[osname] + 1]}
+                        .progress
+                            .progress-bar
+                        a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname] + 1]}/type/#{i.name}' tabindex="-1")
+            //p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 2px;")
+                | #{i.name}
             script(type='text/javascript').
                 (function () {
                     new Clipboard('#copy-button');
@@ -28,5 +65,9 @@ block content
                 //escaping, changed from "#"
                 pre
                     code(class="c")
-                        button#copy-button.button(data-clipboard-target='#copyblock').btn-info copy
-                        div#copyblock !{ttype}
+                        button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1").btn-info copy
+                        //div#copyblock !{ttype}
+                        if(ttype == null)
+                            p Nothing to show :(
+                        else
+                            div#copyblock !{ttype}
