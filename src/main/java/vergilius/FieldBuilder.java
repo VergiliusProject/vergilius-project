@@ -31,9 +31,10 @@ public class FieldBuilder
     public static String retSpaces(int length)
     {
         StringBuilder outputBuffer = new StringBuilder();
-        if(length <= 50)
+        //50 -> 65
+        if(length <= 65)
         {
-            for (int i = 0; i <= 50 - length; i++){
+            for (int i = 0; i <= 65 - length; i++){
                 outputBuffer.append(" ");
             }
             return outputBuffer.toString() + "//0x";
@@ -82,11 +83,14 @@ public class FieldBuilder
                 //OFFSET
                 if(field.realLength != 0)
                 {
-                    fb.type.append(retSpaces(field.realLength) + Integer.toHexString(field.fbOffset));
+                    //Adding retIndent(indent).length() in retSpaces() method provides correct comments displaying for all nested levels
+                    //also missed field.name.length() - important for not-toplevel enums and unions
+                    //dim for type 'struct{ }XXX arr[xx]'
+                    fb.type.append(retSpaces(field.realLength + field.name.length()+ field.dim.length() + retIndent(indent).length()) + Integer.toHexString(field.fbOffset));
                 }
                 else
                 {
-                    fb.type.append(retSpaces(field.toString().length()) + Integer.toHexString(field.fbOffset));
+                    fb.type.append(retSpaces(field.toString().length() + retIndent(indent).length()) + Integer.toHexString(field.fbOffset));
                 }
 
             }
@@ -102,6 +106,11 @@ public class FieldBuilder
     public static String getModifier(Ttype typeOfField)
     {
         return (typeOfField.isIsConst() ? "const" : "") + (typeOfField.isIsVolatile() ? "volatile" : "");
+    }
+
+    public static String getCTModifier(Ttype typeOfField)
+    {
+        return (typeOfField.isIsConst() ? "const" : "") + (typeOfField.isIsVolatile() ? " volatile" : "");
     }
 
     //The method returns an object(fb), which represents some type.
@@ -137,9 +146,8 @@ public class FieldBuilder
                 {
                     FieldBuilder fb = new FieldBuilder();
 
-                    fb.type.append("struct " + "<a tabindex ='-1' href='" + link + name + "'>" + name + "</a>" + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
-
-                    fb.realLength = (fb.type.toString() + " " + ";").length() - ("<a tabindex ='-1' href='" + link +"'>" + "</a>").length();
+                    fb.type.append("struct " + "<a class='str-link' tabindex ='-1' href='" + link + name + "'>" + name + "</a>" + "*" + (getModifier(type).isEmpty() ? "" : " " + getModifier(type)));
+                    fb.realLength = ("struct " + name + getModifier(type) + " " + "* " + ";").length(); //logical order!
 
                     return fb;
                 }
@@ -198,13 +206,14 @@ public class FieldBuilder
 
                     //fb.type.append("<button class=\"button btn-info\" id=\"copy-button\" data-clipboard-target=\"copyblock\">copy</button> <script type=\"text/javascript\">(function () { new Clipboard('copy-button');})();</script>");
 
-                    fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  type.getName()));
+                    fb.type.append("struct" + getCTModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  type.getName()));
                     printStructFields(fb, type, repo, indent, rpOffset, link);
                     fb.type.append(";");
                 }
                 else
                 {
-                    fb.type.append("struct" + getModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  "<a tabindex ='-1' href='" + link + type.getName() +"'>" + type.getName()) +  "</a>");
+                    fb.type.append("struct" + getCTModifier(type)).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  "<a class='str-link' tabindex ='-1' href='" + link + type.getName() +"'>" + type.getName()) +  "</a>");
+                    fb.realLength = "} ".length();
                     printStructFields(fb, type, repo, indent, rpOffset, link);
                 }
                 return fb;
@@ -235,7 +244,7 @@ public class FieldBuilder
                 }
                 else
                 {
-                    fb.type.append("enum " + getModifier(type)).append("<a tabindex ='-1' href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
+                    fb.type.append("enum " + getModifier(type)).append("<a class='str-link' tabindex ='-1' href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
                     fb.realLength = ("enum " + getModifier(type) + " " + type.getName() + ";").length();
                 }
                 return fb;
@@ -341,7 +350,7 @@ public class FieldBuilder
                     }
                     else
                     {
-                        fb.type.append("union " + getModifier(type)).append("<a tabindex ='-1' href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
+                        fb.type.append("union " + getModifier(type)).append("<a class='str-link' tabindex ='-1' href='" + link + type.getName() + "'>" + type.getName() +  "</a>");
                         fb.realLength = ("union " + getModifier(type) + " " + type.getName() + ";").length();
                     }
                 }
