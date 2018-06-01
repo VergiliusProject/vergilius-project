@@ -66,7 +66,7 @@ dl dd, dl dt, h3, h4, h5, h6, ol li, ul li {
 .site-header__links {
     align-items:center;
     display:flex;
-    font-size:inherit;
+    font-size:18px;
     margin:0;
 }
 ul {
@@ -272,7 +272,7 @@ pre
     background-color: #141422;
     color: #E0CD61;
     padding: 5px 12px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight:700;
     border: none;
     cursor: pointer;
@@ -341,10 +341,10 @@ body, html {
 
 /* Place text in the middle of the image */
 .hero-text {
-    text-align: center;
+    text-align: right;
     position: absolute;
     top: 55%;
-    left: 25%;
+    left: 23%;
     transform: translate(-50%, -50%);
     color: white;
 }
@@ -643,22 +643,19 @@ a.btn-styled
 {
     display: inline-block;
     border-radius: 0.5rem;
-    border: solid 2px white;
+    border: solid 3px white;
     padding: 10px 25px;
     background: transparent;
     color: white;
-    font-weight: 600;
-    font-size: 26px;
+    font-weight: 700;
+    font-size: 28px;
+    text-decoration: none;
 }
-/*
 a.btn-styled:hover
 {
-    color: white;
     text-decoration: none;
-    border: solid 4px white;
-    font-size: 30px;
+    color: white;
 }
-*/
 .str-link
 {
     color: #f1fa8c;
@@ -735,6 +732,7 @@ ul {
     float: left;
     margin-left: 10px;
     width: 900px;
+    padding-bottom: 15px;
 }
 
 .addon strong {
@@ -744,4 +742,13 @@ ul {
 
 strong {
     font-weight: bold;
+}
+.vert
+{
+    border-left: 3px solid rgb(20, 20, 34);
+    height: 595px;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 535px;
 }

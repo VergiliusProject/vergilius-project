@@ -146,18 +146,6 @@ public class MainController{
         return "home";
     }
 
-    @GetMapping("/statistics")
-    public String displayStatistics(Model model)
-    {
-        List<Os> os = getListOs();
-
-        model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
-
-        return "statistics";
-    }
-
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logoutPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 

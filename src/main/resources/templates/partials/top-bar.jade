@@ -30,12 +30,6 @@ nav.site-header
                                 for i in families
                                     li: p
                                         a.drp(href="/kernels/#{i}") #{i}
-            if selected == "Statistics"
-                li
-                    a.header-link.active(href='/statistics' tabindex="-1") Statistics
-            else
-                li
-                    a.header-link(href='/statistics' tabindex="-1") Statistics
             if selected == "About"
                 li
                     a.header-link.active(href='/about' tabindex="-1") About
