@@ -659,20 +659,30 @@ a.btn-styled:hover
 .str-link
 {
     color: #f1fa8c;
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;;
 }
 .str-link:hover
 {
     text-decoration: none;
+    /*color: #fae134;*/
     color: #fae134;
+}
+
+.str-link .hljs-title:hover
+{
+    text-decoration: none;
+    color: #fae134 !important;
 }
 .hljs-title
 {
     color: #f1fa8c !important;
+    /*links, keywords*/
+    font-weight: normal !important;
 }
 
 .hljs-title:hover
 {
-    color: #fae134 !important;
+    color: #f1fa8c !important;
 }
 /* STYLISH LIST*/
 .addon {
