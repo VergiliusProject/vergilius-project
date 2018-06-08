@@ -300,6 +300,7 @@ pre
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    width: 180px;
 }
 
 /* Change color of dropdown links on hover */
@@ -563,7 +564,7 @@ a.akern:hover
     border-radius: 0px;
     height: 8px;
     box-shadow: none;
-    margin: 20px 0;
+    margin: 17px 0;
     background-color: #005495;
 }
 
@@ -655,6 +656,11 @@ a.btn-styled:hover
 {
     text-decoration: none;
     color: white;
+}
+a.btn-styled:active
+{
+    /* removed blue shadow*/
+    box-shadow: none;
 }
 .str-link
 {
@@ -761,4 +767,13 @@ strong {
     left: 50%;
     margin-left: -3px;
     top: 535px;
+}
+.nothing
+{
+    padding-left: 16px;
+    font-family: "Open Sans", sans-serif;
+    padding-top: 5px;
+    font-size: 20px; font-weight: 600;
+    color: white;
+    text-align: left;
 }

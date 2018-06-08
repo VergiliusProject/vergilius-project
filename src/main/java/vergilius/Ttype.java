@@ -1,14 +1,8 @@
 package vergilius;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -37,11 +31,15 @@ public class Ttype {
     @Enumerated(EnumType.STRING)
     private Kind kind;
 
+    //@Column(name="const", columnDefinition = "tinyint default 1")
+    //@Column(name="const", columnDefinition = "boolean default false")
     @Column(name="const")
-    private Boolean isConst;
+    private Boolean isConst = false;
 
+    //@Column(name="volatile", columnDefinition = "tinyint(1) default 1")
+    //@Column(name="volatile", columnDefinition = "boolean default false")
     @Column(name="volatile")
-    private Boolean isVolatile;
+    private Boolean isVolatile = false;
 
     //relationship with Os
     @ManyToOne
@@ -111,20 +109,15 @@ public class Ttype {
     }
 
     public boolean isIsConst() {
-        return isConst == null? false: true;
+        //return isConst == null? false: true;
+        return (isConst == null || isConst == false)? false: true;
     }
 
-    public void setIsConst(Boolean isConst) {
-        this.isConst = isConst;
-    }
 
     public boolean isIsVolatile() {
-        return isVolatile == null? false: true;
+       return (isVolatile == null || isVolatile == false)? false: true;
     }
 
-    public void setIsVolatile(boolean isVolatile) {
-        this.isVolatile = isVolatile;
-    }
 
     public static List<Ttype>FilterByTypes(List<Ttype> list, Kind param)
     {
@@ -136,6 +129,7 @@ public class Ttype {
             {
                 retVal.add(i);
             }
+            System.out.println(i.name);
         }
         return retVal;
     }

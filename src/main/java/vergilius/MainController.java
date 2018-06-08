@@ -101,7 +101,7 @@ public class MainController{
                 }
             }
             rep2.save(obj);
-            */
+*/
         }
         catch(IOException e){}
 
@@ -206,7 +206,13 @@ public class MainController{
     {
         Os opersys = rep1.findByOsname(osname);
         List<Ttype> reslist = rep2.findByOpersysAndIsConstFalseAndIsVolatileFalse(opersys);
-
+        /*List<Integer> reslist1 = new ArrayList<>();
+        for(Ttype j: rep2.findByOpersysAndIsConstNotTrueAndIsVolatileNotTrue(opersys))
+        {
+              reslist1.add(j.getIdtype());
+        }
+        List<Ttype> reslist = rep2.findByIsConstAndIsVolatileAndIdtypeIn(false,true, reslist1);
+        */
         model.addAttribute("structs", Ttype.FilterByTypes(reslist, Ttype.Kind.STRUCT));
         model.addAttribute("unions", Ttype.FilterByTypes(reslist, Ttype.Kind.UNION));
         model.addAttribute("enums", Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM));
@@ -224,7 +230,7 @@ public class MainController{
     public String displayType(@PathVariable String osname,@PathVariable String name, Model model)
     {
         Os opersys = rep1.findByOsname(osname);
-        List<Ttype> typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
+        List<Ttype> typeslist = rep2.findByNameAndOpersys(name, opersys);
 
         String link = "/os/" + osname + "/type/";
         for(int i = 0; i < typeslist.size(); i++)

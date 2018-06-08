@@ -55,8 +55,6 @@ block content
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname] + 1]}/type/#{i.name}' tabindex="-1")
-            //p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 2px;")
-                | #{i.name}
             script(type='text/javascript').
                 (function () {
                     new Clipboard('#copy-button');
@@ -65,9 +63,10 @@ block content
                 //escaping, changed from "#"
                 pre
                     code(class="c")
-                        button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1").btn-info copy
-                        //div#copyblock !{ttype}
+                        button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
                         if(ttype == null)
-                            p Nothing to show :(
+                            .nothing
+                                |Such structure doesn't exist in chosen version of the kernel...
+                                |Or we just have forgotten to add it to our database.
                         else
                             div#copyblock !{ttype}

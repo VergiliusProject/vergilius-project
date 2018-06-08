@@ -118,7 +118,7 @@ public class FieldBuilder
     //The method checks type's modifier (const or volatile)
     public static String getModifier(Ttype typeOfField)
     {
-        return (typeOfField.isIsConst() ? "const" : "").isEmpty()?(typeOfField.isIsVolatile() ? "volatile" : ""): (typeOfField.isIsVolatile() ? " volatile" : "");
+        return (typeOfField.isIsConst() ? "const" : "").isEmpty()?(typeOfField.isIsVolatile() ? "volatile" : ""): (typeOfField.isIsVolatile() ? "volatile" : "");
     }
 
     public static void printUnionFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int rpOffset, String link)
@@ -284,15 +284,25 @@ public class FieldBuilder
                     //hex SIZE
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
-                    fb.type.append("struct" + (getModifier(type).isEmpty()? "" : (" " + getModifier(type)))).append(type.getName().equals("<unnamed-tag>") ? "" : (" " +  type.getName()));
+                    //fb.type.append("struct" + (getModifier(type).isEmpty()? "" : (" " + getModifier(type)))).append(" " +  type.getName());
+                    fb.type.append(getModifier(type).isEmpty()? "" : (getModifier(type) + " ")).append("struct" + " " +  type.getName());
                     printStructFields(fb, type, repo, indent, rpOffset, link);
                     fb.type.append(";");
                 }
                 else
-                {
-                    fb.type.append("struct" + (getModifier(type).isEmpty()? "" : (" " + getModifier(type)))).append(type.getName().equals("<unnamed-tag>") ? "" : (" <a class='str-link' tabindex='-1' href='" + link + type.getName() +"'>" + type.getName()) + "</a>");
-                    printStructFields(fb, type, repo, indent, rpOffset, link);
-                    fb.realLength = ("}").length(); //space will be added in toString()
+                {   //not top level structure without name should be displayed with it's all fields
+                    if(type.getName().equals("<unnamed-tag>"))
+                    {
+                        fb.type.append("struct");
+                        printStructFields(fb, type, repo, indent, rpOffset, link);
+                        fb.realLength = ("}").length(); //space will be added in toString()
+                    }
+                    else
+                    {
+                        //fb.type.append("struct" + (getModifier(type).isEmpty()? "" : (" " + getModifier(type)))).append(" <a class='str-link' tabindex='-1' href='" + link + type.getName() +"'>" + type.getName() + "</a>");
+                        fb.type.append(getModifier(type).isEmpty()? "" : (getModifier(type) + " ")).append("struct" + " <a class='str-link' tabindex='-1' href='" + link + type.getName() +"'>" + type.getName() + "</a>");
+                        fb.realLength = "struct".length() + (getModifier(type).isEmpty()? "" : (" " + getModifier(type))).length() + type.getName().length() + " ".length();
+                    }
                 }
                 return fb;
             }

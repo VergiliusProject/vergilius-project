@@ -11,10 +11,11 @@ import java.util.List;
 
 public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
 
-    @Query("select u from Ttype u where u.opersys = :opersys")
+    //@Query("select u from Ttype u where u.opersys = :opersys")
     List<Ttype> findByOpersysAndIsConstFalseAndIsVolatileFalse(@Param("opersys")Os opersys);
 
-    @Query("select u from Ttype u where u.name = :name and u.opersys = :opersys")
-    List<Ttype> findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(@Param("name") String name, @Param("opersys")Os opersys);
+    //@Query("select u from Ttype u where u.name = :name and u.opersys = :opersys")
+    List<Ttype> findByNameAndOpersys(@Param("name") String name, @Param("opersys")Os opersys);
 
+    //List<Ttype> findByIsConstAndIsVolatileAndIdtypeIn(boolean isConst, boolean isVolatile, List<Integer> ids);
 }
