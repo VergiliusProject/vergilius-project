@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.devtools.restart.classloader.ClassLoaderFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -230,16 +231,33 @@ public class MainController{
     public String displayType(@PathVariable String osname,@PathVariable String name, Model model)
     {
         Os opersys = rep1.findByOsname(osname);
-        List<Ttype> typeslist = rep2.findByNameAndOpersys(name, opersys);
-
+        //List<Ttype> typeslist = rep2.findByNameAndOpersys(name, opersys);
+        Ttype typeslist = rep2.findByNameAndOpersys(name, opersys);
         String link = "/os/" + osname + "/type/";
+
+        //why cycle?
+        /*
         for(int i = 0; i < typeslist.size(); i++)
         {
-            if(typeslist.get(i).getName().equals(name))
-            {
-                model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist.get(i),0, 0, link).toString());
+            if (typeslist.get(i).getName().equals(name)) {
+                model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist.get(i), 0, 0, link).toString());
             }
         }
+        */
+
+        if (typeslist.getName().equals(name)) {
+            model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist, 0, 0, link).toString());
+        }
+
+        //model.addAttribute("cros", rep2.findByKindAndId(typeslist.getKind(), typeslist));
+        List<Ttype> list = rep2.findById(typeslist.getIdtype());
+        List<String> cross = new ArrayList<>();
+        for(Ttype i: list)
+        {
+            cross.add(i.getName());
+        }
+
+        model.addAttribute("cros", cross);
 
         List<Os> os = getListOs();
 

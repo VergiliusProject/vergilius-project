@@ -2,6 +2,7 @@ package vergilius;
 
 import vergilius.repos.TtypeRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;

@@ -147,7 +147,18 @@ blockquote, p {
     font-weight: 400;
     padding: 10px 15px;
 }
-
+.maincross
+{
+    background-color:#262633;
+    border-radius:0.5rem;
+    color:#1CC1CC;
+    min-height: 275px;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 10px 15px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
 .header-logo__image{
     height:54px;
     display: inline-block;

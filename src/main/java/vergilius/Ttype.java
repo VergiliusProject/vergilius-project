@@ -129,7 +129,6 @@ public class Ttype {
             {
                 retVal.add(i);
             }
-            System.out.println(i.name);
         }
         return retVal;
     }
