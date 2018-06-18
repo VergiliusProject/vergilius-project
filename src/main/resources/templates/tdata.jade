@@ -70,11 +70,12 @@ block content
                                 |Or we just have forgotten to add it to our database.
                         else
                             div#copyblock !{ttype}
-        .maincross
-            h5(style="font-weight:800;") Related kernel's structures:
-            div
-                ul(type='none')
-                    for i in cros
-                        li: p
-                            a(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i}
+        if(cros != null)
+            .maincross
+                h5(style="font-weight:800;") Related kernel's structures:
+                div
+                    ul(type='none')
+                        for i in cros
+                            li: p
+                                a(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i}
 

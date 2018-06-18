@@ -1,7 +1,7 @@
 body {
     font-size:106.25%;
     line-height:1;
-    background-image: url("abstr.jpg") !important;
+    background-image: url("/images/abstr.jpg") !important;
     background-color:#141422 !important;
 }
 .header-sticky, transparent-header {
@@ -166,7 +166,7 @@ blockquote, p {
     /*width:340px;*/
     width: 60px;
     /*background-image:url("pp.png");*/
-    background-image:url("logo.png");
+    background-image:url("/images/logo.png");
     background-repeat: no-repeat;
     border: none;
 }
@@ -338,7 +338,7 @@ body, html {
 /* The hero image */
 .hero-image {
     /* The image used */
-    background: url("bigback.jpg");
+    background: url("/images/bigback.jpg");
     background-color: #040c13;
     min-height: 710px;
     /* Set a specific height */

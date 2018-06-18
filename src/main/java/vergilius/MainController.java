@@ -207,13 +207,7 @@ public class MainController{
     {
         Os opersys = rep1.findByOsname(osname);
         List<Ttype> reslist = rep2.findByOpersysAndIsConstFalseAndIsVolatileFalse(opersys);
-        /*List<Integer> reslist1 = new ArrayList<>();
-        for(Ttype j: rep2.findByOpersysAndIsConstNotTrueAndIsVolatileNotTrue(opersys))
-        {
-              reslist1.add(j.getIdtype());
-        }
-        List<Ttype> reslist = rep2.findByIsConstAndIsVolatileAndIdtypeIn(false,true, reslist1);
-        */
+
         model.addAttribute("structs", Ttype.FilterByTypes(reslist, Ttype.Kind.STRUCT));
         model.addAttribute("unions", Ttype.FilterByTypes(reslist, Ttype.Kind.UNION));
         model.addAttribute("enums", Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM));
@@ -231,34 +225,24 @@ public class MainController{
     public String displayType(@PathVariable String osname,@PathVariable String name, Model model)
     {
         Os opersys = rep1.findByOsname(osname);
-        //List<Ttype> typeslist = rep2.findByNameAndOpersys(name, opersys);
-        Ttype typeslist = rep2.findByNameAndOpersys(name, opersys);
+
+        Ttype typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
         String link = "/os/" + osname + "/type/";
 
-        //why cycle?
-        /*
-        for(int i = 0; i < typeslist.size(); i++)
+        if(typeslist != null)
         {
-            if (typeslist.get(i).getName().equals(name)) {
-                model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist.get(i), 0, 0, link).toString());
-            }
-        }
-        */
-
-        if (typeslist.getName().equals(name)) {
             model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist, 0, 0, link).toString());
+            List<Ttype> used_in = rep2.findById(typeslist.getIdtype());
+
+            List<String> used_in_names = new ArrayList<>();
+            for (Ttype i : used_in)
+            {
+                if(i != null && i.getName() != null) used_in_names.add(i.getName());
+            }
+
+            if(used_in_names.isEmpty()) used_in_names = null;
+            model.addAttribute("cros", used_in_names);
         }
-
-        //model.addAttribute("cros", rep2.findByKindAndId(typeslist.getKind(), typeslist));
-        List<Ttype> list = rep2.findById(typeslist.getIdtype());
-        List<String> cross = new ArrayList<>();
-        for(Ttype i: list)
-        {
-            cross.add(i.getName());
-        }
-
-        model.addAttribute("cros", cross);
-
         List<Os> os = getListOs();
 
         Map<String, Integer> map = new HashMap<>();

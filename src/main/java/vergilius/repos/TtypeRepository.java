@@ -11,18 +11,11 @@ import java.util.List;
 
 public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
 
-    //@Query("select u from Ttype u where u.opersys = :opersys")
     List<Ttype> findByOpersysAndIsConstFalseAndIsVolatileFalse(@Param("opersys") Os opersys);
 
-    //List<Ttype> findByNameAndOpersys(@Param("name") String name, @Param("opersys") Os opersys);
-    Ttype findByNameAndOpersys(@Param("name") String name, @Param("opersys") Os opersys);
+    Ttype findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(@Param("name") String name, @Param("opersys") Os opersys);
 
-    //String query = "select distinct t.name from Ttype t, Tdata d where t.idtype = d.id and t.kind = :kind and d.ttype = :id";
-
-    //@Query("select distinct t.name from Ttype t, Tdata d where t.idtype = d.id and t.kind = :kind and d.ttype = :id")
-    //List<String> findByKindAndId(@Param("kind") Ttype.Kind kind, @Param("id") Ttype id);
-
-    @Query("select distinct t.ttype from Tdata t  where t.id = :id") //list of owners, who has fields of that type (by id)
-    List<Ttype> findById( @Param("id") Integer id); //only in current os
+    @Query("select distinct t.ttype from Tdata t  where (t.id = :id or t.id in(select u.ttype from Tdata  u where u.id= :id) or (t.id in(select s.ttype from Tdata  s where s.id in(select m.ttype from Tdata  m where m.id= :id))) and t.ttype.kind='POINTER')and t.ttype.kind in ('STRUCT', 'ENUM', 'UNION') and t.ttype.name <> '<unnamed-tag>'")
+    List<Ttype> findById( @Param("id") Integer id);
 
 }
