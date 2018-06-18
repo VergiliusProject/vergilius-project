@@ -690,17 +690,18 @@ a.btn-styled:active
     text-decoration: none;
     color: #fae134 !important;
 }
+
 .hljs-title
 {
-    color: #f1fa8c !important;
-    /*links, keywords*/
+    /*color: #f1fa8c !important;*/
     font-weight: normal !important;
 }
 
 .hljs-title:hover
 {
-    color: #f1fa8c !important;
+    /*color: #f1fa8c !important;*/
 }
+
 /* STYLISH LIST*/
 .addon {
     background: #262633;
