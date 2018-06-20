@@ -282,26 +282,31 @@ public class FieldBuilder
 
                 if(isTopLevel(indent))
                 {
-                    //hex SIZE
+                    //size of structure in hex format
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
-
-                    //fb.type.append("struct" + (getModifier(type).isEmpty()? "" : (" " + getModifier(type)))).append(" " +  type.getName());
                     fb.type.append(getModifier(type).isEmpty()? "" : (getModifier(type) + " ")).append("struct" + " " +  type.getName());
+                    //braces will be added inside printStructFields()
                     printStructFields(fb, type, repo, indent, rpOffset, link);
                     fb.type.append(";");
                 }
                 else
-                {   //not top level structure without name should be displayed with it's all fields
+                {   //not top-level structure without name should be displayed with it's all fields
+                    //directly at that place, where it's declared
                     if(type.getName().equals("<unnamed-tag>"))
                     {
                         fb.type.append("struct");
                         printStructFields(fb, type, repo, indent, rpOffset, link);
+
+                        //for this kind of structures length is calculated in different way
                         fb.realLength = ("}").length(); //space will be added in toString()
                     }
                     else
                     {
-                        //fb.type.append("struct" + (getModifier(type).isEmpty()? "" : (" " + getModifier(type)))).append(" <a class='str-link' tabindex='-1' href='" + link + type.getName() +"'>" + type.getName() + "</a>");
+                        //not top-level structures should be displayed with links
                         fb.type.append(getModifier(type).isEmpty()? "" : (getModifier(type) + " ")).append("struct" + " <a class='str-link' tabindex='-1' href='" + link + type.getName() +"'>" + type.getName() + "</a>");
+
+                        //for all types (union, structure, enum) where link is appended to "type" field,
+                        //length of the link should be excluded from the length of string
                         fb.realLength = "struct".length() + (getModifier(type).isEmpty()? "" : (" " + getModifier(type))).length() + type.getName().length() + " ".length();
                     }
                 }
@@ -312,10 +317,9 @@ public class FieldBuilder
                 FieldBuilder fb = new FieldBuilder();
                 if(isTopLevel(indent))
                 {
-                    //for enums there's no need to use recursive method (toString()!)
                     List<Tdata> enumData = Sorter.sortByOrdinal(type.getData());
 
-                    //hex SIZE
+                    //size (hex)
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
                     fb.type.append(new StringBuilder().append((type.getName() != null)? "enum " + type.getName() + "\n{\n" : "enum\n{\n"));
@@ -327,13 +331,13 @@ public class FieldBuilder
                         fb.type.append(retIndent(indent) + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + "," + retSpaces((enumData.get(i).getName() + " = " + enumData.get(i).getOffset()).length() + 1) + Integer.toHexString(enumData.get(i).getOffset()) +"\n");
                     }
 
-                    //"+ 1" means adding the length of ","
                     fb.type.append(retIndent(indent) + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset() + retSpaces((enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset()).length())+ Integer.toHexString(enumData.get(enumData.size() - 1).getOffset()));
                     fb.type.append(retIndent(--indent) + "\n};");
                 }
                 else
                 {
                     fb.type.append("enum" + (getModifier(type).isEmpty()? "" : (getModifier(type)))).append("<a class='str-link' tabindex='-1' href='" + link + type.getName() + "'> " + type.getName() + "</a>");
+
                     fb.realLength = ("enum" + (getModifier(type).isEmpty()? "" : (getModifier(type))).length() + type.getName()).length();
                 }
                 return fb;
@@ -343,12 +347,13 @@ public class FieldBuilder
                 FieldBuilder fb = new FieldBuilder();
                 if(isTopLevel(indent))
                 {
-                    //hex SIZE
+                    //size (hex)
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
-                    fb.type.append(new StringBuilder((type.getName() != null)? ("union " +  type.getName() + "\n{") : "union\n{"));
-
-                    //isn't bodiless check - ADD!!!
+                    //???
+                    /// top-level union can't be without name!
+                    //fb.type.append(new StringBuilder((type.getName() != null)? ("union " +  type.getName() + "\n{") : "union\n{"));
+                    fb.type.append(new StringBuilder("union " +  type.getName() + "\n{"));
 
                     printUnionFields(fb, type, repo, indent, rpOffset, link);
 
@@ -368,7 +373,7 @@ public class FieldBuilder
 
                             fb.type.append("\n").append(retIndent(indent)).append("}");
 
-                            //union {...} u;
+                            //for case like "union {...} u;"
                             fb.realLength ="}".length();
                         }
                     }
