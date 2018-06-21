@@ -1,6 +1,8 @@
 package vergilius;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -45,7 +47,28 @@ public class Os{
 
     /* New fields*/
     private String family;
-    private int year;
+
+    private int timestamp;
+
+    private String converted_date = convertTimestamptoDate(timestamp);
+
+    public String convertTimestamptoDate(long timestamp)
+    {
+        //convert seconds to milliseconds
+        Date date = new Date(timestamp*1000L);
+        // format of the date
+        //SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd");
+        return jdf.format(date);
+    }
+
+    public void setConverted_date(String converted_date) {
+        this.converted_date = converted_date;
+    }
+
+    public String getConverted_date() {
+        return converted_date;
+    }
 
     public String getFamily() {
         return family;
@@ -55,11 +78,11 @@ public class Os{
         this.family = family;
     }
 
-    public int getYear() {
-        return year;
+    public int getTimestamp() {
+        return timestamp;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setTimestamp(int timestamp) {
+        this.timestamp = timestamp;
     }
 }

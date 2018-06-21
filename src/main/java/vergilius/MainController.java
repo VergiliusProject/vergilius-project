@@ -1,6 +1,8 @@
 package vergilius;
 
 import java.io.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,7 +141,14 @@ public class MainController{
     public String displayHome(Model model)
     {
         List<Os> os = getListOs();
-
+        //kostyl na vremya
+        /*
+        for(Os i: os)
+        {
+           i.setConverted_date(i.convertTimestamptoDate(i.getTimestamp()));
+        }
+        rep1.save(os);
+        */
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
         model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
@@ -226,7 +235,8 @@ public class MainController{
     {
         Os opersys = rep1.findByOsname(osname);
 
-        Ttype typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
+        //Ttype typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
+        Ttype typeslist = rep2.findByNameAndOpersys(name, opersys);
         String link = "/os/" + osname + "/type/";
 
         if(typeslist != null)

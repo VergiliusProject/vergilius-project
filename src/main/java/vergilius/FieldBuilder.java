@@ -5,6 +5,8 @@ import vergilius.repos.TtypeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class FieldBuilder
@@ -60,6 +62,27 @@ public class FieldBuilder
         return indent == 0;
     }
 
+    public static void printEnumFields(FieldBuilder fb, Ttype type, int indent)
+    {
+        //if not bodiless
+        if(type.getData() != null && type.getSizeof() != 0)
+        {
+            fb.type.append("\n" + retIndent(indent) + "{");
+
+            List<Tdata> enumData = Sorter.sortByOrdinal(type.getData());
+            indent++;
+
+            for(int i = 0; i < enumData.size() - 1; i++)
+            {
+                fb.type.append("\n" + retIndent(indent) + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + "," + retSpaces((enumData.get(i).getName() + " = " + enumData.get(i).getOffset()).length() + 1) + Integer.toHexString(enumData.get(i).getOffset()));
+            }
+
+            fb.type.append("\n" + retIndent(indent) + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset() + retSpaces((enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset()).length())+ Integer.toHexString(enumData.get(enumData.size() - 1).getOffset()));
+
+            fb.type.append(retIndent(--indent) + "\n}");
+        }
+    }
+
     public static void printStructFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int rpOffset, String link)
     {
         //if structure isn't bodiless
@@ -67,7 +90,9 @@ public class FieldBuilder
         {
             fb.type.append("\n").append(retIndent(indent)).append("{");
 
-            indent++; //all structure fields have a deeper level of nesting
+            //all structure fields have a deeper level of nesting
+            indent++;
+
             List<Tdata> structFields = Sorter.sortByOrdinal(type.getData());
 
             for (Tdata currentField : structFields)
@@ -86,30 +111,24 @@ public class FieldBuilder
 
                 if(field.realLength != 0)
                 {
-                    //length calculation and adding a comment with hex offset-value
-                    //calculation of spaces for functions in else {...}
+                    //length calculation and adding a comment with hex offset
                     fb.type.append(retSpaces(retIndent(indent).length() + field.realLength + " ".length() + field.name.length() + field.dim.length() + ";".length()) + Integer.toHexString(field.fbOffset));
                 }
                 else
                 {
-                    //if it's ptr on func declaration with link
+                    //length calculation for pointers on some functions (cause we don't calculate it in case "FUNCTION")
+                    //condition means that field's declaration contains at leat one link <a>...</a>
                     if(field.args.toString().contains("<"))
                     {
-                        String forCut = field.args.toString();
-                        String linkLength = forCut.substring(forCut.indexOf("<"),forCut.indexOf(">") + 1) + forCut.substring(forCut.lastIndexOf("<"), forCut.lastIndexOf(">") +1);
-                        //System.out.print(linkLength);
-                        fb.type.append(retSpaces(retIndent(indent).length() + (field.toString().length() - linkLength.length() + ";".length())) + Integer.toHexString(field.fbOffset));
+                        field.args.toString().replaceAll("(<.+?>)", "");
                     }
-                    else
-                    {
-                        //for ptr on func without link and for all other declarations
-                        fb.type.append(retSpaces(retIndent(indent).length() + field.toString().length() + ";".length()) + Integer.toHexString(field.fbOffset));
-                    }
-
+                    //for all fields' declarations, where type doesn't include the link
+                    fb.type.append(retSpaces(retIndent(indent).length() + field.toString().length() + ";".length()) + Integer.toHexString(field.fbOffset));
                 }
             }
             fb.type.append("\n").append(retIndent(--indent)).append("}");// braces are always on the same level with a word 'struct'
         }
+
     }
 
     public void setName(String name) {
@@ -124,77 +143,83 @@ public class FieldBuilder
 
     public static void printUnionFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int rpOffset, String link)
     {
-        List<Tdata> fields = Sorter.sortByOrdinal(type.getData());
-
-        indent++;
-        //"beginning" means the beginning of a nested structure
-        boolean beginning = false;
-
-        int last = fields.size() - 1;
-        for(int i = 0; i < fields.size(); i++)
+        if(type.getData() != null && type.getSizeof() != 0)
         {
-            type = repo.findOne(fields.get(i).getId());
 
-            FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, rpOffset + fields.get(i).getOffset(), link);
-            field.setName(fields.get(i).getName());
-            field.fbOffset = rpOffset + fields.get(i).getOffset();
+            fb.type.append("\n").append(retIndent(indent)).append("{");
 
-            if(i == last)
+            List<Tdata> fields = Sorter.sortByOrdinal(type.getData());
+
+            indent++;
+            //"beginning" means the beginning of a nested structure
+            boolean beginning = false;
+
+            int last = fields.size() - 1;
+            for(int i = 0; i < fields.size(); i++)
             {
-                //on last iteration we close braces for nested structure (if there was such structure before this iteration)
-                if(beginning)
+                type = repo.findOne(fields.get(i).getId());
+
+                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, rpOffset + fields.get(i).getOffset(), link);
+                field.setName(fields.get(i).getName());
+                field.fbOffset = rpOffset + fields.get(i).getOffset();
+
+                if(i == last)
                 {
+                    //on last iteration we close braces for nested structure (if there was such structure before this iteration)
+                    if(beginning)
+                    {
+                        fb.type.append("\n").append(retIndent(indent)).append("};");
+                    }
+                    //processing of the last iteration
+                    // in union struct{...} s;
+                    if(field.realLength != 0)
+                    {
+                        fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + + field.realLength + " ".length() + field.name.length()  +";".length()) + Integer.toHexString(field.fbOffset));
+                    }
+                    else
+                    {
+                        fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + field.toString().length()  +";".length()) + Integer.toHexString(field.fbOffset));
+                    }
+
+                    break; //comparing 'fields.size()-1' and 'fields.size()' iteration leads to exception
+                }
+
+                //a same offset between two fields means that they are the fields of the same union or the same structure
+                if(fields.get(i).getOffset() == fields.get(i + 1).getOffset())
+                {
+                    if(field.realLength != 0)
+                    {
+                        //for unnamed struct
+                        fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + field.realLength + " ".length() + field.name.length()  + ";".length()) + Integer.toHexString(field.fbOffset));
+                    }
+                    else
+                    {
+                        fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + field.toString().length() + ";".length()) + Integer.toHexString(field.fbOffset));
+                    }
+                }
+
+                //a different offset and the fields aren't inside of structure
+                if(fields.get(i).getOffset() != fields.get(i + 1).getOffset() && !beginning)
+                {
+                    //'opening' a structure
+                    beginning = true;
+
+                    //processing of current iteration
+                    fb.type.append("\n").append(retIndent(indent)).append("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.toString() + ";" + retSpaces(retIndent(indent + 1).length() + field.toString().length() + ";".length()) + Integer.toHexString(field.fbOffset));
+                }
+                else if(fields.get(i).getOffset() != fields.get(i + 1).getOffset() && beginning)
+                {
+                    //a different offset and previous field was inside of structure ->
+                    //processing a current iteration and 'closing' the structure
+                    beginning = false;
+
+                    fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString() + ";" + retSpaces(retIndent(indent + 1).length() + field.toString().length() + ";".length())  + Integer.toHexString(field.fbOffset));
                     fb.type.append("\n").append(retIndent(indent)).append("};");
                 }
-                //processing of the last iteration
-                // in union struct{...} s;
-                if(field.realLength != 0)
-                {
-                    fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + + field.realLength + " ".length() + field.name.length()  +";".length()) + Integer.toHexString(field.fbOffset));
-                }
-                else
-                {
-                    fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + field.toString().length()  +";".length()) + Integer.toHexString(field.fbOffset));
-                }
-
-                break; //comparing 'fields.size()-1' and 'fields.size()' iteration will lead to exception
             }
-
-            //a same offset between two fields means that they are the fields of the same union or the same structure
-            if(fields.get(i).getOffset() == fields.get(i + 1).getOffset())
-            {
-                if(field.realLength != 0)
-                {
-                    //for unnamed struct
-                    fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + field.realLength + " ".length() + field.name.length()  + ";".length()) + Integer.toHexString(field.fbOffset));
-                }
-                else
-                {
-                    fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + field.toString().length() + ";".length()) + Integer.toHexString(field.fbOffset));
-                }
-            }
-
-            //a different offset and the fields aren't inside of structure
-            if(fields.get(i).getOffset() != fields.get(i + 1).getOffset() && !beginning)
-            {
-                //'opening' a structure
-                beginning = true;
-
-                //processing of current iteration
-                fb.type.append("\n").append(retIndent(indent)).append("struct\n" + retIndent(indent) + "{\n" + retIndent(indent + 1) + field.toString() + ";" + retSpaces(retIndent(indent + 1).length() + field.toString().length() + ";".length()) + Integer.toHexString(field.fbOffset));
-            }
-            else if(fields.get(i).getOffset() != fields.get(i + 1).getOffset() && beginning)
-            {
-                //a different offset and previous field was inside of structure ->
-                //processing a current iteration and 'closing' the structure
-                beginning = false;
-
-                fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString() + ";" + retSpaces(retIndent(indent + 1).length() + field.toString().length() + ";".length())  + Integer.toHexString(field.fbOffset));
-                fb.type.append("\n").append(retIndent(indent)).append("};");
-            }
+            indent--;
+            fb.type.append("\n").append(retIndent(indent)).append("}");
         }
-        indent--;
-
     }
 
     //The method returns an object(fb), which represents some type.
@@ -284,8 +309,9 @@ public class FieldBuilder
                 {
                     //size of structure in hex format
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
+
                     fb.type.append(getModifier(type).isEmpty()? "" : (getModifier(type) + " ")).append("struct" + " " +  type.getName());
-                    //braces will be added inside printStructFields()
+
                     printStructFields(fb, type, repo, indent, rpOffset, link);
                     fb.type.append(";");
                 }
@@ -315,30 +341,29 @@ public class FieldBuilder
             case ENUM:
             {
                 FieldBuilder fb = new FieldBuilder();
+
+                //top-level enum(structure, union) always have a name
                 if(isTopLevel(indent))
                 {
-                    List<Tdata> enumData = Sorter.sortByOrdinal(type.getData());
-
                     //size (hex)
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
-
-                    fb.type.append(new StringBuilder().append((type.getName() != null)? "enum " + type.getName() + "\n{\n" : "enum\n{\n"));
-
-                    indent++;
-
-                    for(int i = 0; i < enumData.size() - 1; i++)
-                    {
-                        fb.type.append(retIndent(indent) + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + "," + retSpaces((enumData.get(i).getName() + " = " + enumData.get(i).getOffset()).length() + 1) + Integer.toHexString(enumData.get(i).getOffset()) +"\n");
-                    }
-
-                    fb.type.append(retIndent(indent) + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset() + retSpaces((enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset()).length())+ Integer.toHexString(enumData.get(enumData.size() - 1).getOffset()));
-                    fb.type.append(retIndent(--indent) + "\n};");
+                    fb.type.append(new StringBuilder("enum " + type.getName()));
+                    printEnumFields(fb, type, indent);
+                    fb.type.append(";");
                 }
                 else
                 {
-                    fb.type.append("enum" + (getModifier(type).isEmpty()? "" : (getModifier(type)))).append("<a class='str-link' tabindex='-1' href='" + link + type.getName() + "'> " + type.getName() + "</a>");
-
-                    fb.realLength = ("enum" + (getModifier(type).isEmpty()? "" : (getModifier(type))).length() + type.getName()).length();
+                    if(type.getName().equals("<unnamed-tag>"))
+                    {
+                        fb.type.append(new StringBuilder("enum"));
+                        printEnumFields(fb, type, indent);
+                        fb.realLength = ("}").length();
+                    }
+                    else
+                    {
+                        fb.type.append("enum" + (getModifier(type).isEmpty()? "" : (getModifier(type)))).append("<a class='str-link' tabindex='-1' href='" + link + type.getName() + "'> " + type.getName() + "</a>");
+                        fb.realLength = ("enum" + (getModifier(type).isEmpty()? "" : (getModifier(type))).length() + type.getName()).length();
+                    }
                 }
                 return fb;
             }
@@ -350,14 +375,11 @@ public class FieldBuilder
                     //size (hex)
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
-                    //???
-                    /// top-level union can't be without name!
-                    //fb.type.append(new StringBuilder((type.getName() != null)? ("union " +  type.getName() + "\n{") : "union\n{"));
-                    fb.type.append(new StringBuilder("union " +  type.getName() + "\n{"));
+                    fb.type.append(new StringBuilder("union " +  type.getName()));
 
                     printUnionFields(fb, type, repo, indent, rpOffset, link);
 
-                    fb.type.append(retIndent(indent) + "\n};");
+                    fb.type.append(";");
                 }
                 else
                 {
@@ -365,17 +387,11 @@ public class FieldBuilder
                     {
                         fb.type.append("union " + getModifier(type));
 
-                        if(type.getData() != null)
-                        {
-                            fb.type.append("\n").append(retIndent(indent)).append("{");
+                        printUnionFields(fb, type, repo, indent, rpOffset, link);
 
-                            printUnionFields(fb, type, repo, indent, rpOffset, link);
+                        //for case like "union {...} u;"
+                        fb.realLength ="}".length();
 
-                            fb.type.append("\n").append(retIndent(indent)).append("}");
-
-                            //for case like "union {...} u;"
-                            fb.realLength ="}".length();
-                        }
                     }
                     else
                     {
