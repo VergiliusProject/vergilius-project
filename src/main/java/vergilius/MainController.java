@@ -41,7 +41,6 @@ public class MainController{
 
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "login";
     }
@@ -54,7 +53,6 @@ public class MainController{
 
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "login";
     }
@@ -66,7 +64,6 @@ public class MainController{
 
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "admin";
     }
@@ -151,7 +148,6 @@ public class MainController{
         */
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "home";
     }
@@ -163,7 +159,6 @@ public class MainController{
 
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
@@ -178,7 +173,6 @@ public class MainController{
 
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "about";
     }
@@ -190,7 +184,6 @@ public class MainController{
 
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "kernels";
     }
@@ -204,7 +197,6 @@ public class MainController{
 
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         model.addAttribute("fam", fam);
 
@@ -221,11 +213,12 @@ public class MainController{
         model.addAttribute("unions", Ttype.FilterByTypes(reslist, Ttype.Kind.UNION));
         model.addAttribute("enums", Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM));
 
+        model.addAttribute("osfam", rep1.findFamilyByOsname(osname));
+
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
 
         return "ttype";
     }
@@ -263,9 +256,10 @@ public class MainController{
             mapInverted.put(i, os.get(i - 1).getOsname());
         }
 
+        model.addAttribute("osfam", rep1.findFamilyByOsname(osname));
+
         model.addAttribute("os", os);
         model.addAttribute("families", getListOfFamilies(os));
-        model.addAttribute("numberOfFamilies", getListOfFamilies(os).size());
         model.addAttribute("mapos", map);
         model.addAttribute("invertMapos", mapInverted);
 

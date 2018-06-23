@@ -13,11 +13,13 @@ block content
                 li.list-inline-item
                     a(href="/kernels" tabindex="-1") Kernels
                 li.list-inline-item
+                    a(href="/kernels/#{osfam}" tabindex="-1") #{osfam}
+                li.list-inline-item
                     a(href="/os/#{osname}" tabindex="-1") #{osname}
                 li.list-inline-item #{i.name}
     .container.indent
         .mainblock
-            p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 2px;")
+            p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 10px;")
                 | #{i.name}
             .row.bs-wizard(style='border-bottom:0;')
                 if invertMapos[mapos[osname]-1] == null

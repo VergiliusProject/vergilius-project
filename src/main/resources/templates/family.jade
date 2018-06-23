@@ -3,6 +3,7 @@ extends /partials/page
 block title
     title Vergilius Project
     -var selected = 'Family';
+    -var i = 0;
 block content
     .container
         .cmd
@@ -14,10 +15,31 @@ block content
                     a(href='/kernels' tabindex="-1") Kernels
                 li.list-inline-item #{famname}
     .container.indent
-        .mainblock
-            p(style='text-align: left; font-size: 33px; font-weight: 600') #{famname}
-            div
-                ul(type='none')
-                    for i in fam
-                        li: p
-                            a(href="/os/#{i.osname}" class='listos' tabindex="-1") #{i.idopersys} #{i.osname}
+        .mainblock(style="background: url(/images/fambacke.jpg);")
+            .col-lg-12(style="height: 655px;")
+                //h2.text-center(style="font-weight:900;") #{famname}
+                p(style='text-align: left; font-size: 33px; font-weight: 600') #{famname}
+                ul.timeline
+                    each a in fam
+                        if(i % 2 != 0)
+                            li(style="height: 55px; right: 15px;")
+                                .timeline-image
+                                    img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px')
+                                .timeline-panel(style="margin-right: 250px; padding-top: 28px; float: right;")
+                                    .timeline-heading
+                                        h4
+                                            a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.idopersys} #{a.osname}
+                                if(i < fam.size() - 1)
+                                    .smallline
+                                -var i=i+1
+                        else
+                            li.timeline-inverted(style="height: 55px; left: -90px;")
+                                .timeline-image
+                                    img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px')
+                                .timeline-panel(style="margin-top: 5px; margin-right: 100px; padding-top: 28px;")
+                                    .timeline-heading
+                                        h4
+                                            a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.idopersys} #{a.osname}
+                                if(i < fam.size() - 1)
+                                    .smallline
+                                -var i=i+1

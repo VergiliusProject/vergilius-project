@@ -48,9 +48,7 @@ public class Os{
     /* New fields*/
     private String family;
 
-    private int timestamp;
-
-    private String converted_date = convertTimestamptoDate(timestamp);
+    private long timestamp;
 
     public String convertTimestamptoDate(long timestamp)
     {
@@ -62,15 +60,8 @@ public class Os{
         return jdf.format(date);
     }
 
-    public void setConverted_date(String converted_date) {
-        this.converted_date = converted_date;
-    }
-
-    public String getConverted_date() {
-        return converted_date;
-    }
-
     public String getFamily() {
+
         return family;
     }
 
@@ -78,11 +69,11 @@ public class Os{
         this.family = family;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 }

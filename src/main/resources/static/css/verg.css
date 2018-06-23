@@ -145,8 +145,15 @@ blockquote, p {
     min-height: 675px;
     font-size: 18px;
     font-weight: 400;
-    padding: 10px 15px;
-    padding-bottom: 7px;
+    /*padding: 25px 15px;*/
+    padding-top: 20px;
+    padding-bottom: 25px;
+}
+.mainblock p.cap
+{
+    font-weight: 600;
+    font-size: 28px;
+    padding-left: 10px;
 }
 .maincross
 {
@@ -402,7 +409,8 @@ body, html {
     position: relative;
     float: left;
     width: 41%;
-    padding: 25px 20px 20px 30px;
+    /*padding: 25px 20px 20px 30px;*/
+    padding: 35px 30px 20px 20px;
     text-align: right;
 }
 
@@ -455,6 +463,7 @@ body, html {
     left: -14px;
     border-right-width: 14px;
     border-left-width: 0;
+
 }
 
 .timeline>li:last-child {
@@ -495,7 +504,7 @@ a.akern:hover
     position: absolute;
     top: 60px;
     bottom: 0;
-    left: 690px;
+    left: 640px; /*690*/
     width: 4px;
     height:340px;
     background-color: #03031f;
@@ -510,13 +519,40 @@ a.akern:hover
     position: absolute;
     top: 60px;
     bottom: 0;
-    left: 450px;
+    left: 370px; /*450*/
     width: 4px;
     height:340px;
     background-color:#03031f;
     -ms-transform: rotate(44deg); /* IE 9 */
     -webkit-transform: rotate(44deg); /* Safari */
     transform: rotate(44deg);
+    box-shadow: 0 0 5px #4582ec;
+}
+/*small line*/
+/*Style for even div.line*/
+.timeline>li:nth-child(odd) .smallline:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    bottom: 0;
+    left: 520px; /*690*/
+    width: 4px;
+    height:140px;
+    background-color: #03031f;
+    transform: rotate(-42deg);
+    box-shadow: 0 0 5px #4582ec;
+}
+/*Style for odd div.line*/
+.timeline>li:nth-child(even) .smallline:before  {
+    content: "";
+    position: absolute;
+    top: 35px;
+    bottom: 0;
+    left: 452px; /*450*/
+    width: 4px;
+    height:150px;
+    background-color:#03031f;
+    transform: rotate(45deg);
     box-shadow: 0 0 5px #4582ec;
 }
 

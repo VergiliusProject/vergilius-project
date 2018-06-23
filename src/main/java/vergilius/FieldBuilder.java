@@ -43,8 +43,7 @@ public class FieldBuilder
         }
         else
         {
-            //8 spaces
-            return "        " + "//0x";
+            return " //0x";
         }
     }
 
@@ -74,10 +73,10 @@ public class FieldBuilder
 
             for(int i = 0; i < enumData.size() - 1; i++)
             {
-                fb.type.append("\n" + retIndent(indent) + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + "," + retSpaces((enumData.get(i).getName() + " = " + enumData.get(i).getOffset()).length() + 1) + Integer.toHexString(enumData.get(i).getOffset()));
+                fb.type.append("\n" + retIndent(indent) + enumData.get(i).getName() + " = " + enumData.get(i).getOffset() + ",");
             }
 
-            fb.type.append("\n" + retIndent(indent) + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset() + retSpaces((enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset()).length())+ Integer.toHexString(enumData.get(enumData.size() - 1).getOffset()));
+            fb.type.append("\n" + retIndent(indent) + enumData.get(enumData.size() - 1).getName() + " = " + enumData.get(enumData.size() - 1).getOffset());
 
             fb.type.append(retIndent(--indent) + "\n}");
         }
@@ -105,9 +104,12 @@ public class FieldBuilder
 
                 fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";"); //string creation
 
+                //fb.type.append(retSpaces(retIndent(indent).length() +  field.toString().replaceAll("(<.+?>)", "").length() + 1) + Integer.toHexString(field.fbOffset));
+
                 //In cases when field.type includes html-link, we calculate the realLength in different way then the field.type doesn't include it
                 //If realLength == 0, it means that it haven't been calculated in some special way yet and a simple approach in else {} should be used,
                 //otherwise we calculate realLength without a length of html-link tags
+
 
                 if(field.realLength != 0)
                 {
@@ -118,6 +120,7 @@ public class FieldBuilder
                 {
                     //length calculation for pointers on some functions (cause we don't calculate it in case "FUNCTION")
                     //condition means that field's declaration contains at leat one link <a>...</a>
+                    //REMOVE IF!!!
                     if(field.args.toString().contains("<"))
                     {
                         field.args.toString().replaceAll("(<.+?>)", "");
@@ -125,6 +128,7 @@ public class FieldBuilder
                     //for all fields' declarations, where type doesn't include the link
                     fb.type.append(retSpaces(retIndent(indent).length() + field.toString().length() + ";".length()) + Integer.toHexString(field.fbOffset));
                 }
+
             }
             fb.type.append("\n").append(retIndent(--indent)).append("}");// braces are always on the same level with a word 'struct'
         }
@@ -172,6 +176,7 @@ public class FieldBuilder
                     }
                     //processing of the last iteration
                     // in union struct{...} s;
+
                     if(field.realLength != 0)
                     {
                         fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + + field.realLength + " ".length() + field.name.length()  +";".length()) + Integer.toHexString(field.fbOffset));
@@ -187,6 +192,7 @@ public class FieldBuilder
                 //a same offset between two fields means that they are the fields of the same union or the same structure
                 if(fields.get(i).getOffset() == fields.get(i + 1).getOffset())
                 {
+
                     if(field.realLength != 0)
                     {
                         //for unnamed struct
@@ -196,6 +202,7 @@ public class FieldBuilder
                     {
                         fb.type.append("\n" + retIndent(indent) + field.toString() + ";" + retSpaces(retIndent(indent).length() + field.toString().length() + ";".length()) + Integer.toHexString(field.fbOffset));
                     }
+
                 }
 
                 //a different offset and the fields aren't inside of structure
@@ -214,6 +221,7 @@ public class FieldBuilder
                     beginning = false;
 
                     fb.type.append("\n").append(retIndent(indent + 1)).append(field.toString() + ";" + retSpaces(retIndent(indent + 1).length() + field.toString().length() + ";".length())  + Integer.toHexString(field.fbOffset));
+
                     fb.type.append("\n").append(retIndent(indent)).append("};");
                 }
             }

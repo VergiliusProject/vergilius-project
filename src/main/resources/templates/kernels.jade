@@ -30,8 +30,8 @@ block content
                                     .timeline-body
                                         each b in os
                                             if a.toString() == (b.family).toString()
-                                                a(href="/os/#{b.osname}" class="akern" tabindex="-1") #{b.osname} (#{b.converted_date})
-                                if(i < numberOfFamilies-1)
+                                                a(href="/os/#{b.osname}" class="akern" tabindex="-1") #{b.osname} (#{b.convertTimestamptoDate(b.timestamp)})
+                                if(i < families.size()-1)
                                     .line
                                 -var i=i+1
                         else
@@ -46,7 +46,7 @@ block content
                                     .timeline-body
                                         each c in os
                                             if a.toString() == (c.family).toString()
-                                                a(href="/os/#{c.osname}" class="akern" tabindex="-1") #{c.osname} (#{c.converted_date})
-                                if(i < numberOfFamilies-1)
+                                                a(href="/os/#{c.osname}" class="akern" tabindex="-1") #{c.osname} (#{c.convertTimestamptoDate(c.timestamp)})
+                                if(i < families.size()-1)
                                     .line
                                 -var i=i+1
