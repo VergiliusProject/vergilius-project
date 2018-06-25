@@ -500,9 +500,9 @@ a.akern:hover
 .timeline>li:nth-child(odd) .line:before {
     content: "";
     position: absolute;
-    top: 60px;
+    top: 20%;
     bottom: 0;
-    left: 640px; /*690*/
+    left: 35%; /*690*/
     width: 4px;
     height:340px;
     background-color: #03031f;
@@ -515,9 +515,9 @@ a.akern:hover
 .timeline>li:nth-child(even) .line:before  {
     content: "";
     position: absolute;
-    top: 60px;
+    top: 20%;
     bottom: 0;
-    left: 370px; /*450*/
+    left: 56%; /*450*/
     width: 4px;
     height:340px;
     background-color:#03031f;
