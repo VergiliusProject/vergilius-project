@@ -145,9 +145,8 @@ blockquote, p {
     min-height: 675px;
     font-size: 18px;
     font-weight: 400;
-    /*padding: 25px 15px;*/
-    padding-top: 20px;
-    padding-bottom: 25px;
+    padding: 20px 15px 25px 15px;
+
 }
 .mainblock p.cap
 {
@@ -409,7 +408,6 @@ body, html {
     position: relative;
     float: left;
     width: 41%;
-    /*padding: 25px 20px 20px 30px;*/
     padding: 35px 30px 20px 20px;
     text-align: right;
 }
@@ -533,26 +531,26 @@ a.akern:hover
 .timeline>li:nth-child(odd) .smallline:before {
     content: "";
     position: absolute;
-    top: 5px;
+    top: 65%;
     bottom: 0;
-    left: 520px; /*690*/
+    left: 48%; /*690*/
     width: 4px;
-    height:140px;
+    height:95px;
     background-color: #03031f;
-    transform: rotate(-42deg);
+    transform: rotate(-48deg);
     box-shadow: 0 0 5px #4582ec;
 }
 /*Style for odd div.line*/
 .timeline>li:nth-child(even) .smallline:before  {
     content: "";
     position: absolute;
-    top: 35px;
+    top: 65%;
     bottom: 0;
-    left: 452px; /*450*/
+    left: 39%; /*450*/
     width: 4px;
-    height:150px;
+    height:100px;
     background-color:#03031f;
-    transform: rotate(45deg);
+    transform: rotate(44deg);
     box-shadow: 0 0 5px #4582ec;
 }
 

@@ -17,28 +17,27 @@ block content
     .container.indent
         .mainblock(style="background: url(/images/fambacke.jpg);")
             .col-lg-12(style="height: 655px;")
-                //h2.text-center(style="font-weight:900;") #{famname}
-                p(style='text-align: left; font-size: 33px; font-weight: 600') #{famname}
-                ul.timeline
+                h2.text-center(style="font-weight:900;") #{famname}
+                ul.timeline(style="height: 85%;")
                     each a in fam
                         if(i % 2 != 0)
-                            li(style="height: 55px; right: 15px;")
+                            li(style="height: 25%; left: 25%; width: 75%; padding-top: 25px; padding-bottom: 40px; margin-top: 5px; margin-bottom: 5px;")
                                 .timeline-image
-                                    img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px')
-                                .timeline-panel(style="margin-right: 250px; padding-top: 28px; float: right;")
-                                    .timeline-heading
-                                        h4
+                                    img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
+                                .timeline-panel(style="margin-right: 0px; margin-left: 5px; margin-top: 20px; padding: 10px; float: left; left:49%; width: 50%;")
+                                    .timeline-heading(style="width: 100%; right: 0px;")
+                                        h4(style="margin: 0px; text-align: left;")
                                             a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.idopersys} #{a.osname}
                                 if(i < fam.size() - 1)
                                     .smallline
                                 -var i=i+1
                         else
-                            li.timeline-inverted(style="height: 55px; left: -90px;")
+                            li.timeline-inverted(style="height: 25%; left: 10%; width: 90%; padding-top: 25px; padding-bottom: 40px; margin-top: 5px; margin-bottom: 5px;")
                                 .timeline-image
-                                    img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px')
-                                .timeline-panel(style="margin-top: 5px; margin-right: 100px; padding-top: 28px;")
-                                    .timeline-heading
-                                        h4
+                                    img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
+                                .timeline-panel(style="margin-right: 0px; margin-left: 5px; margin-top: 20px; padding: 10px; float: left; left:49%; width: 50%;")
+                                    .timeline-heading(style="width: 100%; right: 0px;")
+                                        h4(style="margin: 0px; text-align: left;")
                                             a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.idopersys} #{a.osname}
                                 if(i < fam.size() - 1)
                                     .smallline

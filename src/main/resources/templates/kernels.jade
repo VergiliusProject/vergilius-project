@@ -16,18 +16,18 @@ block content
         .mainblock(style="background: url(/images/blackspace.png);")
             .col-lg-12
                 h2.text-center(style="font-weight:900;") To the depths of kernel...
-                ul.timeline
+                ul.timeline(style="border: solid 2px red;")
                     each a in families
                         if(i % 2 != 0)
-                            li
+                            li(style="border: solid 2px red;")
                                 .timeline-image
                                     img.img-circle.img-responsive(src='/images/edit.gif', alt='', width='185px', height='188px')
-                                .timeline-panel
-                                    .timeline-heading
+                                .timeline-panel(style="border: solid 2px red;")
+                                    .timeline-heading(style="border: solid 2px red;")
                                         h4
                                             a(href="/kernels/#{a}" tabindex="-1") #{a}
                                         //h4.subheading year: 1234
-                                    .timeline-body
+                                    .timeline-body(style="border: solid 2px red;")
                                         each b in os
                                             if a.toString() == (b.family).toString()
                                                 a(href="/os/#{b.osname}" class="akern" tabindex="-1") #{b.osname} (#{b.convertTimestamptoDate(b.timestamp)})
@@ -35,15 +35,15 @@ block content
                                     .line
                                 -var i=i+1
                         else
-                            li.timeline-inverted
+                            li.timeline-inverted(style="border: solid 2px red;")
                                 .timeline-image
                                     img.img-circle.img-responsive(src='/images/edit.gif', alt='', width='185px', height='188px')
                                 .timeline-panel
-                                    .timeline-heading
+                                    .timeline-heading(style="border: solid 2px red;")
                                         h4
                                             a(href="/kernels/#{a}" tabindex="-1") #{a}
                                         //h4.subheading year: 1234
-                                    .timeline-body
+                                    .timeline-body(style="border: solid 2px red;")
                                         each c in os
                                             if a.toString() == (c.family).toString()
                                                 a(href="/os/#{c.osname}" class="akern" tabindex="-1") #{c.osname} (#{c.convertTimestamptoDate(c.timestamp)})
