@@ -18,7 +18,7 @@ block content
                     a(href="/os/#{osname}" tabindex="-1") #{osname}
                 li.list-inline-item #{i.name}
     .container.indent
-        .mainblock
+        .mainblock(style="min-height: 200px;")
             p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 10px;")
                 | #{i.name}
             .row.bs-wizard(style='border-bottom:0;')
@@ -61,23 +61,25 @@ block content
                 (function () {
                     new Clipboard('#copy-button');
                 })();
-            #outer
+            #outer(style="min-height: 200px;")
                 //escaping, changed from "#"
-                pre
-                    code(class="c")
+                pre(style="margin-bottom: 0px; min-height: 200px;")
+                    code(class="c" style="min-height: 200px;")
                         button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
                         if(ttype == null)
                             .nothing
                                 |Such structure doesn't exist in chosen version of the kernel...
                                 |Or we just have forgotten to add it to our database.
                         else
-                            div#copyblock !{ttype}
+                            div#copyblock(style="min-height: 200px;") !{ttype}
         if(cros != null)
-            .maincross
-                h5(style="font-weight:800;") Related kernel's structures:
+            .maincross(style="min-height: 140px;")
+                h4(style="font-weight:800;") Used in ...
                 div
                     ul(type='none')
-                        for i in cros
-                            li: p
-                                a(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i}
+                        li
+                            for i in cros
+                                //li: p
+                                    a.related(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i}
+                                a.related(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i} &nbsp;
 

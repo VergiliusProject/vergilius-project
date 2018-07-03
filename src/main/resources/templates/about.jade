@@ -5,9 +5,15 @@ block title
     -var selected = 'About';
 block content
     .container
-        .cmd(style="height:370px; margin-top: 85px;")
+        .cmd(style="width: 1078px; margin-left: 16px;")
+            ul.list-inline.breadcrumb(type='none')
+                li.list-inline-item
+                    | >
+                    a(href='/' tabindex="-1")  Home
+                li.list-inline-item About
+        .cmd(style="height:370px; margin-top:3px;")
             img(src='/images/man.jpg' width='1078px' height='350px' style="filter:grayscale(20%); border: solid 2px #262633; border-radius: 0.6rem")
-            h1.hero-text(style="text-align:center; font-weight:800; left:50%; top: 51%; font-size: 65px; color:#e6b36b; text-shadow: 0 0 30px #420f11;") VERGILIUS PROJECT
+            h1.hero-text(style="text-align:center; font-weight:800; left:50%; top: 58%; font-size: 65px; color:#e6b36b; text-shadow: 0 0 30px #420f11;") VERGILIUS PROJECT
     .container.indent
         .mainblock(style="width:1080px; margin-left: 15px; margin-bottom: 20px;")
             .addon

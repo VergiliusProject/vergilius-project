@@ -1,12 +1,11 @@
 package vergilius;
 
 import java.io.*;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.devtools.restart.classloader.ClassLoaderFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -15,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.introspector.BeanAccess;
 import vergilius.repos.TdataRepository;
 import vergilius.repos.OsRepository;
 import vergilius.repos.TtypeRepository;
@@ -228,26 +225,47 @@ public class MainController{
     {
         Os opersys = rep1.findByOsname(osname);
 
-        //Ttype typeslist = rep2.findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(name, opersys);
-        Ttype typeslist = rep2.findByNameAndOpersys(name, opersys);
         String link = "/os/" + osname + "/type/";
 
+        List<Ttype> typeslist = rep2.findByNameAndOpersys(name, opersys);
+
+        //NOT EMPTY?
         if(typeslist != null)
         {
-            model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist, 0, 0, link).toString());
-            List<Ttype> used_in = rep2.findById(typeslist.getIdtype());
+            model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist.get(0), 0, 0, link).toString());
+
+            //search for cross-links
+            List<Ttype> used_in = new ArrayList<>();
+
+            for(Ttype i: typeslist)
+            {
+                used_in.addAll(rep2.findById1(i.getIdtype()));
+                used_in.addAll(rep2.findById2(i.getIdtype()));
+                used_in.addAll(rep2.findById3(i.getIdtype()));
+                used_in.addAll(rep2.findById4(i.getIdtype()));
+            }
 
             List<String> used_in_names = new ArrayList<>();
             for (Ttype i : used_in)
             {
-                if(i != null && i.getName() != null) used_in_names.add(i.getName());
+                used_in_names.add(i.getName());
             }
 
-            if(used_in_names.isEmpty()) used_in_names = null;
+            if (!used_in_names.isEmpty())
+            {
+                Stream<String> stream = used_in_names.stream().distinct();
+                used_in_names = stream.sorted().collect(Collectors.toList());
+            }
+            else
+            {
+                used_in_names = null;
+            }
             model.addAttribute("cros", used_in_names);
+            //System.out.println(used_in_names.size());
         }
         List<Os> os = getListOs();
 
+        //change "8" on size
         Map<String, Integer> map = new HashMap<>();
         Map<Integer, String> mapInverted = new HashMap<>();
         for(int i = 1; i <= 8; i++)
@@ -265,6 +283,5 @@ public class MainController{
 
         return "tdata";
     }
-
 }
 

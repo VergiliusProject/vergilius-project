@@ -21,10 +21,10 @@ block content
                 ul.timeline(style="height: 85%;")
                     each a in fam
                         if(i % 2 != 0)
-                            li(style="height: 25%; left: 25%; width: 75%; padding-top: 25px; padding-bottom: 40px; margin-top: 5px; margin-bottom: 5px;")
+                            li.small_li
                                 .timeline-image
                                     img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
-                                .timeline-panel(style="margin-right: 0px; margin-left: 5px; margin-top: 20px; padding: 10px; float: left; left:49%; width: 50%;")
+                                .timeline-panel.panel
                                     .timeline-heading(style="width: 100%; right: 0px;")
                                         h4(style="margin: 0px; text-align: left;")
                                             a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.idopersys} #{a.osname}
@@ -32,10 +32,10 @@ block content
                                     .smallline
                                 -var i=i+1
                         else
-                            li.timeline-inverted(style="height: 25%; left: 10%; width: 90%; padding-top: 25px; padding-bottom: 40px; margin-top: 5px; margin-bottom: 5px;")
+                            li.timeline-inverted.small_li
                                 .timeline-image
                                     img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
-                                .timeline-panel(style="margin-right: 0px; margin-left: 5px; margin-top: 20px; padding: 10px; float: left; left:49%; width: 50%;")
+                                .timeline-panel.panel
                                     .timeline-heading(style="width: 100%; right: 0px;")
                                         h4(style="margin: 0px; text-align: left;")
                                             a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.idopersys} #{a.osname}

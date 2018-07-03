@@ -295,7 +295,8 @@ public class FieldBuilder
                     //size of structure in hex format
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
-                    fb.type.append(getModifier(type).isEmpty()? "" : (getModifier(type) + " ")).append("struct" + " " +  type.getName());
+                    //fb.type.append(getModifier(type).isEmpty()? "" : (getModifier(type) + " ")).append("struct" + " " +  type.getName());
+                    fb.type.append("struct" + " " +  type.getName());
 
                     printStructFields(fb, type, repo, indent, rpOffset, link);
                     fb.type.append(";");
@@ -363,7 +364,8 @@ public class FieldBuilder
                 {
                     if(type.getName().equals("<unnamed-tag>"))
                     {
-                        fb.type.append("union " + getModifier(type));
+                        //fb.type.append("union " + getModifier(type));
+                        fb.type.append(getModifier(type) + "union");
 
                         printUnionFields(fb, type, repo, indent, rpOffset, link);
 

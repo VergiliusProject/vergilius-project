@@ -146,7 +146,6 @@ blockquote, p {
     font-size: 18px;
     font-weight: 400;
     padding: 20px 15px 25px 15px;
-
 }
 .mainblock p.cap
 {
@@ -347,7 +346,8 @@ body, html {
     /* The image used */
     background: url("/images/bigback.jpg");
     background-color: #040c13;
-    min-height: 710px;
+    min-height: 800px;
+    margin-top: 70px;
     /* Set a specific height */
     height: 50%;
 
@@ -362,7 +362,7 @@ body, html {
 .hero-text {
     text-align: right;
     position: absolute;
-    top: 55%;
+    top: 50%;
     left: 23%;
     transform: translate(-50%, -50%);
     color: white;
@@ -527,17 +527,59 @@ a.akern:hover
     box-shadow: 0 0 5px #4582ec;
 }
 /*small line*/
+
+.timeline > li.small_li
+{
+    height: 25%;
+    left: 16%;
+    width: 75%;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.timeline > li.timeline-inverted.small_li
+{
+    height: 25%;
+    left: 3%;
+    width: 90%;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+li.small_li > .timeline-panel.panel
+{
+    margin-right: 0px;
+    margin-left: 5px;
+    margin-top: 20px;
+    padding: 10px;
+    float: left;
+    left:49%;
+    width: 50%;
+}
+li.timeline-inverted.small_li > .timeline-panel.panel
+{
+    margin-right: 0px;
+    margin-left: 5px;
+    margin-top: 20px;
+    padding: 10px;
+    float: left;
+    left:49%;
+    width: 50%;
+}
+
 /*Style for even div.line*/
 .timeline>li:nth-child(odd) .smallline:before {
     content: "";
     position: absolute;
     top: 65%;
     bottom: 0;
-    left: 48%; /*690*/
+    left: 47%; /*690*/
     width: 4px;
-    height:95px;
+    height:100px;
     background-color: #03031f;
-    transform: rotate(-48deg);
+    transform: rotate(-36deg);
     box-shadow: 0 0 5px #4582ec;
 }
 /*Style for odd div.line*/
@@ -550,7 +592,7 @@ a.akern:hover
     width: 4px;
     height:100px;
     background-color:#03031f;
-    transform: rotate(44deg);
+    transform: rotate(35deg);
     box-shadow: 0 0 5px #4582ec;
 }
 
@@ -823,4 +865,10 @@ strong {
     font-size: 20px; font-weight: 600;
     color: white;
     text-align: left;
+}
+.related
+{
+    font-size: 18px;
+    display: inline-block;
+    font-weight: 600;
 }
