@@ -230,7 +230,7 @@ public class MainController{
         List<Ttype> typeslist = rep2.findByNameAndOpersys(name, opersys);
 
         //NOT EMPTY?
-        if(typeslist != null)
+        if(typeslist != null && !typeslist.isEmpty())
         {
             model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist.get(0), 0, 0, link).toString());
 

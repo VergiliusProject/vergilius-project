@@ -3,6 +3,7 @@ extends /partials/page
 block title
     title Vergilius Project
     -var selected = 'Kernels';
+    -var a = 0;
 block content
     .container
         .cmd
@@ -61,10 +62,10 @@ block content
                 (function () {
                     new Clipboard('#copy-button');
                 })();
-            #outer(style="min-height: 200px;")
+            #outer(style="min-height: 300px;")
                 //escaping, changed from "#"
-                pre(style="margin-bottom: 0px; min-height: 200px;")
-                    code(class="c" style="min-height: 200px;")
+                pre(style="margin-bottom: 0px; min-height: 300px;")
+                    code(class="c" style="min-height: 300px;")
                         button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
                         if(ttype == null)
                             .nothing
@@ -74,12 +75,15 @@ block content
                             div#copyblock(style="min-height: 200px;") !{ttype}
         if(cros != null)
             .maincross(style="min-height: 140px;")
-                h4(style="font-weight:800;") Used in ...
-                div
+                h4(style="font-weight:800; padding-left: 10px; color:#1CC1CC;") Used in ...
+                div(style="padding-left: 20px;")
                     ul(type='none')
                         li
                             for i in cros
                                 //li: p
                                     a.related(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i}
-                                a.related(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i} &nbsp;
+                                a.related(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i}
+                                if(a != cros.size() - 1)
+                                    - var a = a + 1
+                                    | ,&nbsp;
 
