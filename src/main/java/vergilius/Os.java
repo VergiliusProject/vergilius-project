@@ -42,7 +42,6 @@ public class Os{
     public String toString()
     {
         return "" + getIdopersys();
-
     }
 
     /* New fields*/

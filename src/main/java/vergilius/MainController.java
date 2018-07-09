@@ -229,7 +229,6 @@ public class MainController{
 
         List<Ttype> typeslist = rep2.findByNameAndOpersys(name, opersys);
 
-        //NOT EMPTY?
         if(typeslist != null && !typeslist.isEmpty())
         {
             model.addAttribute("ttype", FieldBuilder.recursionProcessing(rep2, typeslist.get(0), 0, 0, link).toString());
@@ -253,22 +252,20 @@ public class MainController{
 
             if (!used_in_names.isEmpty())
             {
-                Stream<String> stream = used_in_names.stream().distinct();
-                used_in_names = stream.sorted().collect(Collectors.toList());
+                //Stream<String> stream = used_in_names.stream().distinct();
+                used_in_names = used_in_names.stream().distinct().sorted().collect(Collectors.toList());
             }
             else
             {
                 used_in_names = null;
             }
             model.addAttribute("cros", used_in_names);
-            //System.out.println(used_in_names.size());
         }
         List<Os> os = getListOs();
 
-        //change "8" on size
         Map<String, Integer> map = new HashMap<>();
         Map<Integer, String> mapInverted = new HashMap<>();
-        for(int i = 1; i <= 8; i++)
+        for(int i = 1; i <= os.size(); i++)
         {
             map.put(os.get(i - 1).getOsname(), i);
             mapInverted.put(i, os.get(i - 1).getOsname());
