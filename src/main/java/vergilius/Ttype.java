@@ -1,7 +1,9 @@
 package vergilius;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -31,13 +33,9 @@ public class Ttype {
     @Enumerated(EnumType.STRING)
     private Kind kind;
 
-    //@Column(name="const", columnDefinition = "tinyint default 1")
-    //@Column(name="const", columnDefinition = "boolean default false")
     @Column(name="const")
     private Boolean isConst = false;
 
-    //@Column(name="volatile", columnDefinition = "tinyint(1) default 1")
-    //@Column(name="volatile", columnDefinition = "boolean default false")
     @Column(name="volatile")
     private Boolean isVolatile = false;
 
@@ -109,7 +107,6 @@ public class Ttype {
     }
 
     public boolean isIsConst() {
-        //return isConst == null? false: true;
         return (isConst == null || isConst == false)? false: true;
     }
 

@@ -8,7 +8,9 @@ import java.util.Set;
 @Entity
 public class Os{
     @Id
-    private Integer idopersys;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    //@Column(updatable = false, nullable = false, unique = true)
+    private int idopersys;
 
     private String osname;
 
@@ -31,6 +33,7 @@ public class Os{
         this.osname = osname;
     }
 
+
     public Set<Ttype> getTypes() {
         return ttypes;
     }
@@ -39,15 +42,30 @@ public class Os{
         this.ttypes = ttypes;
     }
 
-    public String toString()
-    {
-        return "" + getIdopersys();
-    }
 
-    /* New fields*/
     private String family;
 
     private long timestamp;
+
+    private String buildnumber;
+
+    private int ordinal;
+
+    public int getOrdinal() {
+        return ordinal;
+    }
+
+    public void setOrdinal(int ordinal) {
+        this.ordinal = ordinal;
+    }
+
+    public String getBuildnumber() {
+        return buildnumber;
+    }
+
+    public void setBuildnumber(String buildnumber) {
+        this.buildnumber = buildnumber;
+    }
 
     public String convertTimestamptoDate(long timestamp)
     {

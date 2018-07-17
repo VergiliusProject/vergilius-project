@@ -3,7 +3,6 @@ package vergilius;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.yaml.snakeyaml.Yaml;
+
+import org.yaml.snakeyaml.introspector.BeanAccess;
 import vergilius.repos.TdataRepository;
 import vergilius.repos.OsRepository;
 import vergilius.repos.TtypeRepository;
@@ -70,35 +72,37 @@ public class MainController{
                                    RedirectAttributes redirectAttributes) {
 
         try(InputStream res = file.getInputStream()) {
-/*
+
             Yaml yaml = new Yaml();
             yaml.setBeanAccess(BeanAccess.FIELD);
-            RootOs fromYaml = yaml.loadAs(res, RootOs.class);
-            List<Os> mylist = fromYaml.getOpersystems();
-            rep1.save(mylist);
-*/
-/*
-            Yaml yaml = new Yaml();
-            yaml.setBeanAccess(BeanAccess.FIELD);
-            Root fromYaml = yaml.loadAs(res, Root.class);
+            Root root = yaml.loadAs(res, Root.class);
 
-            List<Ttype> obj = fromYaml.getTypes();
+            Os os = new Os();
 
-            for(int i = 0; i < obj.size(); i++)
+            os.setOsname(root.getOsname());
+            os.setFamily(root.getFamily());
+            os.setTimestamp(root.getTimestamp());
+            os.setBuildnumber(root.getBuildnumber());
+            os.setOrdinal(root.getOrdinal());
+
+            List<Ttype> types = root.getTypes();
+
+            for(Ttype type: types)
             {
-                Set<Tdata> tmp = obj.get(i).getData();
+                type.setOpersys(os);
+                Set<Tdata> datas = type.getData();
 
-                if(tmp != null)
+                if(datas != null)
                 {
-                    Iterator<Tdata> iter = tmp.iterator();
-                    while (iter.hasNext()) {
-                        Tdata record = iter.next();
-                        record.setTtype(obj.get(i));
+                    for(Tdata data: datas)
+                    {
+                        data.setTtype(type);
                     }
                 }
             }
-            rep2.save(obj);
-*/
+            os.setTypes(new HashSet<>(types));
+            rep1.save(os);
+
         }
         catch(IOException e){}
 
