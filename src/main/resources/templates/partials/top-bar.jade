@@ -2,7 +2,8 @@ nav.site-header
     .site-header__container.header-sticky
         .logoblock
             a.header-logo__image(href='/' tabindex="-1")
-            h1.title VERGILIUS
+            h1.title
+                a.title(href="/" tabindex="-1") VERGILIUS
         ul.site-header__links
             if selected == "Home"
                 li
@@ -10,26 +11,72 @@ nav.site-header
             else
                 li
                     a.header-link(href='/' tabindex="-1") Home
-            if selected == "Kernels"
+            if selected == "Kernelsx86"
+                li
+                    .dropdown
+                        button.dropbtn(tabindex="-1")
+                            a.header-link.active(href='/kernelsx86' tabindex="-1") Kernels x86
+                        .dropdown-content
+                            ul(type='none')
+                                for i in fam86
+                                    li: p
+                                        a.drp(href="/kernelsx86/#{i}") #{i}
+            else
+                li
+                    .dropdown
+                        button.dropbtn(tabindex="-1")
+                            a.header-link(href='/kernelsx86' tabindex="-1") Kernels x86
+                        .dropdown-content
+                            ul(type='none')
+                                for i in fam86
+                                    li: p(style="margin-bottom: 5px;")
+                                        a.drp(href="/kernelsx86/#{i}" style="margin: 10px 5px; padding: 8px 4px; width: 150px;") #{i}
+            if selected == "Kernelsx64"
+                li
+                    .dropdown
+                        button.dropbtn(tabindex="-1")
+                            a.header-link.active(href='/kernelsx64' tabindex="-1") Kernels x64
+                        .dropdown-content
+                            ul(type='none')
+                                for i in fam64
+                                    li: p
+                                        a.drp(href="/kernelsx64/#{i}") #{i}
+            else
+                li
+                    .dropdown
+                        button.dropbtn(tabindex="-1")
+                            a.header-link(href='/kernelsx64' tabindex="-1") Kernels x64
+                        .dropdown-content
+                            ul(type='none')
+                                for i in fam64
+                                    li: p(style="margin-bottom: 5px;")
+                                        a.drp(href="/kernelsx64/#{i}" style="margin: 10px 5px; padding: 8px 4px; width: 150px;") #{i}
+            //if selected == "Kernels"
                 li
                     .dropdown
                         button.dropbtn(tabindex="-1")
                             a.header-link.active(href='/kernels' tabindex="-1") Kernels
                         .dropdown-content
                             ul(type='none')
-                                for i in families
+                                for i in fam64
                                     li: p
                                         a.drp(href="/kernels/#{i}") #{i}
-            else
+            //else
                 li
                     .dropdown
                         button.dropbtn(tabindex="-1")
                             a.header-link(href='/kernels' tabindex="-1") Kernels
-                        .dropdown-content
-                            ul(type='none')
-                                for i in families
-                                    li: p
-                                        a.drp(href="/kernels/#{i}") #{i}
+                        .dropdown-content(style="width: 300px; font-size: 15px;")
+                            .div(style="position: absolute;")
+                                ul(type='none')
+                                    for i in fam86
+                                        li: p(style="margin-bottom: 5px;")
+                                            a.drp(href="/kernels/#{i}" style="margin: 10px 5px; padding: 8px 4px; width: 150px;") #{i}
+                            .div(style="position absolute; float: left; margin-left: 150px; width: 100px; height: 200px; display: block;")
+                                ul(type='none')
+                                    for i in fam64
+                                        li: p(style="margin-bottom: 5px;")
+                                            a.drp(href="/kernels/#{i}") #{i}
             if selected == "About"
                 li
                     a.header-link.active(href='/about' tabindex="-1") About

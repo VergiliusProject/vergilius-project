@@ -49,15 +49,7 @@ public class Os{
 
     private String buildnumber;
 
-    private int ordinal;
-
-    public int getOrdinal() {
-        return ordinal;
-    }
-
-    public void setOrdinal(int ordinal) {
-        this.ordinal = ordinal;
-    }
+    private String arch;
 
     public String getBuildnumber() {
         return buildnumber;
@@ -67,7 +59,15 @@ public class Os{
         this.buildnumber = buildnumber;
     }
 
-    public String convertTimestamptoDate(long timestamp)
+    public String getArch() {
+        return arch;
+    }
+
+    public void setArch(String arch) {
+        this.arch = arch;
+    }
+
+    public String convertTimestampToDate(long timestamp)
     {
         //convert seconds to milliseconds
         Date date = new Date(timestamp*1000L);

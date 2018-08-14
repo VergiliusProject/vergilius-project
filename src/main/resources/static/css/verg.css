@@ -136,6 +136,8 @@ p {
 }
 blockquote, p {
     line-height:1.7rem;
+    font-weight: 600;
+    color: #1CC1CC;
 }
 
 .mainblock {
@@ -176,7 +178,7 @@ blockquote, p {
     background-repeat: no-repeat;
     border: none;
 }
-h1.title
+h1.title, a.title
 {
     font-size: 50px;
     font-weight: 900;
@@ -187,6 +189,11 @@ h1.title
     display: inline-block;
     margin-bottom: 0px;
     line-height: 54px;
+}
+a.title:hover
+{
+    text-decoration: none;
+    color: #f6f1a3;
 }
 .logoblock
 {
@@ -489,7 +496,7 @@ body, html {
 .akern{
     margin-bottom: 0;
     color: #ea6c2c;
-    display: inline-block;
+    /*display: inline-block;*/
     width: 320px;
 }
 a.akern:hover
@@ -876,4 +883,63 @@ strong {
 a.related
 {
     padding-left: 5px;
+}
+.footer-row
+{
+    /*background-color: rgba(1, 1, 10, 0.9) !important;*/
+    background-color: #141422 !important;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 700;
+}
+.site-footer ul li, .site-header__links li
+{
+    display: list-item;
+}
+a.foo-link
+{
+    color: #e0cd61;
+}
+a.foo-link:hover
+{
+    color: #e0cd61;
+}
+h5.foo
+{
+    font-weight: 700;
+    text-align: left;
+    color: #1CC1CC;
+}
+.galax
+{
+    width: 300px;
+    height: 300px;
+    margin-top: 115px;
+    margin-bottom: 5px;
+    border: double black 8px;
+    border-radius: 100%;
+    position: relative;
+    margin-left: 28px;
+}
+.hero-galax
+{
+    /*border: solid 2px red;*/
+    position: absolute;
+    left: 38%;
+    top: 56%;
+    z-index: 1000;
+    /*color: #d81032;*/
+    color: #f5f5f5;
+    text-align: center;
+    /*text-shadow: 0 0 8px black;*/
+    text-shadow: 1px 1px 1px black, 0 0 15px darkred, 0 0 5px red;
+    width: 30%;
+}
+a.gal
+{
+    color: #f5f5f5;
+}
+a.gal:hover
+{
+    color: #f5f5f5;
 }

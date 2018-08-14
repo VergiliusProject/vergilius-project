@@ -39,7 +39,9 @@ public class MainController{
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
         return "login";
     }
@@ -51,7 +53,9 @@ public class MainController{
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
         return "login";
     }
@@ -62,7 +66,9 @@ public class MainController{
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
         return "admin";
     }
@@ -83,7 +89,7 @@ public class MainController{
             os.setFamily(root.getFamily());
             os.setTimestamp(root.getTimestamp());
             os.setBuildnumber(root.getBuildnumber());
-            os.setOrdinal(root.getOrdinal());
+            os.setArch(root.getArch());
 
             List<Ttype> types = root.getTypes();
 
@@ -121,7 +127,7 @@ public class MainController{
         }
         return listOfOperSystems;
     }
-
+/*
     public List<String> getListOfFamilies(List<Os> opers)
     {
         List<String> fam = new ArrayList<>(); // set allows only unique elements -> CHANGE LATER
@@ -134,21 +140,17 @@ public class MainController{
         }
         return fam;
     }
-
+*/
     @GetMapping("/")
     public String displayHome(Model model)
     {
         List<Os> os = getListOs();
-        //kostyl na vremya
-        /*
-        for(Os i: os)
-        {
-           i.setConverted_date(i.convertTimestamptoDate(i.getTimestamp()));
-        }
-        rep1.save(os);
-        */
+
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
         return "home";
     }
@@ -159,7 +161,9 @@ public class MainController{
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
@@ -173,9 +177,24 @@ public class MainController{
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
         return "about";
+    }
+
+    @GetMapping("/arch")
+    public String displayVersion(Model model)
+    {
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
+
+        return "arch";
     }
 
     @GetMapping("/kernels")
@@ -184,9 +203,36 @@ public class MainController{
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
         return "kernels";
+    }
+
+    @GetMapping("/kernelsx86")
+    public String displaySpacex86(Model model)
+    {
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
+
+        return "kernelsx86";
+    }
+    @GetMapping("/kernelsx64")
+    public String displaySpacex64(Model model)
+    {
+        List<Os> os = getListOs();
+
+        model.addAttribute("os", os);
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
+
+        return "kernelsx64";
     }
 
     @RequestMapping(value="/kernels/{famname:.+}")
@@ -197,9 +243,11 @@ public class MainController{
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
-        model.addAttribute("fam", fam);
+        model.addAttribute("fam", fam); //WHAT IS IT??????????
 
         return "family";
     }
@@ -210,20 +258,22 @@ public class MainController{
         Os opersys = rep1.findByOsname(osname);
         List<Ttype> reslist = rep2.findByOpersysAndIsConstFalseAndIsVolatileFalse(opersys);
 
-        model.addAttribute("structs", Ttype.FilterByTypes(reslist, Ttype.Kind.STRUCT));
-        model.addAttribute("unions", Ttype.FilterByTypes(reslist, Ttype.Kind.UNION));
-        model.addAttribute("enums", Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM));
+        model.addAttribute("structs", Sorter.sortByName(Ttype.FilterByTypes(reslist, Ttype.Kind.STRUCT)));
+        model.addAttribute("unions", Sorter.sortByName(Ttype.FilterByTypes(reslist, Ttype.Kind.UNION)));
+        model.addAttribute("enums", Sorter.sortByName(Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM)));
 
         model.addAttribute("osfam", rep1.findFamilyByOsname(osname));
 
         List<Os> os = getListOs();
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
 
         return "ttype";
     }
-
+    /* FieldBuilder!!! */
     @RequestMapping(value = "/os/{osname:.+}/type/{name}", method = RequestMethod.GET)
     public String displayType(@PathVariable String osname,@PathVariable String name, Model model)
     {
@@ -278,7 +328,9 @@ public class MainController{
         model.addAttribute("osfam", rep1.findFamilyByOsname(osname));
 
         model.addAttribute("os", os);
-        model.addAttribute("families", getListOfFamilies(os));
+        //model.addAttribute("families", getListOfFamilies(os));
+        model.addAttribute("fam86", rep1.findByArch("x86"));
+        model.addAttribute("fam64", rep1.findByArch("x64"));
         model.addAttribute("mapos", map);
         model.addAttribute("invertMapos", mapInverted);
 

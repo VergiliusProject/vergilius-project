@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         http.csrf().disable();
         http
             .authorizeRequests()
-                .antMatchers("/", "/os/{osname:.+}", "/os/{osname:.+}/type/{name}", "/about", "/kernels", "/kernels/{famname:.+}").permitAll()
+                .antMatchers("/", "/os/{osname:.+}", "/os/{osname:.+}/type/{name}", "/about", "/kernels", "/kernelsx86", "/kernelsx86/{famname:.+}", "/kernelsx64", "/kernelsx64/{famname:.+}","/arch", "/kernels/{famname:.+}").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

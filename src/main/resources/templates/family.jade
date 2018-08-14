@@ -16,29 +16,39 @@ block content
                 li.list-inline-item #{famname}
     .container.indent
         .mainblock(style="background: url(/images/fambacke.jpg);")
-            .col-lg-12(style="height: 655px;")
-                h2.text-center(style="font-weight:900;") #{famname}
-                ul.timeline(style="height: 85%;")
+            .col-lg-12
+                h2.text-center(style="font-weight:900; margin-bottom: 0px; margin-top: 8px;") #{famname}
+                ul.timeline(style="margin-top: 1px;")
                     each a in fam
                         if(i % 2 != 0)
-                            li.small_li
-                                .timeline-image
-                                    img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
-                                .timeline-panel.panel
+                            li.small_li(style="height: 130px;")
+                                a(href="/os/#{a.osname}" class='listos' tabindex="-1" style="display: inline-block;")
+                                    .timeline-image
+                                        img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
+                                .timeline-panel.panel(style="margin-top: 10px; padding-top: 5px;")
                                     .timeline-heading(style="width: 100%; right: 0px;")
                                         h4(style="margin: 0px; text-align: left;")
-                                            a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.idopersys} #{a.osname}
+                                            a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.family} #{a.osname}
+                                    p(style="text-align: justify;")
+                                        |build number: #{a.buildnumber}
+                                        br
+                                        |build date: #{a.convertTimestampToDate(a.timestamp)}
                                 if(i < fam.size() - 1)
                                     .smallline
                                 -var i=i+1
                         else
-                            li.timeline-inverted.small_li
-                                .timeline-image
-                                    img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
-                                .timeline-panel.panel
+                            li.timeline-inverted.small_li(style="height: 130px;")
+                                a(href="/os/#{a.osname}" class='listos' tabindex="-1" style="display: inline-block;")
+                                    .timeline-image
+                                        img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
+                                .timeline-panel.panel(style="margin-top: 10px; padding-top: 5px;")
                                     .timeline-heading(style="width: 100%; right: 0px;")
                                         h4(style="margin: 0px; text-align: left;")
-                                            a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.idopersys} #{a.osname}
+                                            a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.family} #{a.osname}
+                                    p(style="text-align: justify;")
+                                        |build number: #{a.buildnumber}
+                                        br
+                                        |build date: #{a.convertTimestampToDate(a.timestamp)}
                                 if(i < fam.size() - 1)
                                     .smallline
                                 -var i=i+1

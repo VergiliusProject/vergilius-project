@@ -10,7 +10,7 @@ public class Root {
 
     private String buildnumber;
 
-    private int ordinal;
+    private String arch;
 
     public String getOsname() {
         return osname;
@@ -37,12 +37,12 @@ public class Root {
         this.family = family;
     }
 
-    public int getOrdinal() {
-        return ordinal;
+    public void setArch(String arch) {
+        this.arch = arch;
     }
 
-    public void setOrdinal(int ordinal) {
-        this.ordinal = ordinal;
+    public String getArch() {
+        return arch;
     }
 
     public String getBuildnumber() {

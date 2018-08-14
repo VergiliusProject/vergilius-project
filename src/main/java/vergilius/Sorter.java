@@ -12,4 +12,10 @@ public class Sorter {
         Comparator<Tdata> byOrdinal = (e1, e2) -> Integer.compare(e1.getOrdinal(), e2.getOrdinal());
         return set.stream().sorted(byOrdinal).collect(Collectors.toList());
     }
+    public static List<Ttype> sortByName(List<Ttype> list)
+    {
+        Comparator<Ttype> byName = Comparator.comparing(Ttype::getName);
+        return list.stream().sorted(byName).collect(Collectors.toList());
+    }
+
 }
