@@ -13,7 +13,9 @@ block content
                 li.list-inline-item
                     a(href="/kernels" tabindex="-1") Kernels
                 li.list-inline-item
-                    a(href="/kernels/#{osfam}" tabindex="-1") #{osfam}
+                    a(href="/kernels/#{arch}" tabindex="-1") #{arch}
+                li.list-inline-item
+                    a(href="/kernels/#{arch}/#{famname}" tabindex="-1") #{famname}
                 li.list-inline-item #{osname}
     .container.indent
         .mainblock
@@ -22,16 +24,16 @@ block content
                 ul(type='none')
                     for i in structs
                         li: p
-                            a(class='listos' href="/os/#{osname}/type/#{i.name}" tabindex="-1") #{i.name}
+                            a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
             p.cap Enums:
             div
                 ul(type='none')
                     for i in enums
                         li: p
-                            a(class='listos' href="/os/#{osname}/type/#{i.name}" tabindex="-1") #{i.name}
+                            a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
             p.cap Unions:
             div
                 ul(type='none')
                     for i in unions
                         li: p
-                            a(class='listos' href="/os/#{osname}/type/#{i.name}" tabindex="-1") #{i.name}
+                            a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}

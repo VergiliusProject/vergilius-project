@@ -1,5 +1,4 @@
 footer.site-footer
-    //.row.footer-row(style="border-bottom: 2px solid #262633;")
     .container.footer-row
         .row
             .col-sm-4
@@ -9,14 +8,14 @@ footer.site-footer
                 ul(type='none')
                     for i in fam86
                         li: p
-                            a.foo-link(href="/kernels/#{i}" tabindex="-1") #{i} (x86)
+                            a.foo-link(href="/kernels/x86/#{i}" tabindex="-1") #{i}
             .col-sm-3
                 br
                 h5.foo x64-based systems:
                 ul(type='none')
                     for i in fam64
                         li: p
-                            a.foo-link(href="/kernels/#{i}" tabindex="-1") #{i} (x64)
+                            a.foo-link(href="/kernels/x64/#{i}" tabindex="-1") #{i}
             .col-sm-2
     hr(style="border-bottom: 2px solid #262633;")
     .container(style="padding-top: 10px;")

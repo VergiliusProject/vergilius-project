@@ -2,7 +2,7 @@ extends /partials/page
 
 block title
     title Vergilius Project
-    -var selected = 'Family';
+    -var selected = 'Kernels';
     -var i = 0;
 block content
     .container
@@ -13,6 +13,8 @@ block content
                     a(href='/' tabindex="-1")  Home
                 li.list-inline-item
                     a(href='/kernels' tabindex="-1") Kernels
+                li.list-inline-item
+                    a(href='/kernels/#{arch}' tabindex="-1") #{arch}
                 li.list-inline-item #{famname}
     .container.indent
         .mainblock(style="background: url(/images/fambacke.jpg);")
@@ -22,13 +24,13 @@ block content
                     each a in fam
                         if(i % 2 != 0)
                             li.small_li(style="height: 130px;")
-                                a(href="/os/#{a.osname}" class='listos' tabindex="-1" style="display: inline-block;")
+                                a(href="/kernels/#{arch}/#{famname}/#{a.osname}" class='listos' tabindex="-1" style="display: inline-block;")
                                     .timeline-image
                                         img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
                                 .timeline-panel.panel(style="margin-top: 10px; padding-top: 5px;")
                                     .timeline-heading(style="width: 100%; right: 0px;")
                                         h4(style="margin: 0px; text-align: left;")
-                                            a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.family} #{a.osname}
+                                            a(href="/kernels/#{arch}/#{famname}/#{a.osname}" class='listos' tabindex="-1") #{a.family} #{a.osname}
                                     p(style="text-align: justify;")
                                         |build number: #{a.buildnumber}
                                         br
@@ -38,13 +40,13 @@ block content
                                 -var i=i+1
                         else
                             li.timeline-inverted.small_li(style="height: 130px;")
-                                a(href="/os/#{a.osname}" class='listos' tabindex="-1" style="display: inline-block;")
+                                a(href="/kernels/#{arch}/#{famname}/#{a.osname}" class='listos' tabindex="-1" style="display: inline-block;")
                                     .timeline-image
                                         img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='75px', height='78px' style="position: relative;")
                                 .timeline-panel.panel(style="margin-top: 10px; padding-top: 5px;")
                                     .timeline-heading(style="width: 100%; right: 0px;")
                                         h4(style="margin: 0px; text-align: left;")
-                                            a(href="/os/#{a.osname}" class='listos' tabindex="-1") #{a.family} #{a.osname}
+                                            a(href="/kernels/#{arch}/#{famname}/#{a.osname}" class='listos' tabindex="-1") #{a.family} #{a.osname}
                                     p(style="text-align: justify;")
                                         |build number: #{a.buildnumber}
                                         br

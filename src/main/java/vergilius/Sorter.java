@@ -17,5 +17,10 @@ public class Sorter {
         Comparator<Ttype> byName = Comparator.comparing(Ttype::getName);
         return list.stream().sorted(byName).collect(Collectors.toList());
     }
-
+    public static List<Os> sortByBuildnumber(List<Os> list)
+    {
+        Comparator<Os> comp = new Os();
+        list.sort(comp);
+        return list;
+    }
 }

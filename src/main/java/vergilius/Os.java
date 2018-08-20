@@ -2,11 +2,11 @@ package vergilius;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
-public class Os{
+public class Os implements Comparator<Os>{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     //@Column(updatable = false, nullable = false, unique = true)
@@ -92,5 +92,40 @@ public class Os{
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public int compare(Os obj1, Os obj2)
+    {
+        List<Integer> arrObj1 = Arrays.stream(obj1.getBuildnumber().split("\\.")).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> arrObj2 = Arrays.stream(obj2.getBuildnumber().split("\\.")).map(Integer::parseInt).collect(Collectors.toList());
+
+        //does bildnumber always look like X.X.X.X ?
+        if(arrObj1.get(0) > arrObj2.get(0))
+            return 1;
+        else if(arrObj1.get(0) < arrObj2.get(0))
+            return -1;
+        else
+        {
+            if(arrObj1.get(1) > arrObj2.get(1))
+                return 1;
+            else if(arrObj1.get(1) < arrObj2.get(1))
+                return -1;
+            else
+            {
+                if(arrObj1.get(2) > arrObj2.get(2))
+                    return 1;
+                else if(arrObj1.get(2) < arrObj2.get(2))
+                    return -1;
+                else
+                {
+                    if(arrObj1.get(3) > arrObj2.get(3))
+                        return 1;
+                    else if(arrObj1.get(3) < arrObj2.get(3))
+                        return -1;
+                    else return 0;
+                }
+            }
+        }
     }
 }

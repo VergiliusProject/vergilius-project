@@ -13,9 +13,9 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
 
     List<Ttype> findByOpersysAndIsConstFalseAndIsVolatileFalse(@Param("opersys") Os opersys);
 
-    //Ttype findByNameAndOpersysAndIsConstFalseAndIsVolatileFalse(@Param("name") String name, @Param("opersys") Os opersys);
-    List<Ttype> findByNameAndOpersys(@Param("name") String name, @Param("opersys") Os opersys);
+    Ttype findByIdAndOpersys(@Param("id") int id, @Param("opersys") Os opersys);
 
+    List<Ttype> findByNameAndOpersys(@Param("name") String name, @Param("opersys") Os opersys);
 
     @Query("SELECT DISTINCT u.ttype FROM Tdata u"
             + " WHERE u.id= :id"

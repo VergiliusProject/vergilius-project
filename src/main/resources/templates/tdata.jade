@@ -14,50 +14,52 @@ block content
                 li.list-inline-item
                     a(href="/kernels" tabindex="-1") Kernels
                 li.list-inline-item
-                    a(href="/kernels/#{osfam}" tabindex="-1") #{osfam}
+                    a(href="/kernels/#{arch}" tabindex="-1") #{arch}
                 li.list-inline-item
-                    a(href="/os/#{osname}" tabindex="-1") #{osname}
+                    a(href="/kernels/#{arch}/#{famname}" tabindex="-1") #{famname}
+                li.list-inline-item
+                    a(href="/kernels/#{arch}/#{famname}/#{osname}" tabindex="-1") #{osname}
                 li.list-inline-item #{i.name}
     .container.indent
         .mainblock(style="min-height: 200px;")
             p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 10px;")
                 | #{i.name}
             .row.bs-wizard(style='border-bottom:0;')
-                if invertMapos[mapos[osname]-1] == null
+                if invertMapos[mapos[currOs] - 1] == null
                     .col-sm-4.bs-wizard-step.disabled
-                        .text-center.bs-wizard-stepnum &nbsp;#{invertMapos[mapos[osname]-1]}
+                        .text-center.bs-wizard-stepnum &nbsp; Previous
                         .progress
                             .progress-bar
-                        a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname]-1]}/type/#{i.name}' tabindex="-1")
+                        a.bs-wizard-dot(href='#' tabindex="-1")
                 else
                     .col-sm-4.bs-wizard-step.completed
                         .text-center.bs-wizard-stepnum
-                            a.wizard-links(href='/os/#{invertMapos[mapos[osname]-1]}/type/#{i.name}' tabindex="-1") #{invertMapos[mapos[osname] - 1]}
+                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()} #{invertMapos[mapos[currOs] - 1].getArch()}
                         .progress
                             .progress-bar
-                        a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname] - 1]}/type/#{i.name}' tabindex="-1")
+                        a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1")
                 .col-sm-4.bs-wizard-step.complete
                     // complete
                     .text-center.bs-wizard-stepnum
-                        a.wizard-links(href='/os/#{invertMapos[mapos[osname]]}/type/#{i.name}' tabindex="-1") #{invertMapos[mapos[osname]]}
+                        a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()} #{invertMapos[mapos[currOs]].getArch()}
                     .progress
                         .progress-bar
-                    a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname]]}/type/#{i.name}' tabindex="-1")
-                if invertMapos[mapos[osname]+1] == null
+                    a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1")
+                if invertMapos[mapos[currOs] + 1] == null
                     .col-sm-4.bs-wizard-step.disabled
                         // complete
-                        .text-center.bs-wizard-stepnum &nbsp;#{invertMapos[mapos[osname]+1]}
+                        .text-center.bs-wizard-stepnum &nbsp; Next
                         .progress
                             .progress-bar
-                        a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname]+1]}/type/#{i.name}' tabindex="-1")
+                        a.bs-wizard-dot(href='#' tabindex="-1")
                 else
                     .col-sm-4.bs-wizard-step.completed
                         // complete
                         .text-center.bs-wizard-stepnum
-                            a.wizard-links(href='/os/#{invertMapos[mapos[osname] + 1]}/type/#{i.name}' tabindex="-1") #{invertMapos[mapos[osname] + 1]}
+                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()} #{invertMapos[mapos[currOs] + 1].getArch()}
                         .progress
                             .progress-bar
-                        a.bs-wizard-dot(href='/os/#{invertMapos[mapos[osname] + 1]}/type/#{i.name}' tabindex="-1")
+                        a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1")
             script(type='text/javascript').
                 (function () {
                     new Clipboard('#copy-button');
@@ -80,10 +82,9 @@ block content
                     ul(type='none')
                         li
                             for i in cros
-                                //li: p
-                                    a.related(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i}
-                                a.related(class='listos' href="/os/#{osname}/type/#{i}" tabindex="-1") #{i}
+                                a.related(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i}" tabindex="-1") #{i}
                                 if(a != cros.size() - 1)
                                     - var a = a + 1
                                     | ,&nbsp;
+
 
