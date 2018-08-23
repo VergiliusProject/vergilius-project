@@ -100,7 +100,6 @@ public class Os implements Comparator<Os>{
         List<Integer> arrObj1 = Arrays.stream(obj1.getBuildnumber().split("\\.")).map(Integer::parseInt).collect(Collectors.toList());
         List<Integer> arrObj2 = Arrays.stream(obj2.getBuildnumber().split("\\.")).map(Integer::parseInt).collect(Collectors.toList());
 
-        //does bildnumber always look like X.X.X.X ?
         if(arrObj1.get(0) > arrObj2.get(0))
             return 1;
         else if(arrObj1.get(0) < arrObj2.get(0))

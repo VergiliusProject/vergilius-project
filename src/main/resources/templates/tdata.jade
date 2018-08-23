@@ -24,39 +24,64 @@ block content
         .mainblock(style="min-height: 200px;")
             p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 10px;")
                 | #{i.name}
-            .row.bs-wizard(style='border-bottom:0;')
+            .row.bs-wizard(style='border-bottom:0; padding-bottom: 0px;')
                 if invertMapos[mapos[currOs] - 1] == null
-                    .col-sm-4.bs-wizard-step.disabled
+                    .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 10px;")
                         .text-center.bs-wizard-stepnum &nbsp; Previous
+                        //.progress
+                            .progress-bar
+                        //a.bs-wizard-dot(href='#' tabindex="-1")
+                else
+                    .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 10px;")
+                        .text-center.bs-wizard-stepnum
+                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()} #{invertMapos[mapos[currOs] - 1].getArch()}
+                        //.progress
+                            .progress-bar
+                        //a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1")
+                .col-sm-4.bs-wizard-step.complete(style="margin-bottom: 10px;")
+                    // complete
+                    .text-center.bs-wizard-stepnum
+                        a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()} #{invertMapos[mapos[currOs]].getArch()}
+                    //.progress
+                        .progress-bar
+                    //a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1")
+                if invertMapos[mapos[currOs] + 1] == null
+                    .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 10px;")
+                        // complete
+                        .text-center.bs-wizard-stepnum &nbsp; Next
+                        //.progress
+                            .progress-bar
+                        //a.bs-wizard-dot(href='#' tabindex="-1")
+                else
+                    .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 10px;")
+                        // complete
+                        .text-center.bs-wizard-stepnum
+                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()} #{invertMapos[mapos[currOs] + 1].getArch()}
+                        //.progress
+                            .progress-bar
+                        //a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1")
+            .row.bs-wizard(style='border-bottom:0; margin-top: 10px;')
+                if invertMapos[mapos[currOs] - 1] == null
+                    .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 20px;")
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='#' tabindex="-1")
                 else
-                    .col-sm-4.bs-wizard-step.completed
-                        .text-center.bs-wizard-stepnum
-                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()} #{invertMapos[mapos[currOs] - 1].getArch()}
+                    .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 20px;")
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1")
-                .col-sm-4.bs-wizard-step.complete
-                    // complete
-                    .text-center.bs-wizard-stepnum
-                        a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()} #{invertMapos[mapos[currOs]].getArch()}
+                .col-sm-4.bs-wizard-step.complete(style="margin-bottom: 20px;")
                     .progress
                         .progress-bar
                     a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1")
                 if invertMapos[mapos[currOs] + 1] == null
-                    .col-sm-4.bs-wizard-step.disabled
-                        // complete
-                        .text-center.bs-wizard-stepnum &nbsp; Next
+                    .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 20px;")
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='#' tabindex="-1")
                 else
-                    .col-sm-4.bs-wizard-step.completed
-                        // complete
-                        .text-center.bs-wizard-stepnum
-                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()} #{invertMapos[mapos[currOs] + 1].getArch()}
+                    .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 20px;")
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1")
@@ -86,5 +111,3 @@ block content
                                 if(a != cros.size() - 1)
                                     - var a = a + 1
                                     | ,&nbsp;
-
-

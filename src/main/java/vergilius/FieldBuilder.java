@@ -225,7 +225,7 @@ public class FieldBuilder
 
                 String name = repo.findByIdAndOpersys(refType.getId(), operSys).getName();
 
-                if(repo.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT && name.equals("<unnamed-tag>"))
+                if(repo.findByIdAndOpersys(refType.getId(), operSys).getKind() == Ttype.Kind.STRUCT && name.equals("<unnamed-tag>"))
                 {
                     FieldBuilder fb = FieldBuilder.recursionProcessing(repo, repo.findByIdAndOpersys(refType.getId(), operSys), indent, rpOffset, link, operSys);
                     fb.type.append("*" + (getModifier(type).isEmpty() ? "" : (" " + getModifier(type))));
@@ -234,7 +234,7 @@ public class FieldBuilder
                 }
 
                 //union, enum... ???
-                if(repo.findOne(refType.getId()).getKind() == Ttype.Kind.STRUCT)
+                if(repo.findByIdAndOpersys(refType.getId(), operSys).getKind() == Ttype.Kind.STRUCT)
                 {
                     FieldBuilder fb = new FieldBuilder();
 

@@ -20,6 +20,11 @@ public interface OsRepository extends CrudRepository<Os, Integer> {
     @Query("select u.family from Os u where u.osname = :osname")
     String findFamilyByOsname(@Param("osname") String osname);
 
+    //operating systems search by arch !!!
+    @Query("select u from Os u where u.arch = :arch")
+    List<Os> findOsByArch(@Param("arch") String arch);
+
+    //family search
     @Query("select DISTINCT u.family from Os u where u.arch = :arch")
     List<String> findByArch(@Param("arch") String arch);
 
