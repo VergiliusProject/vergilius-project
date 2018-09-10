@@ -37,8 +37,7 @@ public class MainController{
     @GetMapping("/login")
     public String displayLogin(Model model) throws IOException {
 
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         return "login";
     }
@@ -47,8 +46,7 @@ public class MainController{
         model.addAttribute(username);
         model.addAttribute(password);
 
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         return "login";
     }
@@ -56,8 +54,7 @@ public class MainController{
     @GetMapping("/admin")
     public String displayAdmin(Model model) throws IOException {
 
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         return "admin";
     }
@@ -107,21 +104,23 @@ public class MainController{
         return "redirect:/admin";
     }
 
-  @GetMapping("/")
+    public void passFamilyList(Model model)
+    {
+        model.addAttribute("sortedFamx86", Sorter.sortByBuildnumber(osRepo.findOsByArch("x86"), false).stream().map(os -> os.getFamily()).distinct().collect(Collectors.toList()));
+        model.addAttribute("sortedFamx64", Sorter.sortByBuildnumber(osRepo.findOsByArch("x64"), false).stream().map(os -> os.getFamily()).distinct().collect(Collectors.toList()));
+    }
+
+    @GetMapping("/")
     public String displayHome(Model model)
     {
-        //footer-links
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
-
+        passFamilyList(model);
         return "home";
     }
 
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logoutPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
@@ -132,8 +131,7 @@ public class MainController{
     @GetMapping("/about")
     public String displayAbout(Model model)
     {
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         return "about";
     }
@@ -141,9 +139,7 @@ public class MainController{
     @GetMapping("/kernels")
     public String displayKernels(Model model)
     {
-        //footer-links
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         return "kernels";
     }
@@ -151,29 +147,9 @@ public class MainController{
     @GetMapping("/kernels/{arch:.+}")
     public String displayArch(@PathVariable String arch, Model model)
     {
-        List<String> sortedFamilies = new ArrayList<>();
-        for(Os os : Sorter.sortByBuildnumber(osRepo.findOsByArch(arch)))
-        {
-            if(!sortedFamilies.contains(os.getFamily()))
-            {
-                sortedFamilies.add(os.getFamily());
-            }
-        }
-        model.addAttribute("chosenArch", sortedFamilies);
+        model.addAttribute("chosenArch", Sorter.sortByBuildnumber(osRepo.findOsByArch(arch), false).stream().map(os -> os.getFamily()).distinct().collect(Collectors.toList()));
 
-        /*
-        if(arch.equals("x86"))
-        {
-            model.addAttribute("chosenArch", osRepo.findByArch("x86"));
-        }
-        else if(arch.equals("x64"))
-        {
-            model.addAttribute("chosenArch", osRepo.findByArch("x64"));
-        }
-        */
-        //footer-links and list of families
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         return "arch";
     }
@@ -181,11 +157,9 @@ public class MainController{
     @RequestMapping(value="/kernels/{arch:.+}/{famname:.+}")
     public String displayFamily(@PathVariable String arch, @PathVariable String famname, Model model)
     {
-        List<Os> fam = Sorter.sortByBuildnumber(osRepo.findByArchAndFamily(arch, famname));
-        model.addAttribute("fam", fam);
+        model.addAttribute("fam", Sorter.sortByBuildnumber(osRepo.findByArchAndFamily(arch, famname), false));
 
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         return "family";
     }
@@ -200,8 +174,7 @@ public class MainController{
         model.addAttribute("unions", Sorter.sortByName(Ttype.FilterByTypes(reslist, Ttype.Kind.UNION)));
         model.addAttribute("enums", Sorter.sortByName(Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM)));
 
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
 
         return "ttype";
     }
@@ -228,6 +201,7 @@ public class MainController{
                 used_in.addAll(ttypeRepo.findByOpersysAndId2(opersys, i.getId()));
                 used_in.addAll(ttypeRepo.findByOpersysAndId3(opersys, i.getId()));
                 used_in.addAll(ttypeRepo.findByOpersysAndId4(opersys, i.getId()));
+                used_in.addAll(ttypeRepo.findByOpersysAndId5(opersys, i.getId()));
             }
 
             ///Rewrite ?!
@@ -250,9 +224,7 @@ public class MainController{
 
         model.addAttribute("currOs", opersys);
 
-        //List<Os> os = Sorter.sortByBuildnumber(getListOs());
-        //opersys is current OS
-        List<Os> os = Sorter.sortByBuildnumber(osRepo.findOsByArch(opersys.getArch()));
+        List<Os> os = Sorter.sortByBuildnumber(osRepo.findOsByArch(opersys.getArch()), true);
         Map<Os, Integer> map = new LinkedHashMap<>();
         Map<Integer, Os> mapInverted = new LinkedHashMap<>();
         for(int i = 1; i <= os.size(); i++)
@@ -264,8 +236,8 @@ public class MainController{
         model.addAttribute("mapos", map);
         model.addAttribute("invertMapos", mapInverted);
 
-        model.addAttribute("fam86", osRepo.findByArch("x86"));
-        model.addAttribute("fam64", osRepo.findByArch("x64"));
+        passFamilyList(model);
+
         return "tdata";
     }
 

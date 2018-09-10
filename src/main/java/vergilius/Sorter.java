@@ -1,5 +1,6 @@
 package vergilius;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -17,10 +18,17 @@ public class Sorter {
         Comparator<Ttype> byName = Comparator.comparing(Ttype::getName);
         return list.stream().sorted(byName).collect(Collectors.toList());
     }
-    public static List<Os> sortByBuildnumber(List<Os> list)
+    public static List<Os> sortByBuildnumber(List<Os> list, boolean natural)
     {
         Comparator<Os> comp = new Os();
-        list.sort(comp);
+        if(natural)
+        {
+            list.sort(comp);
+        }
+        else
+        {
+            list.sort(comp.reversed());
+        }
         return list;
     }
 }

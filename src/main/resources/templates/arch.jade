@@ -15,7 +15,7 @@ block content
                     a(href='/kernels' tabindex="-1")  Kernels
                 li.list-inline-item #{arch}
     .container.indent
-        .mainblock(style="background: url(/images/blackspace.png);")
+        .mainblock(style="background: url(/images/lonelysturn.png);")
             .col-lg-12
                 h2.text-center(style="font-weight:900;") To the depths of kernel...
                 ul.timeline(style="height: 85%;")
@@ -25,16 +25,10 @@ block content
                                 .timeline-image(style="left: 65%;")
                                     a(href="/kernels/#{arch}/#{a}" tabindex="-1")
                                         img.img-circle.img-responsive(src='/images/edit.gif', alt='', width='185px', height='188px', style="position: relative;")
-                                .timeline-panel(style="text-align: right; margin-left: 45px; margin-top: 20px; padding: 10px; float: left; left:17%; width: auto;")
+                                .timeline-panel(style="text-align: right; margin-left: 5px; margin-top: 64px; padding: 10px; margin-right: 20px; float: left; left:11%;")
                                     .timeline-heading
-                                        h4
+                                        h4(style="padding-top: 15px;")
                                             a(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
-                                    //.timeline-body(style="color: #ea6c2c;")
-                                        each b in os
-                                            if a.toString() == (b.family).toString() && (b.arch).toString() == "x86"
-                                                a(href="/os/#{b.osname}" class="akern" tabindex="-1") #{b.family} #{b.osname} #{b.arch}
-                                                |&nbsp;[#{b.buildnumber}]
-                                                br
                                 if(i < chosenArch.size()-1)
                                     .line
                                 -var i=i+1
@@ -43,16 +37,10 @@ block content
                                 .timeline-image(style="left: 30%;")
                                     a(href="/kernels/#{arch}/#{a}" tabindex="-1")
                                         img.img-circle.img-responsive(src='/images/edit.gif', alt='', width='185px', height='188px', style="position: relative")
-                                .timeline-panel(style="margin-right: 0px; margin-left: 5px; margin-top: 20px; padding: 10px; float: left; left:43%; width: 50%;")
+                                .timeline-panel(style="margin-right: 0px; margin-left: 5px; margin-top: 58px; padding: 10px; float: left; left:43%; width: 50;")
                                     .timeline-heading
                                         h4
                                             a(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
-                                    //.timeline-body(style="color: #ea6c2c; width: 500px;")
-                                        each c in os
-                                            if a.toString() == (c.family).toString() && (c.arch).toString() == "x86"
-                                                a(href="/os/#{c.osname}" class="akern" tabindex="-1") #{c.family} #{c.osname} #{c.arch}
-                                                |&nbsp;[#{c.buildnumber}]
-                                                br
                                 if(i < chosenArch.size()-1)
                                     .line
                                 -var i=i+1

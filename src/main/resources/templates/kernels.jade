@@ -1,5 +1,5 @@
 extends /partials/page
-
+//bback, 610
 block title
     title Vergilius Project
     -var selected = 'Kernels';
@@ -13,20 +13,17 @@ block content
                     a(href='/' tabindex="-1")  Home
                 li.list-inline-item Kernels
     .container.indent
-        .mainblock(style="background-image: url('/images/bback.jpg') !important; min-height: 610px;")
+        .mainblock(style="background-image: url('/images/possback3.jpg') !important;")
             h2(style="font-weight: 900; text-align: center; margin-top: 30px;") Choose your system:
                 .row(style="margin-top: 25px;")
                     .col-md-6
-                        a.btn.btn-styled(href="/kernels/x86" tabindex="-1" style="text-shadow: 0 0 0px white; width: 160px; position: absolute; left: 67%") x86
+                        a.btn.btn-styled.kernel(href="/kernels/x86" tabindex="-1" style="left: 20%; padding-top: 40px; background-image: url('/images/gal211.jpg') !important; margin-top: 138px; width: 150px; height: 150px; z-index: 100") x86
+                        div.kernel-line(style="left: 35%; margin-top: 157px; width: 433px; transform: rotate(-20deg);")
                     .col-md-6
-                        a.btn.btn-styled(href="/kernels/x64" tabindex="-1" style="text-shadow: 0 0 0px white; width: 160px; position: absolute; left: 5%") x64
-            //.div.hero-galax(style="top: 25%; left: 35%")
-                h1(style="font-weight: 900; font-size: 45px; margin-bottom: 30px;") Choose your system:
-                .row
-                    .col-md-6
-                        a.btn.btn-styled(href="/kernels/x86" tabindex="-1" style="text-shadow: 0 0 0px white; width: 160px;") x86
-                    .col-md-6
-                        a.btn.btn-styled(href="/kernels/x64" tabindex="-1" style="text-shadow: 0 0 0px white; width: 160px;") x64
+                        a.btn.btn-styled.kernel(href="/kernels/x86" tabindex="-1" style="left: 10%; margin-top: 68px; z-index: 101")
+                        a.btn.btn-styled.kernel(href="/kernels/x64" tabindex="-1" style="left: 27%; margin-top: 98px;")
+                        a.btn.btn-styled.kernel(href="/kernels/x64" tabindex="-1" style="left: 42%; padding-top: 40px; background-image: url('/images/blv2crop21.jpg') !important; margin-top: 230px; width: 150px; height: 150px; z-index: 100") x64
+                        div.kernel-line(style="left: 24%; width: 188px; margin-top: 194px; transform: rotate(-130deg);")
 
 
 

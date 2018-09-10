@@ -35,31 +35,19 @@ block content
                     .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 10px;")
                         .text-center.bs-wizard-stepnum
                             a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()} #{invertMapos[mapos[currOs] - 1].getArch()}
-                        //.progress
-                            .progress-bar
-                        //a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1")
                 .col-sm-4.bs-wizard-step.complete(style="margin-bottom: 10px;")
                     // complete
                     .text-center.bs-wizard-stepnum
                         a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()} #{invertMapos[mapos[currOs]].getArch()}
-                    //.progress
-                        .progress-bar
-                    //a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1")
                 if invertMapos[mapos[currOs] + 1] == null
                     .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 10px;")
                         // complete
                         .text-center.bs-wizard-stepnum &nbsp; Next
-                        //.progress
-                            .progress-bar
-                        //a.bs-wizard-dot(href='#' tabindex="-1")
                 else
                     .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 10px;")
                         // complete
                         .text-center.bs-wizard-stepnum
                             a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()} #{invertMapos[mapos[currOs] + 1].getArch()}
-                        //.progress
-                            .progress-bar
-                        //a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1")
             .row.bs-wizard(style='border-bottom:0; margin-top: 10px;')
                 if invertMapos[mapos[currOs] - 1] == null
                     .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 20px;")
@@ -93,12 +81,13 @@ block content
                 //escaping, changed from "#"
                 pre(style="margin-bottom: 0px; min-height: 300px;")
                     code(class="c" style="min-height: 300px;")
-                        button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
+                        //button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
                         if(ttype == null)
                             .nothing
                                 |Such structure doesn't exist in chosen version of the kernel...
                                 |Or we just have forgotten to add it to our database.
                         else
+                            button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
                             div#copyblock(style="min-height: 200px;") !{ttype}
         if(cros != null)
             .maincross(style="min-height: 140px;")

@@ -4,16 +4,16 @@ footer.site-footer
             .col-sm-4
             .col-sm-3
                 br
-                h5.foo x86-based systems:
-                ul(type='none')
-                    for i in fam86
+                h5.foo(style="padding-right: 35px;") x86
+                ul.foot-style
+                    for i in sortedFamx86
                         li: p
                             a.foo-link(href="/kernels/x86/#{i}" tabindex="-1") #{i}
             .col-sm-3
                 br
-                h5.foo x64-based systems:
-                ul(type='none')
-                    for i in fam64
+                h5.foo(style="padding-right: 35px;") x64
+                ul.foot-style
+                    for i in sortedFamx64
                         li: p
                             a.foo-link(href="/kernels/x64/#{i}" tabindex="-1") #{i}
             .col-sm-2

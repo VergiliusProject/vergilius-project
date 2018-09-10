@@ -1,5 +1,7 @@
 package vergilius;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -100,31 +102,11 @@ public class Os implements Comparator<Os>{
         List<Integer> arrObj1 = Arrays.stream(obj1.getBuildnumber().split("\\.")).map(Integer::parseInt).collect(Collectors.toList());
         List<Integer> arrObj2 = Arrays.stream(obj2.getBuildnumber().split("\\.")).map(Integer::parseInt).collect(Collectors.toList());
 
-        if(arrObj1.get(0) > arrObj2.get(0))
-            return 1;
-        else if(arrObj1.get(0) < arrObj2.get(0))
-            return -1;
-        else
-        {
-            if(arrObj1.get(1) > arrObj2.get(1))
-                return 1;
-            else if(arrObj1.get(1) < arrObj2.get(1))
-                return -1;
-            else
-            {
-                if(arrObj1.get(2) > arrObj2.get(2))
-                    return 1;
-                else if(arrObj1.get(2) < arrObj2.get(2))
-                    return -1;
-                else
-                {
-                    if(arrObj1.get(3) > arrObj2.get(3))
-                        return 1;
-                    else if(arrObj1.get(3) < arrObj2.get(3))
-                        return -1;
-                    else return 0;
-                }
-            }
-        }
+        return new CompareToBuilder()
+                .append(arrObj1.get(0), arrObj2.get(0))
+                .append(arrObj1.get(1), arrObj2.get(1))
+                .append(arrObj1.get(2), arrObj2.get(2))
+                .append(arrObj1.get(3), arrObj2.get(3))
+                .toComparison();
     }
 }

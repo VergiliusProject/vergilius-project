@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//EXAMPLE:
+/*@Table(name    = "company__activity",
+        indexes = {@Index(name = "i_company_activity", columnList = "activity_id,company_id")})*/
 @Entity
 public class Ttype {
     @Id

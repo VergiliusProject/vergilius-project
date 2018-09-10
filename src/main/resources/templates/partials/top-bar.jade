@@ -13,42 +13,68 @@ nav.site-header
                     a.header-link(href='/' tabindex="-1") Home
             if selected == "Kernels"
                 li
-                    .dropdown
-                        button.dropbtn(tabindex="-1")
-                            a.header-link.active(href='/kernels' tabindex="-1") Kernels
-                        .dropdown-content
+                    .dropdown(style="height: 65px;")
+                        button.dropbtn(tabindex="-1" style="padding-top: 13px; padding-bottom: 14px;")
+                            a.header-link.active(href='/kernels' tabindex="-1" style="margin-left: 5px;") Kernels
+                        .dropdown-content(style="border: solid 3px #141422; border-right: 0px; border-top: 0px;")
                             ul(type='none')
-                                li
-                                    p
-                                        a.drp(href="/kernels/x86" style="margin: 10px 5px; padding: 8px 4px; width: 150px;") x86
-                                li
-                                    p
-                                        a.drp(href="/kernels/x64" style="margin: 10px 5px; padding: 8px 4px; width: 150px;") x64
+                                div(style="width: 520px;")
+                                    div(style="float: left;")
+                                        li
+                                            p(style="margin-bottom: 0.2rem;")
+                                                a.drp(href="/kernels/x86") Version: x86
+                                        li
+                                            ul(type='none')
+                                                for i in sortedFamx86
+                                                    li: p(style="margin-bottom: 0.5rem;")
+                                                        a.foo-link(href="/kernels/x86/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
+                                    div(style="float: right;")
+                                        li
+                                            p(style="margin-bottom: 0.2rem;")
+                                                a.drp(href="/kernels/x64") Version: x64
+                                        li
+                                            ul(type='none')
+                                                for i in sortedFamx64
+                                                    li: p(style="margin-bottom: 0.5rem;")
+                                                        a.foo-link(href="/kernels/x64/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
             else
                 li
-                    .dropdown
-                        button.dropbtn(tabindex="-1")
-                            a.header-link(href='/kernels' tabindex="-1") Kernels
-                        .dropdown-content
+                    .dropdown(style="height: 65px;")
+                        button.dropbtn(tabindex="-1" style="padding-top: 13px; padding-bottom: 14px;")
+                            a.header-link.nobord(href='/kernels' tabindex="-1" style="margin-left: 5px;") Kernels
+                        .dropdown-content(style="border: solid 3px #141422; border-right: 0px; border-top: 0px;")
                             ul(type='none')
-                                li
-                                    p
-                                        a.drp(href="/kernels/x86" style="margin: 10px 5px; padding: 8px 4px; width: 150px;") x86
-                                li
-                                    p
-                                        a.drp(href="/kernels/x64" style="margin: 10px 5px; padding: 8px 4px; width: 150px;") x64
+                                div(style="width: 520px;")
+                                    div(style="float: left;")
+                                        li
+                                            p(style="margin-bottom: 0.2rem;")
+                                                a.drp(href="/kernels/x86") Version: x86
+                                        li
+                                            ul(type='none')
+                                                for i in sortedFamx86
+                                                    li: p(style="margin-bottom: 0.5rem;")
+                                                        a.foo-link(href="/kernels/x86/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
+                                    div(style="float: right;")
+                                        li
+                                            p(style="margin-bottom: 0.2rem;")
+                                                a.drp(href="/kernels/x64") Version: x64
+                                        li
+                                            ul(type='none')
+                                                for i in sortedFamx64
+                                                    li: p(style="margin-bottom: 0.5rem;")
+                                                        a.foo-link(href="/kernels/x64/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
             if selected == "About"
                 li
-                    a.header-link.active(href='/about' tabindex="-1") About
+                    a.header-link.active(href='/about' tabindex="-1" style="padding-bottom: 6px;") About
             else
                 li
-                    a.header-link(href='/about' tabindex="-1") About
+                    a.header-link(href='/about' tabindex="-1" style="padding-bottom: 6px;") About
             if selected == "Admin"
                 li
-                    a.header-link.active(href='/admin' tabindex="-1") Admin
+                    a.header-link.active(href='/admin' tabindex="-1" style="padding-bottom: 6px;") Admin
             else
                 li
-                    a.header-link(href='/admin' tabindex="-1") Admin
+                    a.header-link(href='/admin' tabindex="-1" style="padding-bottom: 6px;") Admin
 
 
 
