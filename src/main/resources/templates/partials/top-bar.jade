@@ -19,23 +19,23 @@ nav.site-header
                         .dropdown-content(style="border: solid 3px #141422; border-right: 0px; border-top: 0px;")
                             ul(type='none')
                                 div(style="width: 520px;")
-                                    div(style="float: left;")
+                                    div(style="float: left; width: 250px;")
                                         li
-                                            p(style="margin-bottom: 0.2rem;")
-                                                a.drp(href="/kernels/x86") Version: x86
+                                            //div(style="font-size: 20px; float:left; padding-left: 5px; margin-top: 12px; color: #07ecd0") &#10148
+                                            a.drp(href="/kernels/x86" style="color: #07ecd0; font-size: 25px;") &nbsp;x86
                                         li
                                             ul(type='none')
                                                 for i in sortedFamx86
-                                                    li: p(style="margin-bottom: 0.5rem;")
+                                                    li: p(style="margin-bottom: 0.2rem;")
                                                         a.foo-link(href="/kernels/x86/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
-                                    div(style="float: right;")
+                                    div(style="float: left; width: 270px;")
                                         li
-                                            p(style="margin-bottom: 0.2rem;")
-                                                a.drp(href="/kernels/x64") Version: x64
+                                            //div(style="font-size: 20px; float:left; margin-top: 12px; padding-left: 5px; color: #07ecd0") &#10148
+                                            a.drp(href="/kernels/x64" style="color: #07ecd0; font-size: 25px;") &nbsp;x64
                                         li
                                             ul(type='none')
                                                 for i in sortedFamx64
-                                                    li: p(style="margin-bottom: 0.5rem;")
+                                                    li: p(style="margin-bottom: 0.2rem;")
                                                         a.foo-link(href="/kernels/x64/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
             else
                 li
@@ -45,23 +45,23 @@ nav.site-header
                         .dropdown-content(style="border: solid 3px #141422; border-right: 0px; border-top: 0px;")
                             ul(type='none')
                                 div(style="width: 520px;")
-                                    div(style="float: left;")
+                                    div(style="float: left; width: 250px;")
                                         li
-                                            p(style="margin-bottom: 0.2rem;")
-                                                a.drp(href="/kernels/x86") Version: x86
+                                            //div(style="font-size: 20px; float:left; margin-top: 12px; padding-left: 5px; color: #07ecd0") &#10148
+                                            a.drp(href="/kernels/x86" style="color: #07ecd0; font-size: 25px;") &nbsp;x86
                                         li
                                             ul(type='none')
                                                 for i in sortedFamx86
-                                                    li: p(style="margin-bottom: 0.5rem;")
+                                                    li: p(style="margin-bottom: 0.2rem;")
                                                         a.foo-link(href="/kernels/x86/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
-                                    div(style="float: right;")
+                                    div(style="float: left; width: 270px;")
                                         li
-                                            p(style="margin-bottom: 0.2rem;")
-                                                a.drp(href="/kernels/x64") Version: x64
+                                            //div(style="font-size: 20px; float:left; margin-top: 12px; padding-left: 5px; color: #07ecd0") &#10148
+                                            a.drp(href="/kernels/x64" style="color: #07ecd0; font-size: 25px;") &nbsp;x64
                                         li
                                             ul(type='none')
                                                 for i in sortedFamx64
-                                                    li: p(style="margin-bottom: 0.5rem;")
+                                                    li: p(style="margin-bottom: 0.2rem;")
                                                         a.foo-link(href="/kernels/x64/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
             if selected == "About"
                 li

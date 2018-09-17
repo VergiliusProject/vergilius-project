@@ -1,8 +1,9 @@
 package vergilius;
 
-
 import javax.persistence.*;
 
+@Table(name = "tdata",
+        indexes = {@Index(name = "indexTdata", columnList = "id, Ttype_idtype")})
 @Entity
 public class Tdata {
     @Id
