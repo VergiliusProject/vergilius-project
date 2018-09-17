@@ -5,24 +5,25 @@ block title
     -var selected = 'About';
 block content
     .container
-        .cmd(style="width: 1078px; margin-left: 16px;")
+        .cmd
             ul.list-inline.breadcrumb(type='none')
                 li.list-inline-item
                     | >
                     a(href='/' tabindex="-1")  Home
                 li.list-inline-item About
-        .cmd(style="height:370px; margin-top:3px;")
-            img(src='/images/man.jpg' width='1078px' height='350px' style="filter:grayscale(20%); border: solid 2px #262633; border-radius: 0.6rem")
-            h1.hero-text(style="text-align:center; font-weight:800; left:50%; top: 58%; font-size: 65px; color:#e6b36b; text-shadow: 0 0 30px #420f11;") VERGILIUS PROJECT
+        .cmd(style="height:360px; margin-top:3px;")
+            img(src='/images/man.jpg' width='1104px' height='350px' style="filter:grayscale(20%); border: solid 2px #262633; border-radius: 0.6rem")
+            h1.hero-text(style="text-align:center; font-weight:800; left:50%; top: 56%; font-size: 65px; color:#e6b36b; text-shadow: 0 0 30px #420f11;") VERGILIUS PROJECT
     .container.indent
-        .mainblock(style="width:1080px; margin-left: 15px; margin-bottom: 20px;")
+        .mainblock(style="width:1106px; margin-left: 2px; margin-right: 5px; margin-bottom: 5px;")
             .addon
                 ul
                     li.clearfix
                         strong
-                            h3(style="font-weight: 700; color: white; padding-left: 10px;") What is «Vergilius»?
-                            img.round(src='/images/stars.gif' style="border: solid 3px rgb(20, 20, 34);")
-                            .legend-info(style="text-align: justify;")
+                            h3.legend(style="margin-bottom: 10px;") What is «Vergilius»?
+                            br
+                            img.round(src='/images/hemi.gif' style="margin-bottom: 5px; margin-top: 13px;")
+                            .legend-info(style="padding-bottom: 5px;")
                                 | It's easy to find a general information about any existing operating system,
                                 | but when it comes to undocumented structures, which lie down somewhere in the
                                 | depths of Windows' kernel, the task becomes more complicated and in this case even
@@ -35,30 +36,58 @@ block content
                                 | Well, of course I can't offer you a company of ancient Roman poet, but this website
                                 | with highlighted C/C++ syntax also will be helpful.
                                 br
-                                | Before you start, remember just two things:
+                            .legend-info
+                                .record Before you start, remember just two things:
                                 br
                                 | &nbsp; &#9989; &nbsp;The descent into Hell is easy.
                                 br
                                 | &nbsp; &#9989; &nbsp;Test your code well and test often!
                     li.clearfix
                         strong
-                            h3(style="font-weight: 700; color: white; padding-left: 10px;") Caption here
-                            img.round(src='/images/rocket.gif' style="border: solid 3px rgb(20, 20, 34);")
+                            h3.legend(style="margin-top: 10px;") About me
+                            img.round.right(src='/images/amy.gif' style="margin-top: 25px;")
                             .legend-info(style="text-align: justify;")
-                                | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                | incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                | exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                | dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                | mollit anim id est laborum.
+                                .record Name:&nbsp;
+                                .record.blue Svitlana&nbsp;&nbsp;
+                                .record Age:&nbsp;
+                                .record.blue 22
+                                br
+                                .record City:&nbsp;
+                                .record.blue Kyiv (Ukraine)
+                                br
+                                .record Status:&nbsp;
+                                .record.blue Engineering faculty survivor (with no work experience, but with a great wish to get it),
+                                |  who is looking for junior Java developer position.
+                                br
+                                .record For the record: &nbsp;
+                                record.blue That's not my photo, but the one, which was available at the moment. Anyway,
+                                |  I also wear glasses and look just the same, when I'm trying to understand
+                                | how my code works.
                     li.clearfix
                         strong
-                            h3(style="font-weight: 700; color: white; padding-left: 10px;") Caption here too
-                            img.round(src='/images/chel.gif' style="border: solid 3px rgb(20, 20, 34);")
-                            .legend-info(style="text-align: justify;")
-                                | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                | incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                | exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                | dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                | mollit anim id est laborum.
+                            h3.legend(style="margin-top: 10px;") Contacts
+                            img.round(src='/images/coper.gif' style="margin-top: 10px; margin-bottom: 10px;")
+                            .legend-info(style="text-align: justify; margin-bottom: 0px; padding-bottom: 0px;")
+                                | If you want to share your ideas for "Vergilius Project" improvement, ask me something or
+                                | just leave a feedback about this website, please contact me:
+                            .legend-info
+                                .row
+                                    .col-sm-5
+                                        div(style="display: block; height: 75px; margin-top: 5px;" )
+                                            div.newfooterdiv(style="margin-top: 10px; margin-bottom: 0px; float: left;")
+                                                img.newfooterimg(src='/images/mail.png')
+                                            .record.blue(style="display: inline-block; margin-top: 30px; margin-left: 10px;")
+                                                | storchak_sv@ukr.net
+                                        div(style="display: block; height: 75px;" )
+                                            div.newfooterdiv(style="float: left;")
+                                                a(href="https://github.com/RevJay")
+                                                    img.newfooterimg(src='/images/github.png')
+                                            .record.blue(style="display: inline-block; margin-top: 30px; margin-left: 10px;")
+                                                a.contacts(href="https://github.com/RevJay") github.com: RevJay
+                                    .col-sm-6
+                                        div(style="display: block; height: 75px;" )
+                                            div.newfooterdiv(style="float: left;")
+                                                a(href="https://www.linkedin.com/in/svitlana-storchak-112706170/")
+                                                    img.newfooterimg(src='/images/linked.png')
+                                            .record.blue(style="display: inline-block; margin-top: 30px; margin-left: 10px;")
+                                                a.contacts(href="https://www.linkedin.com/in/svitlana-storchak-112706170/") Svitlana Storchak

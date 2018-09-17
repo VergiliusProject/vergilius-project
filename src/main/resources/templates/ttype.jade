@@ -19,21 +19,33 @@ block content
                 li.list-inline-item #{osname}
     .container.indent
         .mainblock
-            p.cap Structures:
-            div
-                ul(type='none')
-                    for i in structs
-                        li: p
-                            a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
-            p.cap Enums:
-            div
-                ul(type='none')
-                    for i in enums
-                        li: p
-                            a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
-            p.cap Unions:
-            div
-                ul(type='none')
-                    for i in unions
-                        li: p
-                            a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+            input#myInput(type="text" tabindex="-1" placeholder="Enter type's name..." style="border: solid 1px #f3f1de; color: #bfe4ca; padding-left: 5px; font-weight: 600; background-color: #1a1825; padding-top: 5px; margin-left: 9px; padding-bottom: 5px; display: block; float: left; margin-top: 5px; margin-left: 10px; width: 98%; margin-right: 14px; height: 35px; font-size: 18px;")
+            p.cap(style="display: block; margin-top: 57px; width: 195px;") Structures:
+            script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+            script.
+                $(document).ready(function () {
+                    $("#myInput").on("keyup", function () {
+                        var value = $(this).val().toLowerCase();
+                        $("#myDiv a").filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                        });
+                    });
+                });
+            div#myDiv
+                div
+                    ul(type='none')
+                        for i in structs
+                            li: p
+                                a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                p.cap Enums:
+                div
+                    ul(type='none')
+                        for i in enums
+                            li: p
+                                a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                p.cap Unions:
+                div
+                    ul(type='none')
+                        for i in unions
+                            li: p
+                                a(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}

@@ -1,25 +1,9 @@
-footer.site-footer
-    .container.footer-row
-        .row
-            .col-sm-4
-            .col-sm-3
-                br
-                h5.foo(style="padding-right: 35px;") x86
-                ul.foot-style
-                    for i in sortedFamx86
-                        li: p
-                            a.foo-link(href="/kernels/x86/#{i}" tabindex="-1") #{i}
-            .col-sm-3
-                br
-                h5.foo(style="padding-right: 35px;") x64
-                ul.foot-style
-                    for i in sortedFamx64
-                        li: p
-                            a.foo-link(href="/kernels/x64/#{i}" tabindex="-1") #{i}
-            .col-sm-2
-    hr(style="border-bottom: 2px solid #262633;")
-    .container(style="padding-top: 10px;")
-        p.site-footer__copyright
-          | © 2018 Copyright:&nbsp
-          a.footer-link(href='https://github.com/RevJay' tabindex="-1")
-            strong RevJay
+footer.site-footer(style="background-color: #080817 !important;")
+    .row(style="margin: 0px !important; background-color: #141422 !important; padding-top: 10px;")
+        .col-sm-3
+        .col-sm-6
+            p.site-footer__copyright(style="margin-top: 10px;")
+                | © 2018 Copyright:&nbsp
+                a.footer-link(href='https://github.com/RevJay' tabindex="-1")
+                    strong RevJay
+        .col-sm-3
