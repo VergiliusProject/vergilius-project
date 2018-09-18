@@ -11,83 +11,83 @@ block content
                     | >
                     a(href='/' tabindex="-1")  Home
                 li.list-inline-item About
-        .cmd(style="height:360px; margin-top:3px;")
-            img(src='/images/man.jpg' width='1104px' height='350px' style="filter:grayscale(20%); border: solid 2px #262633; border-radius: 0.6rem")
-            h1.hero-text(style="text-align:center; font-weight:800; left:50%; top: 56%; font-size: 65px; color:#e6b36b; text-shadow: 0 0 30px #420f11;") VERGILIUS PROJECT
+        .cmd.cmd-about
+            img.man(src='/images/man.jpg')
+            h1.hero-text.about VERGILIUS PROJECT
     .container.indent
-        .mainblock(style="width:1106px; margin-left: 2px; margin-right: 5px; margin-bottom: 5px;")
-            .addon
-                ul
-                    li.clearfix
-                        strong
-                            h3.legend(style="margin-bottom: 10px;") What is «Vergilius»?
+        .mainblock.mainblock-about
+            ul
+                li.clearfix
+                    strong
+                        h3.legend What is «Vergilius»?
+                        br
+                        img.round(src='/images/hemi.gif' style="margin-bottom: 5px; margin-top: 13px;")
+                        .legend-info(style="padding-bottom: 5px;")
+                            | It's easy to find a general information about any existing operating system,
+                            | but when it comes to undocumented structures, which lie down somewhere in the
+                            | depths of Windows' kernel, the task becomes more complicated and in this case even
+                            | experienced developers need an assistant. If you looking for one - you're in the right
+                            | place.
                             br
-                            img.round(src='/images/hemi.gif' style="margin-bottom: 5px; margin-top: 13px;")
-                            .legend-info(style="padding-bottom: 5px;")
-                                | It's easy to find a general information about any existing operating system,
-                                | but when it comes to undocumented structures, which lie down somewhere in the
-                                | depths of Windows' kernel, the task becomes more complicated and in this case even
-                                | experienced developers need an assistant. If you looking for one - you're in the right
-                                | place.
-                                br
-                                | Who can be a better guide in this dangerous and absolutely exciting trip to the&nbsp;
-                                del Earth's core
-                                | &nbsp;Windows' kernel then Vergilius, a man who literally went to Hell with Dante?
-                                | Well, of course I can't offer you a company of ancient Roman poet, but this website
-                                | with highlighted C/C++ syntax also will be helpful.
-                                br
-                            .legend-info
-                                .record Before you start, remember just two things:
-                                br
-                                | &nbsp; &#9989; &nbsp;The descent into Hell is easy.
-                                br
-                                | &nbsp; &#9989; &nbsp;Test your code well and test often!
-                    li.clearfix
-                        strong
-                            h3.legend(style="margin-top: 10px;") About me
-                            img.round.right(src='/images/amy.gif' style="margin-top: 25px;")
-                            .legend-info(style="text-align: justify;")
-                                .record Name:&nbsp;
-                                .record.blue Svitlana&nbsp;&nbsp;
-                                .record Age:&nbsp;
-                                .record.blue 22
-                                br
-                                .record City:&nbsp;
-                                .record.blue Kyiv (Ukraine)
-                                br
-                                .record Status:&nbsp;
-                                .record.blue Engineering faculty survivor (with no work experience, but with a great wish to get it),
-                                |  who is looking for junior Java developer position.
-                                br
-                                .record For the record: &nbsp;
-                                record.blue That's not my photo, but the one, which was available at the moment. Anyway,
-                                |  I also wear glasses and look just the same, when I'm trying to understand
-                                | how my code works.
-                    li.clearfix
-                        strong
-                            h3.legend(style="margin-top: 10px;") Contacts
-                            img.round(src='/images/coper.gif' style="margin-top: 10px; margin-bottom: 10px;")
-                            .legend-info(style="text-align: justify; margin-bottom: 0px; padding-bottom: 0px;")
-                                | If you want to share your ideas for "Vergilius Project" improvement, ask me something or
-                                | just leave a feedback about this website, please contact me:
-                            .legend-info
-                                .row
-                                    .col-sm-5
-                                        div(style="display: block; height: 75px; margin-top: 5px;" )
-                                            div.newfooterdiv(style="margin-top: 10px; margin-bottom: 0px; float: left;")
-                                                img.newfooterimg(src='/images/mail.png')
-                                            .record.blue(style="display: inline-block; margin-top: 30px; margin-left: 10px;")
-                                                | storchak_sv@ukr.net
-                                        div(style="display: block; height: 75px;" )
-                                            div.newfooterdiv(style="float: left;")
-                                                a(href="https://github.com/RevJay")
-                                                    img.newfooterimg(src='/images/github.png')
-                                            .record.blue(style="display: inline-block; margin-top: 30px; margin-left: 10px;")
-                                                a.contacts(href="https://github.com/RevJay") github.com: RevJay
-                                    .col-sm-6
-                                        div(style="display: block; height: 75px;" )
-                                            div.newfooterdiv(style="float: left;")
-                                                a(href="https://www.linkedin.com/in/svitlana-storchak-112706170/")
-                                                    img.newfooterimg(src='/images/linked.png')
-                                            .record.blue(style="display: inline-block; margin-top: 30px; margin-left: 10px;")
-                                                a.contacts(href="https://www.linkedin.com/in/svitlana-storchak-112706170/") Svitlana Storchak
+                            | Who can be a better guide in this dangerous and absolutely exciting trip to the&nbsp;
+                            del Earth's core
+                            | &nbsp;Windows' kernel then Vergilius, a man who literally went to Hell with Dante?
+                            | Well, of course I can't offer you a company of ancient Roman poet, but this website
+                            | with highlighted C/C++ syntax also will be helpful.
+                            br
+                        .legend-info
+                            .record Before you start, remember just two things:
+                            br
+                            | &nbsp; &#9989; &nbsp;The descent into Hell is easy.
+                            br
+                            | &nbsp; &#9989; &nbsp;Test your code well and test often!
+                li.clearfix
+                    strong
+                        h3.legend About me
+                        img.round.right(src='/images/amy.gif')
+                        .legend-info
+                            .record Name:&nbsp;
+                            .record.blue Svitlana&nbsp;&nbsp;
+                            .record Age:&nbsp;
+                            .record.blue 22
+                            br
+                            .record City:&nbsp;
+                            .record.blue Kyiv (Ukraine)
+                            br
+                            .record Status:&nbsp;
+                            .record.blue Engineering faculty survivor (with no work experience, but with a great wish to get it),
+                            |  who is looking for junior Java developer position.
+                            br
+                            .record For the record: &nbsp;
+                            .record.blue That's not my photo, but the one, which was available at the moment. Anyway,
+                            |  I also wear glasses and look just the same, when I'm trying to understand
+                            | how my code works.
+                li.clearfix
+                    strong
+                        h3.legend Contacts
+                        img.round(src='/images/coper.gif' style="margin-top: 10px; margin-bottom: 10px;")
+                        .legend-info(style="margin-bottom: 0px; padding-bottom: 0px;")
+                            | If you want to share your ideas for "Vergilius Project" improvement, ask me something or
+                            | just leave a feedback about this website, please contact me:
+                        .legend-info
+                            .row
+                                .col-sm-5
+                                    .about-col(style="margin-top: 5px;" )
+                                        div.about-img(style="margin-bottom: 0px;")
+                                            img.contact-pict(src='/images/mail.png')
+                                        .record.blue.contact
+                                            | storchak_sv@ukr.net
+                                    .about-col
+                                        div.about-img
+                                            a(href="https://github.com/RevJay" tabindex="-1")
+                                                img.contact-pict(src='/images/github.png')
+                                        .record.blue.contact
+                                            a.contacts(href="https://github.com/RevJay" tabindex="-1") github.com: RevJay
+                                .col-sm-6
+                                    .about-col
+                                        div.about-img
+                                            a(href="https://www.linkedin.com/in/svitlana-storchak-112706170/" tabindex="-1")
+                                                img.contact-pict(src='/images/linked.png')
+                                        .record.blue.contact
+                                            a.contacts(href="https://www.linkedin.com/in/svitlana-storchak-112706170/" tabindex="-1")
+                                            |Svitlana Storchak

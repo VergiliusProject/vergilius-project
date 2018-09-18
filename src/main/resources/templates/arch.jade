@@ -17,15 +17,15 @@ block content
     .container.indent
         .mainblock(style="background: url(/images/lonelysturn.png);")
             .col-lg-12
-                h2.text-center(style="font-weight:900;") To the depths of kernel...
+                h2.text-center To the depths of kernel...
                 ul.timeline(style="height: 85%;")
                     each a in chosenArch
                         if(i % 2 != 0)
-                            li(style="height: 240px; left: 10%; width: 80%; padding-top: 25px; padding-bottom: 40px; margin-top: 5px; margin-bottom: 15px;")
+                            li.arch-li(style="left: 10%;")
                                 .timeline-image(style="left: 65%;")
                                     a(href="/kernels/#{arch}/#{a}" tabindex="-1")
-                                        img.img-circle.img-responsive(src='/images/edit.gif', alt='', width='185px', height='188px', style="position: relative;")
-                                .timeline-panel(style="text-align: right; margin-left: 5px; margin-top: 64px; padding: 10px; margin-right: 20px; float: left; left:11%;")
+                                        img.img-circle(src='/images/edit.gif', alt='')
+                                .timeline-panel.arch.direct
                                     .timeline-heading
                                         h4(style="padding-top: 15px;")
                                             a(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
@@ -33,11 +33,11 @@ block content
                                     .line
                                 -var i=i+1
                         else
-                            li.timeline-inverted(style="height: 240px; left: 20%; width: 80%; padding-top: 25px; padding-bottom: 40px; margin-top: 5px; margin-bottom: 5px;")
+                            li.arch-li.timeline-inverted(style="left: 20%;")
                                 .timeline-image(style="left: 30%;")
                                     a(href="/kernels/#{arch}/#{a}" tabindex="-1")
-                                        img.img-circle.img-responsive(src='/images/edit.gif', alt='', width='185px', height='188px', style="position: relative")
-                                .timeline-panel(style="margin-right: 0px; margin-left: 5px; margin-top: 58px; padding: 10px; float: left; left:43%; width: 50;")
+                                        img.img-circle(src='/images/edit.gif', alt='')
+                                .timeline-panel.arch.invert
                                     .timeline-heading
                                         h4
                                             a(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}

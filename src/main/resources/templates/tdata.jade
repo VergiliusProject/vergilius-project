@@ -22,54 +22,48 @@ block content
                 li.list-inline-item #{i.name}
     .container.indent
         .mainblock(style="min-height: 200px;")
-            p(style="font-size:28px; font-weight:700; margin-bottom: 3px; margin-left: 10px;")
+            p.tdata
                 | #{i.name}
-            .row.bs-wizard(style='border-bottom:0; padding-bottom: 0px;')
+            .row.bs-wizard(style='padding-bottom: 0px;')
                 if invertMapos[mapos[currOs] - 1] == null
-                    .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 10px;")
+                    .col-sm-4.bs-wizard-step.disabled.toprow
                         .text-center.bs-wizard-stepnum &nbsp; Previous
-                        //.progress
-                            .progress-bar
-                        //a.bs-wizard-dot(href='#' tabindex="-1")
                 else
-                    .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 10px;")
+                    .col-sm-4.bs-wizard-step.completed.toprow
                         .text-center.bs-wizard-stepnum
                             a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()} #{invertMapos[mapos[currOs] - 1].getArch()}
-                .col-sm-4.bs-wizard-step.complete(style="margin-bottom: 10px;")
-                    // complete
+                .col-sm-4.bs-wizard-step.complete.toprow
                     .text-center.bs-wizard-stepnum
                         a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()} #{invertMapos[mapos[currOs]].getArch()}
                 if invertMapos[mapos[currOs] + 1] == null
-                    .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 10px;")
-                        // complete
+                    .col-sm-4.bs-wizard-step.disabled.toprow
                         .text-center.bs-wizard-stepnum &nbsp; Next
                 else
-                    .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 10px;")
-                        // complete
+                    .col-sm-4.bs-wizard-step.completed.toprow
                         .text-center.bs-wizard-stepnum
                             a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()} #{invertMapos[mapos[currOs] + 1].getArch()}
-            .row.bs-wizard(style='border-bottom:0; margin-top: 10px;')
+            .row.bs-wizard(style='margin-top: 10px;')
                 if invertMapos[mapos[currOs] - 1] == null
-                    .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 20px;")
+                    .col-sm-4.bs-wizard-step.disabled.bottomrow
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='#' tabindex="-1")
                 else
-                    .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 20px;")
+                    .col-sm-4.bs-wizard-step.completed.bottomrow
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1")
-                .col-sm-4.bs-wizard-step.complete(style="margin-bottom: 20px;")
+                .col-sm-4.bs-wizard-step.complete.bottomrow
                     .progress
                         .progress-bar
                     a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1")
                 if invertMapos[mapos[currOs] + 1] == null
-                    .col-sm-4.bs-wizard-step.disabled(style="margin-bottom: 20px;")
+                    .col-sm-4.bs-wizard-step.disabled.bottomrow
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='#' tabindex="-1")
                 else
-                    .col-sm-4.bs-wizard-step.completed(style="margin-bottom: 20px;")
+                    .col-sm-4.bs-wizard-step.completed.bottomrow
                         .progress
                             .progress-bar
                         a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1")
@@ -77,21 +71,19 @@ block content
                 (function () {
                     new Clipboard('#copy-button');
                 })();
-            #outer(style="min-height: 300px;")
-                //escaping, changed from "#"
-                pre(style="margin-bottom: 0px; min-height: 300px;")
+            #outer
+                pre
                     code(class="c" style="min-height: 300px;")
-                        //button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
                         if(ttype == null)
                             .nothing
                                 |Such structure doesn't exist in chosen version of the kernel...
                                 |Or we just have forgotten to add it to our database.
                         else
                             button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
-                            div#copyblock(style="min-height: 200px;") !{ttype}
+                            div#copyblock !{ttype}
         if(cros != null)
-            .maincross(style="min-height: 140px;")
-                h4(style="font-weight:800; padding-left: 10px; color:#1CC1CC;") Used in ...
+            .maincross
+                h4 Used in ...
                 div(style="padding-left: 20px;")
                     ul(type='none')
                         li

@@ -13,68 +13,64 @@ nav.site-header
                     a.header-link(href='/' tabindex="-1") Home
             if selected == "Kernels"
                 li
-                    .dropdown(style="height: 65px;")
-                        button.dropbtn(tabindex="-1" style="padding-top: 13px; padding-bottom: 14px;")
+                    .dropdown.drop-height
+                        button.dropbtn.btn-style(tabindex="-1")
                             a.header-link.active(href='/kernels' tabindex="-1" style="margin-left: 5px;") Kernels
-                        .dropdown-content(style="border: solid 3px #141422; border-right: 0px; border-top: 0px;")
+                        .dropdown-content.drop-style
                             ul(type='none')
                                 div(style="width: 520px;")
-                                    div(style="float: left; width: 250px;")
+                                    div.menu-block
                                         li
-                                            //div(style="font-size: 20px; float:left; padding-left: 5px; margin-top: 12px; color: #07ecd0") &#10148
-                                            a.drp(href="/kernels/x86" style="color: #07ecd0; font-size: 25px;") &nbsp;x86
+                                            a.drp.caption(href="/kernels/x86") &nbsp;x86
                                         li
                                             ul(type='none')
                                                 for i in sortedFamx86
-                                                    li: p(style="margin-bottom: 0.2rem;")
-                                                        a.foo-link(href="/kernels/x86/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
-                                    div(style="float: left; width: 270px;")
+                                                    li: p.menu-list
+                                                        a.foo-link.bar-link(href="/kernels/x86/#{i}" tabindex="-1") - #{i}
+                                    div.menu-block
                                         li
-                                            //div(style="font-size: 20px; float:left; margin-top: 12px; padding-left: 5px; color: #07ecd0") &#10148
-                                            a.drp(href="/kernels/x64" style="color: #07ecd0; font-size: 25px;") &nbsp;x64
+                                            a.drp.caption(href="/kernels/x64") &nbsp;x64
                                         li
                                             ul(type='none')
                                                 for i in sortedFamx64
-                                                    li: p(style="margin-bottom: 0.2rem;")
-                                                        a.foo-link(href="/kernels/x64/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
+                                                    li: p.menu-list
+                                                        a.foo-link.bar-link(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
             else
                 li
-                    .dropdown(style="height: 65px;")
-                        button.dropbtn(tabindex="-1" style="padding-top: 13px; padding-bottom: 14px;")
+                    .dropdown.drop-height
+                        button.dropbtn.btn-style(tabindex="-1")
                             a.header-link.nobord(href='/kernels' tabindex="-1" style="margin-left: 5px;") Kernels
-                        .dropdown-content(style="border: solid 3px #141422; border-right: 0px; border-top: 0px;")
+                        .dropdown-content.drop-style
                             ul(type='none')
                                 div(style="width: 520px;")
-                                    div(style="float: left; width: 250px;")
+                                    div.menu-block
                                         li
-                                            //div(style="font-size: 20px; float:left; margin-top: 12px; padding-left: 5px; color: #07ecd0") &#10148
-                                            a.drp(href="/kernels/x86" style="color: #07ecd0; font-size: 25px;") &nbsp;x86
+                                            a.drp.caption(href="/kernels/x86") &nbsp;x86
                                         li
                                             ul(type='none')
                                                 for i in sortedFamx86
-                                                    li: p(style="margin-bottom: 0.2rem;")
-                                                        a.foo-link(href="/kernels/x86/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
-                                    div(style="float: left; width: 270px;")
+                                                    li: p.menu-list
+                                                        a.foo-link.bar-link(href="/kernels/x86/#{i}" tabindex="-1") - #{i}
+                                    div.menu-block
                                         li
-                                            //div(style="font-size: 20px; float:left; margin-top: 12px; padding-left: 5px; color: #07ecd0") &#10148
-                                            a.drp(href="/kernels/x64" style="color: #07ecd0; font-size: 25px;") &nbsp;x64
+                                            a.drp.caption(href="/kernels/x64") &nbsp;x64
                                         li
                                             ul(type='none')
                                                 for i in sortedFamx64
-                                                    li: p(style="margin-bottom: 0.2rem;")
-                                                        a.foo-link(href="/kernels/x64/#{i}" tabindex="-1" style="padding-left: 30px; padding-right: 30px;") - #{i}
+                                                    li: p.menu-list
+                                                        a.foo-link.bar-link(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
             if selected == "About"
                 li
-                    a.header-link.active(href='/about' tabindex="-1" style="padding-bottom: 6px;") About
+                    a.header-link.active.hlink-pad(href='/about' tabindex="-1") About
             else
                 li
-                    a.header-link(href='/about' tabindex="-1" style="padding-bottom: 6px;") About
+                    a.header-link.hlink-pad(href='/about' tabindex="-1") About
             if selected == "Admin"
                 li
-                    a.header-link.active(href='/admin' tabindex="-1" style="padding-bottom: 6px;") Admin
+                    a.header-link.active.hlink-pad(href='/admin' tabindex="-1") Admin
             else
                 li
-                    a.header-link(href='/admin' tabindex="-1" style="padding-bottom: 6px;") Admin
+                    a.header-link.hlink-pad(href='/admin' tabindex="-1") Admin
 
 
 

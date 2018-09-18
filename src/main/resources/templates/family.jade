@@ -19,38 +19,38 @@ block content
     .container.indent
         .mainblock(style="background: url(/images/fambacke.jpg);")
             .col-lg-12
-                h2.text-center(style="font-weight:900; margin-bottom: 0px; margin-top: 8px;") #{famname}
-                ul.timeline(style="margin-top: 1px; padding-top: 15px;")
+                h2.text-center(style="margin-bottom: 0px;") #{famname}
+                ul.sm-timeline.fam-list
                     each a in fam
                         if(i % 2 != 0)
-                            li.small_li
-                                a(href="/kernels/#{arch}/#{famname}/#{a.osname}" class='listos' tabindex="-1" style="display: inline-block;")
-                                    .timeline-image
-                                        img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='105px', height='108px' style="position: relative;")
-                                .timeline-panel.panel(style="margin-top: 10px; padding-top: 20px;padding-bottom: 0px;")
-                                    .timeline-heading(style="width: 100%; right: 0px;")
-                                        h4(style="margin: 0px; text-align: left;")
-                                            a(style="font-size: 1.5rem" href="/kernels/#{arch}/#{famname}/#{a.osname}" class='listos' tabindex="-1") #{a.family} #{a.osname}
-                                    p(style="text-align: justify; font-size: 1.1rem;")
+                            li.li-family
+                                a.listos.head(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1")
+                                    .sm-timeline-image
+                                        img.smcircle(src='/images/mainpla2.gif', alt='')
+                                .sm-timeline-panel.panel.sm-panel
+                                    .sm-timeline-heading
+                                        h4.famcap
+                                            a.listos(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1") #{a.family} #{a.osname}
+                                    p.family
                                         |build: #{a.buildnumber}
                                         br
                                         |date: #{a.convertTimestampToDate(a.timestamp)}
                                 if(i < fam.size() - 1)
-                                    .smallline
+                                    .sm-line.small
                                 -var i=i+1
                         else
-                            li.timeline-inverted.small_li
-                                a(href="/kernels/#{arch}/#{famname}/#{a.osname}" class='listos' tabindex="-1" style="display: inline-block;")
-                                    .timeline-image-inverted
-                                        img.img-circle.img-responsive(src='/images/mainpla2.gif', alt='', width='105px', height='108px' style="position: relative;")
-                                .timeline-panel.panel(style="margin-top: 10px; padding-top: 20px; padding-bottom: 0px;")
-                                    .timeline-heading(style="width: 100%; right: 0px;")
-                                        h4(style="margin: 0px; text-align: left;")
-                                            a(style="font-size: 1.5rem" href="/kernels/#{arch}/#{famname}/#{a.osname}" class='listos' tabindex="-1") #{a.family} #{a.osname}
-                                    p(style="text-align: justify; font-size: 1.1rem;")
+                            li.sm-timeline-inverted
+                                a.listos.head(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1")
+                                    .sm-timeline-image-inverted
+                                        img.smcircle(src='/images/mainpla2.gif', alt='')
+                                .sm-timeline-panel.panel.sm-panel
+                                    .sm-timeline-heading
+                                        h4.famcap
+                                            a.listos(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1") #{a.family} #{a.osname}
+                                    p.family
                                         |build: #{a.buildnumber}
                                         br
                                         |date: #{a.convertTimestampToDate(a.timestamp)}
                                 if(i < fam.size() - 1)
-                                    .smallline
+                                    .sm-line.small
                                 -var i=i+1
