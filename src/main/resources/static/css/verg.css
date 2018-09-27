@@ -1,7 +1,8 @@
 body {
     font-size:106.25%;
     line-height:1;
-    background-image: url("/images/abstr.jpg") !important;
+    /*background-image: url("/images/abstr.jpg") !important;*/
+    background-image: url("/images/abstrHalf.jpg") !important;
     background-color:#141422 !important;
 }
 .header-sticky, transparent-header {
@@ -105,7 +106,8 @@ a.header-link {
 }
 
 .transparent-footer--alt.index .site-footer .artist a, .transparent-header a.header-link {
-    color:#E0CD61;
+    /*color:#E0CD61;*/
+    color: yellow;
 }
 
 a.header-link, span.header-link.interactive {
@@ -146,9 +148,7 @@ blockquote, p {
     height:54px;
     display: inline-block;
     text-align: right;
-    /*width:340px;*/
     width: 60px;
-    /*background-image:url("pp.png");*/
     background-image:url("/images/logo.png");
     background-repeat: no-repeat;
     border: none;
@@ -215,11 +215,12 @@ ul.list-inline.breadcrumb
 
 /* Add a slash symbol (/) before/behind each list item */
 ul.breadcrumb li+li:before {
-    /*padding: 1px; */
     color: white;
     content: "/\00a0";
 }
-
+.list-inline-item:not(:last-child) {
+    margin-right: 4px !important;
+}
 /* Add a color to all links inside the list */
 ul.breadcrumb li a {
     color: white;
@@ -366,14 +367,15 @@ a.btn-styled:active
 }
 .str-link
 {
-    color: #f1fa8c;
+    /* color: #f1fa8c; */
+    color: rgb(228, 208, 108);
     font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;;
 }
 .str-link:hover
 {
     text-decoration: none;
     /*color: #fae134;*/
-    color: #fae134;
+    color: yellow;
 }
 
 .str-link .hljs-title:hover
@@ -447,7 +449,15 @@ a.related
 {
     padding-left: 5px;
 }
-
+a.related.listos
+{
+    color: rgb(228, 208, 108);
+}
+a.related.listos:hover
+{
+    color: yellow;
+    text-decoration: none;
+}
 .site-footer ul li, .site-header__links li
 {
     display: list-item;
@@ -572,6 +582,11 @@ footer.site-footer
     margin-bottom: 3px;
     margin-left: 10px;
 }
+.container.indent.data
+{
+    min-height: 600px;
+    padding-bottom: 7px;
+}
 .mainblock.mainblock-about
 {
     width:1106px;
@@ -636,10 +651,18 @@ a.btn.btn-styled.kernel.pict.pictright
     text-shadow: 0 0 3px red;
 }
 
-a.btn.btn-styled.explore
+a.btn.btn-styled.explore:hover
 {
-    text-shadow: 0 0 0px white;
+    /*#f6f1a3*/
+    text-shadow: 0 0 5px white;
+    box-shadow: 0px 0px 10px antiquewhite;
 }
+
+.btn
+{
+    transition: none !important;
+}
+
 .hero-text h1, h3 {
     font-weight: 900;
 }
@@ -835,7 +858,8 @@ h2.text-center
 
 #myInput::placeholder
 {
-    color: orange;
+    /*color: #bfe4ca;*/
+    color: #404040;
 }
 
 .maincross
@@ -985,7 +1009,8 @@ h2.text-center
 }
 .wizard-links
 {
-    color: rgb(255, 245, 197);
+    /* color: rgb(255, 245, 197); */
+    color: rgb(228, 208, 108);
 }
 .wizard-links:hover
 {
@@ -1217,6 +1242,7 @@ h4.famcap
 {
     margin: 0px;
     text-align: left;
+    width: 480px;
 }
 
 .smcircle
@@ -1274,7 +1300,7 @@ li.sm-timeline-inverted > .sm-timeline-panel.panel.sm-panel
 
 .sm-timeline > li .sm-timeline-panel{
     position: relative;
-    margin-left: -13px;
+    margin-left: -45px;
     width: 41%;
 }
 .small
@@ -1283,8 +1309,8 @@ li.sm-timeline-inverted > .sm-timeline-panel.panel.sm-panel
 }
 .li-family
 {
-    margin-left: 300px;
-    width: 70% !important;
+    margin-left: 250px;
+    width: 80% !important;
 }
 .sm-timeline>li:nth-child(odd) .sm-line:before {
     margin-bottom: 50px;
@@ -1292,7 +1318,7 @@ li.sm-timeline-inverted > .sm-timeline-panel.panel.sm-panel
     content: "";
     position: absolute;
     bottom: 0;
-    left: 44%;
+    left: 40%;
     top: 30%;
     width: 4px;
     background-color: #03031f;
@@ -1307,7 +1333,7 @@ li.sm-timeline-inverted > .sm-timeline-panel.panel.sm-panel
     content: "";
     position: absolute;
     bottom: 0;
-    left: 29%;
+    left: 23%;
     width: 4px;
     background-color: #03031f;
     transform: rotate(41deg);
@@ -1386,6 +1412,7 @@ ul.sm-timeline.fam-list
 {
     margin-top: 1px;
     padding-top: 15px;
+    margin-right: 175px;
 }
 
 a.listos.head
@@ -1420,7 +1447,7 @@ a.drp.caption
 .menu-block
 {
     float: left;
-    width: 250px;
+    width: 280px;
 }
 p.menu-list
 {
@@ -1439,4 +1466,48 @@ button.dropbtn.btn-style
 .dropdown.drop-height
 {
     height: 65px;
+}
+
+a.kernels-ht
+{
+    font-size: 80px;
+    color: antiquewhite;
+    font-weight: 900;
+    display: block;
+    border-radius: 0.8rem;
+    width: 240px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 15px;
+    height: 110px;
+    border: solid 4px antiquewhite;
+    text-shadow: 0 0 15px black;
+
+}
+a.kernels-ht:hover
+{
+    text-decoration: none;
+    outset: 4px #f6f1a3;
+    text-shadow: 0 0 5px;
+    box-shadow: 0px 0px 10px antiquewhite;
+    color: antiquewhite;
+}
+h2.text-center.kercap
+{
+    font-size: 75px;
+    left: 19%;
+    display: block;
+    position: relative;
+    text-shadow: 0 0 10px black;
+    margin-top: 22px;
+}
+h2.text-center.maincap
+{
+    font-size: 75px;
+}
+
+li.clearfix
+{
+    padding-top: 28px;
+    padding-bottom: 28px;
 }

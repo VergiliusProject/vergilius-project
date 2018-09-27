@@ -12,17 +12,14 @@ block content
                     a(href='/' tabindex="-1")  Home
                 li.list-inline-item Kernels
     .container.indent
-        .mainblock.kernels
-            h2 Choose your system:
-                .row.row-kernels
-                    .col-md-6
-                        a.btn.btn-styled.kernel.pict.pictleft(href="/kernels/x86" tabindex="-1") x86
-                        div.kernel-line(style="left: 35%; margin-top: 157px; width: 433px; transform: rotate(-20deg);")
-                    .col-md-6
-                        a.btn.btn-styled.kernel(href="/kernels/x86" tabindex="-1" style="left: 10%; margin-top: 68px; z-index: 101")
-                        a.btn.btn-styled.kernel(href="/kernels/x64" tabindex="-1" style="left: 27%; margin-top: 98px;")
-                        a.btn.btn-styled.kernel.pict.pictright(href="/kernels/x64" tabindex="-1") x64
-                        div.kernel-line(style="left: 24%; margin-top: 194px; width: 188px; transform: rotate(-130deg);")
+        .mainblock(style="background-color: #141422; padding: 5px 15px;")
+            .row(style="background-image: url('/images/multi.png') !important; border-radius: 0.5rem; border: solid 2px #262633; height: 660px;")
+                h2.text-center.kercap System architecture
+                .hero-text(style="left: 34%; top: 49%;")
+                    a.kernels-ht(href="/kernels/x86" tabindex="-1" style="text-align: right;") x86
+                .hero-text(style="left: 67%; top: 49%;")
+                    a.kernels-ht(href="/kernels/x64" tabindex="-1" style="text-align: right;") x64
+
 
 
 

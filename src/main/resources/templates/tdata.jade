@@ -1,7 +1,7 @@
 extends /partials/page
 
 block title
-    title Vergilius Project
+    title Vergilius Project | #{famname}
     -var selected = 'Kernels';
     -var a = 0;
 block content
@@ -20,8 +20,8 @@ block content
                 li.list-inline-item
                     a(href="/kernels/#{arch}/#{famname}/#{osname}" tabindex="-1") #{osname}
                 li.list-inline-item #{i.name}
-    .container.indent
-        .mainblock(style="min-height: 200px;")
+    .container.indent.data
+        .mainblock(style="min-height: 200px; padding-bottom: 5px;")
             p.tdata
                 | #{i.name}
             .row.bs-wizard(style='padding-bottom: 0px;')
@@ -72,7 +72,7 @@ block content
                     new Clipboard('#copy-button');
                 })();
             #outer
-                pre
+                pre(style="margin-bottom: 10px;")
                     code(class="c" style="min-height: 300px;")
                         if(ttype == null)
                             .nothing

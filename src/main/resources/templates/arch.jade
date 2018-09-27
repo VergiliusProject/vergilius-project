@@ -17,14 +17,14 @@ block content
     .container.indent
         .mainblock(style="background: url(/images/lonelysturn.png);")
             .col-lg-12
-                h2.text-center To the depths of kernel...
+                h2.text-center.maincap To the depths of kernel...
                 ul.timeline(style="height: 85%;")
                     each a in chosenArch
                         if(i % 2 != 0)
                             li.arch-li(style="left: 10%;")
                                 .timeline-image(style="left: 65%;")
                                     a(href="/kernels/#{arch}/#{a}" tabindex="-1")
-                                        img.img-circle(src='/images/edit.gif', alt='')
+                                        img.img-circle(src='/images/edit.png', alt='')
                                 .timeline-panel.arch.direct
                                     .timeline-heading
                                         h4(style="padding-top: 15px;")
@@ -36,7 +36,7 @@ block content
                             li.arch-li.timeline-inverted(style="left: 20%;")
                                 .timeline-image(style="left: 30%;")
                                     a(href="/kernels/#{arch}/#{a}" tabindex="-1")
-                                        img.img-circle(src='/images/edit.gif', alt='')
+                                        img.img-circle(src='/images/edit.png', alt='')
                                 .timeline-panel.arch.invert
                                     .timeline-heading
                                         h4

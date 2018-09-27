@@ -1,7 +1,7 @@
 extends /partials/page
 
 block title
-    title Vergilius Project
+    title Vergilius Project | #{famname}
     -var selected = 'Kernels';
     -var i = 0;
 block content
@@ -17,16 +17,16 @@ block content
                     a(href='/kernels/#{arch}' tabindex="-1") #{arch}
                 li.list-inline-item #{famname}
     .container.indent
-        .mainblock(style="background: url(/images/fambacke.jpg);")
+        .mainblock(style="background-image: url(/images/newfam.png); background-color: #081120 !important;")
             .col-lg-12
-                h2.text-center(style="margin-bottom: 0px;") #{famname}
+                h2.text-center.maincap(style="margin-bottom: 0px;") #{famname}
                 ul.sm-timeline.fam-list
                     each a in fam
                         if(i % 2 != 0)
                             li.li-family
                                 a.listos.head(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1")
                                     .sm-timeline-image
-                                        img.smcircle(src='/images/mainpla2.gif', alt='')
+                                        img.smcircle(src='/images/mainpla.png', alt='')
                                 .sm-timeline-panel.panel.sm-panel
                                     .sm-timeline-heading
                                         h4.famcap
@@ -42,7 +42,7 @@ block content
                             li.sm-timeline-inverted
                                 a.listos.head(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1")
                                     .sm-timeline-image-inverted
-                                        img.smcircle(src='/images/mainpla2.gif', alt='')
+                                        img.smcircle(src='/images/mainpla.png', alt='')
                                 .sm-timeline-panel.panel.sm-panel
                                     .sm-timeline-heading
                                         h4.famcap
