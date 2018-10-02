@@ -106,8 +106,8 @@ a.header-link {
 }
 
 .transparent-footer--alt.index .site-footer .artist a, .transparent-header a.header-link {
-    /*color:#E0CD61;*/
-    color: yellow;
+     color:#E0CD61;
+    /*color: yellow;*/
 }
 
 a.header-link, span.header-link.interactive {
@@ -449,15 +449,7 @@ a.related
 {
     padding-left: 5px;
 }
-a.related.listos
-{
-    color: rgb(228, 208, 108);
-}
-a.related.listos:hover
-{
-    color: yellow;
-    text-decoration: none;
-}
+
 .site-footer ul li, .site-header__links li
 {
     display: list-item;
@@ -1009,8 +1001,9 @@ h2.text-center
 }
 .wizard-links
 {
-    /* color: rgb(255, 245, 197); */
-    color: rgb(228, 208, 108);
+    color: rgb(234, 216, 126);
+    /*color: rgb(255, 245, 197);*/
+    /*color: rgb(228, 208, 108);*/
 }
 .wizard-links:hover
 {
@@ -1510,4 +1503,16 @@ li.clearfix
 {
     padding-top: 28px;
     padding-bottom: 28px;
+}
+.hero-text.err {
+    text-align: center;
+    display: block;
+    position: absolute;
+    top: 17%;
+    left: 48%;
+    width: 700px;
+    transform: none;
+    font-weight: 700;
+    font-size: 37px;
+    color: white;
 }

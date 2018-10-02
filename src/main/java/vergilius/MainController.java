@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.yaml.snakeyaml.Yaml;
 
@@ -20,19 +23,47 @@ import vergilius.repos.TdataRepository;
 import vergilius.repos.OsRepository;
 import vergilius.repos.TtypeRepository;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
 @Controller
-public class MainController{
+public class MainController implements ErrorController{
     @Autowired
     public OsRepository osRepo;
     @Autowired
     public TtypeRepository ttypeRepo;
     @Autowired
     public TdataRepository tdataRepo;
+
+    @Override
+    public String getErrorPath() {
+        return "/error";
+    }
+
+    @RequestMapping("/error")
+    public String handleError(HttpServletRequest request, Model model) {
+
+        passFamilyList(model);
+
+        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+
+        if (status != null) {
+            Integer statusCode = Integer.valueOf(status.toString());
+
+            if(statusCode == HttpStatus.NOT_FOUND.value()) {
+                model.addAttribute("mes", "404");
+
+            }
+            else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                model.addAttribute("mes", "505");
+            }
+        }
+
+        return "error";
+    }
 
     @GetMapping("/login")
     public String displayLogin(Model model) throws IOException {
@@ -136,11 +167,12 @@ public class MainController{
         return "about";
     }
 
+    //T H R O W S
     @GetMapping("/kernels")
-    public String displayKernels(Model model)
+    public String displayKernels(Model model) throws Exception
     {
         passFamilyList(model);
-
+        //if(1 == 1)throw new Exception("Catch exception, dude!");
         return "kernels";
     }
 

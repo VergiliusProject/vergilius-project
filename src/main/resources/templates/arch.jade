@@ -1,7 +1,7 @@
 extends /partials/page
 
 block title
-    title Vergilius Project
+    title Vergilius Project | #{arch}
     -var selected = 'Kernels';
     -var i = 0;
 block content
@@ -12,7 +12,7 @@ block content
                     | >
                     a(href='/' tabindex="-1")  Home
                 li.list-inline-item
-                    a(href='/kernels' tabindex="-1")  Kernels
+                    a(href='/kernels' tabindex="-1") Kernels
                 li.list-inline-item #{arch}
     .container.indent
         .mainblock(style="background: url(/images/lonelysturn.png);")
