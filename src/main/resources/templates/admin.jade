@@ -4,27 +4,32 @@ block title
     title Vergilius Project | Admin
     -var selected = 'Admin';
 block content
-    .container
-        .cmd
-            ul.list-inline.breadcrumb(type='none')
-                li.list-inline-item
-                    | >
-                    a(href="/" tabindex="-1")  Home
-                li.list-inline-item Admin
-    .container.indent
-        .mainblock
-            div(style='text-align:center;')
-                if message
-                    = message
-            div
-                a(class="logout" href="/logout" tabindex="-1") Log out
-            div
-                form(method="post" enctype="multipart/form-data" action="/admin")
-                    div(style='text-align:center;')
-                        |Choose a file to upload:
-                        label.btn.btn-default
-                            input(type='file', name='file', tabindex="-1")
-                    div(style='text-align:center;')
-                        |Upload your file:
-                        label.btn.btn-default
-                            input(type='submit', value='Upload', tabindex="-1")
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/' tabindex='-1') > Home
+                        li.breadcrumb-item.active(aria-current='page') Admin
+        .row
+            .col-md-12
+                .container.mainblock-content
+                    .row
+                        .col-md-12(style='text-align:center;')
+                            if message
+                                = message
+                    .row
+                        .col-md-12
+                            a(class="logout" href="/logout" tabindex="-1") Log out
+                    .row
+                        .col-md-12(style='text-align:center;')
+                            form(method="post" enctype="multipart/form-data" action="/admin")
+                                div(style='text-align:center;')
+                                    |Choose a file to upload:
+                                    label.btn.btn-default
+                                        input(type='file', name='file', tabindex="-1")
+                                div(style='text-align:center;')
+                                    |Upload your file:
+                                    label.btn.btn-default
+                                        input(type='submit', value='Upload', tabindex="-1")

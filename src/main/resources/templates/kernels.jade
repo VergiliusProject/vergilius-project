@@ -4,21 +4,27 @@ block title
     -var selected = 'Kernels';
     -var i = 0;
 block content
-    .container
-        .cmd
-            ul.list-inline.breadcrumb(type='none')
-                li.list-inline-item
-                    | >
-                    a(href='/' tabindex="-1")  Home
-                li.list-inline-item Kernels
-    .container.indent
-        .mainblock(style="background-color: #141422; padding: 5px 15px;")
-            .row(style="background-image: url('/images/multi.png') !important; border-radius: 0.5rem; border: solid 2px #262633; height: 660px;")
-                h2.text-center.kercap System architecture
-                .hero-text(style="left: 34%; top: 49%;")
-                    a.kernels-ht(href="/kernels/x86" tabindex="-1" style="text-align: right;") x86
-                .hero-text(style="left: 67%; top: 49%;")
-                    a.kernels-ht(href="/kernels/x64" tabindex="-1" style="text-align: right;") x64
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/' tabindex='-1') > Home
+                        li.breadcrumb-item.active(aria-current='page') Kernels
+        .row
+            .col-md-12
+                .container.mainblock-content.kernels-bg
+                    .row
+                        .col-md-12
+                            h1.text-center.h1-kernels System architecture
+                    .row
+                        .col-md-6.kernels-column
+                            a.kernels-button(href='/kernels/x86', tabindex='-1')
+                                | x86
+                        .col-md-6.kernels-column
+                            a.kernels-button(href='/kernels/x64', tabindex='-1')
+                                | x64
 
 
 

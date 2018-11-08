@@ -3,14 +3,45 @@ extends /partials/page
 block title
     title Vergilius Project | Log in
 block content
-    .container
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/' tabindex='-1') > Home
+                        li.breadcrumb-item.active(aria-current='page') Login
+        .row
+            .col-md-12
+                .container.mainblock-content
+                    .row
+                        .col-md-12
+                            h3.h3-login  Welcome!
+                    .row
+                        .col-md-4
+                        .col-md-2
+                            form.form-horizontal(action='/login', method='post')
+                                .form-group.login-form
+                                    strong
+                                        label.control-label(for='username') Username:
+                                    input#username.form-control(type='text', name='username', placeholder='Enter username', tabindex='-1')
+                                .form-group.login-form
+                                    strong
+                                        label.control-label(for='password') Password:
+                                    input#password.form-control(type='password', name='password', placeholder='Enter password', tabindex='-1')
+                                .form-group.submit-but
+                                    input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
+                                    button.btn.btn-info(type='submit', tabindex='-1') Submit
+                        .col-md-4
+
+    //.container
         .cmd
             ul.list-inline.breadcrumb(type='none')
                 li.list-inline-item
                     | >
                     a(href='/' tabindex="-1")  Home
                 li.list-inline-item Admin
-    .container.indent
+    //.container.indent
         .mainblock
             h3(style='text-align: center') Welcome!
             form.form-horizontal(style='width:35%; margin:auto;', action='/login', method='post')

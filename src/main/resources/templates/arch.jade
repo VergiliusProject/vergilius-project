@@ -5,42 +5,48 @@ block title
     -var selected = 'Kernels';
     -var i = 0;
 block content
-    .container
-        .cmd
-            ul.list-inline.breadcrumb(type='none')
-                li.list-inline-item
-                    | >
-                    a(href='/' tabindex="-1")  Home
-                li.list-inline-item
-                    a(href='/kernels' tabindex="-1") Kernels
-                li.list-inline-item #{arch}
-    .container.indent
-        .mainblock(style="background: url(/images/lonelysturn.png);")
-            .col-lg-12
-                h2.text-center.maincap To the depths of kernel...
-                ul.timeline(style="height: 85%;")
-                    each a in chosenArch
-                        if(i % 2 != 0)
-                            li.arch-li(style="left: 10%;")
-                                .timeline-image(style="left: 65%;")
-                                    a(href="/kernels/#{arch}/#{a}" tabindex="-1")
-                                        img.img-circle(src='/images/edit.png', alt='')
-                                .timeline-panel.arch.direct
-                                    .timeline-heading
-                                        h4(style="padding-top: 15px;")
-                                            a(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
-                                if(i < chosenArch.size()-1)
-                                    .line
-                                -var i=i+1
-                        else
-                            li.arch-li.timeline-inverted(style="left: 20%;")
-                                .timeline-image(style="left: 30%;")
-                                    a(href="/kernels/#{arch}/#{a}" tabindex="-1")
-                                        img.img-circle(src='/images/edit.png', alt='')
-                                .timeline-panel.arch.invert
-                                    .timeline-heading
-                                        h4
-                                            a(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
-                                if(i < chosenArch.size()-1)
-                                    .line
-                                -var i=i+1
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/' tabindex='-1') > Home
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/kernels' tabindex='-1') Kernels
+                        li.breadcrumb-item.active(aria-current='page') #{arch}
+        .row
+            .col-md-12
+                .container.mainblock-content(style="background: url(/images/lonelysturn.png);")
+                    .row
+                        .col-md-12
+                            h2.text-center.maincap To the depths of kernel...
+                            .container.timeline
+                                .row
+                                    each a in chosenArch
+                                        if(i % 2 != 0)
+                                            .col-md-1(style="border: solid 2px blue")
+                                            .col-md-11(style="border: solid 2px blue")
+                                                .row
+                                                    .col-md-5.arch-col-right.my-auto.d-none.d-md-block(style="border: solid 2px green")
+                                                        a.arch-link(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
+                                                    .col-md-2(style="border: solid 2px green; float: left;")
+                                                        a(href="/kernels/#{arch}/#{a}" tabindex="-1")
+                                                            img.img-circle.img-arch(src='/images/edit.png', alt='')
+                                                        if(i < chosenArch.size() - 1)
+                                                            .arch-line-new-2.d-none.d-xl-block
+                                                    .col-md-5.my-auto.d-sm-none(style="border: solid 2px green")
+                                                        a.arch-link(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
+                                                        -var i=i+1
+                                        else
+                                            .col-md-4(style="border: solid 2px blue")
+                                            .col-md-8(style="border: solid 2px blue")
+                                                .row
+                                                    .col-md-4(style="border: solid 2px green")
+                                                        a(href="/kernels/#{arch}/#{a}" tabindex="-1")
+                                                            img.img-circle.img-arch(src='/images/edit.png', alt='')
+                                                        if(i < chosenArch.size() - 1)
+                                                            .arch-line-new.d-none.d-xl-block
+                                                    .col-md-8.my-auto(style="border: solid 2px green")
+                                                        a.arch-link(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
+                                                        -var i=i+1

@@ -1,98 +1,91 @@
 extends /partials/page
-
 block title
-    title Vergilius Project | About
-    -var selected = 'About';
+    title Vergilius Project | Kernels
+    -var selected = 'Kernels';
+    -var i = 0;
 block content
-    .container
-        .cmd
-            ul.list-inline.breadcrumb(type='none')
-                li.list-inline-item
-                    | >
-                    a(href='/' tabindex="-1")  Home
-                li.list-inline-item About
-        .cmd.cmd-about
-            img.man(src='/images/man.jpg')
-            h1.hero-text.about VERGILIUS PROJECT
-    .container.indent
-        .mainblock.mainblock-about
-            ul
-                li.clearfix
-                    strong
-                        h3.legend What is «Vergilius»?
-                        br
-                        img.round(src='/images/hemi.png' style="margin-bottom: 5px; margin-top: 13px;")
-                        .legend-info(style="padding-bottom: 5px;")
-                            | It's easy to find a general information about any existing operating system,
-                            | but when it comes to undocumented structures, which lie down somewhere in the
-                            | depths of Windows' kernel, the task becomes more complicated and in this case even
-                            | experienced developers need an assistant. If you looking for one - you're in the right
-                            | place.
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/' tabindex='-1') > Home
+                        li.breadcrumb-item.active(aria-current='page') About
+        .jumbotron.jumbotron-fluid.jumb-about(style='padding-bottom: 0px;')
+            .container-fluid
+                .row
+                    .col-md-12(style='padding-top: 200px;')
+                        h1.h1-title-about VERGILIUS PROJECT
+        .row
+            .col-md-12
+                .container.mainblock-content.about-info
+                    .row.about-row
+                        .col-md-12.about-column
+                            h3.h3-about(style='margin-top: 25px;') What is «Vergilius»?
+                            img.about-img.img-left(src='/images/hemi.png')
+                            |It's easy to find a general information about any existing operating system,
+                            |but when it comes to undocumented structures, which lie down somewhere in the
+                            |depths of Windows kernel, the task becomes more complicated and in this case even
+                            |experienced developers need an assistant. If you looking for one – you're in the right
+                            |place.
                             br
-                            | Who can be a better guide in this dangerous and absolutely exciting trip to the&nbsp;
+                            |Who can be a better guide in this dangerous and absolutely exciting trip to the 
                             del Earth's core
-                            | &nbsp;Windows' kernel then Vergilius, a man who literally went to Hell with Dante?
-                            | Well, of course I can't offer you a company of ancient Roman poet, but this website
-                            | with highlighted C/C++ syntax also will be helpful.
+                            |&nbsp; Windows kernel then Vergilius, a man who literally went to Hell with Dante?
+                            |Well, of course I can't offer you a company of ancient Roman poet, but this website
+                            |with highlighted C/C++ syntax also will be helpful.
                             br
-                        .legend-info
-                            .record Before you start, remember just two things:
+                            |&emsp;Before you start, remember just two things:
                             br
-                            | &nbsp; &#9989; &nbsp;The descent into Hell is easy.
+                            |&emsp;&emsp;✅  The descent into Hell is easy.
                             br
-                            | &nbsp; &#9989; &nbsp;Test your code well and test often!
-                li.clearfix
-                    strong
-                        h3.legend About me
-                        img.round.right(src='/images/amy.png')
-                        .legend-info
-                            .record Name:&nbsp;
-                            .record.blue Svitlana&nbsp;&nbsp;
-                            .record Age:&nbsp;
-                            .record.blue 22
+                            |&emsp;&emsp;✅  Test your code well and test often!
+                    .row.about-row
+                        .col-md-12.about-column
+                            h3.h3-about About me
+                            img.about-img.img-right(src='/images/amy.png')
+                            span.white-text Name: 
+                            |Svitlana  
+                            span.white-text Age: 
+                            |22
                             br
-                            .record City:&nbsp;
-                            .record.blue Kyiv (Ukraine)
+                            span.white-text City: 
+                            |Kyiv (Ukraine)
                             br
-                            .record Status:&nbsp;
-                            .record.blue Engineering faculty survivor (with no work experience, but with a great wish to get it),
-                            |  who is looking for junior Java developer position.
+                            span.white-text Status: 
+                            |Engineering faculty survivor (with no work experience, but with a great wish to get it),
+                            |who is looking for junior Java developer position.
                             br
-                            .record For the record: &nbsp;
-                            .record.blue That's not my photo, but the one, which was available at the moment. Anyway,
-                            |  I also wear glasses and look just the same, when I'm trying to understand
-                            | how my code works.
-                li.clearfix
-                    strong
-                        h3.legend Contacts
-                        img.round(src='/images/coper.png' style="margin-top: 22px; margin-bottom: 10px;")
-                        .legend-info(style="margin-bottom: 0px; padding-bottom: 0px;")
-                            | If you want to share your ideas for "Vergilius Project" improvement, ask me something or
-                            | just leave a feedback about this website, please contact me:
-                        .legend-info
-                            .row
-                                .col-sm-5
-                                    .about-col(style="margin-top: 5px;" )
-                                        div.about-img(style="margin-bottom: 0px;")
-                                            img.contact-pict(src='/images/mail.png')
-                                        .record.blue.contact
+                            span.white-text For the record: 
+                            |That's not my photo, but the one, which was available at the moment. Anyway,
+                            |I also wear glasses and look just the same, when I'm trying to understand
+                            |how my code works.
+                    .row.about-row
+                        .col-md-12.about-column
+                            img.about-img.img-left(src='/images/coper.png')
+                            h3.h3-about Contacts
+                            |If you want to share your ideas for "Vergilius Project" improvement, ask me something or
+                            |just leave a feedback about this website, please contact me:
+                            .row(style='margin-top: 15px;')
+                                .col-md-12
+                                    .row
+                                        .col-md-1
+                                            img.round-pic(src='/images/mail.png')
+                                        .col-md-5.about-contact-col
                                             | storchak_sv@ukr.net
-                                    .about-col
-                                        div.about-img
-                                            a(href="https://github.com/RevJay" tabindex="-1")
-                                                img.contact-pict(src='/images/github.png')
-                                        .record.blue.contact
-                                            a.contacts(href="https://github.com/RevJay" tabindex="-1") github.com: RevJay
-                                .col-sm-6
-                                    .about-col
-                                        div.about-img
-                                            a(href="https://www.linkedin.com/in/svitlana-storchak-112706170/" tabindex="-1")
-                                                img.contact-pict(src='/images/linked.png')
-                                        .record.blue.contact
-                                            a.contacts(href="https://www.linkedin.com/in/svitlana-storchak-112706170/" tabindex="-1")
-                                            |Svitlana Storchak
-                                    .about-col(style="margin-top: 5px;" )
-                                        div.about-img(style="margin-bottom: 0px;")
-                                            img.contact-pict(src='/images/loca.png')
-                                        .record.blue.contact
+                                        .col-md-1
+                                            img.round-pic(src='/images/linked.png')
+                                        .col-md-5.about-contact-col
+                                            a.about-links(href="https://www.linkedin.com/in/svitlana-storchak-112706170/" tabindex="-1")
+                                                | Svitlana Storchak
+                                    .row
+                                        .col-md-1
+                                            img.round-pic(src='/images/github.png')
+                                        .col-md-5.about-contact-col
+                                            a.about-links(href="https://github.com/RevJay" tabindex="-1")
+                                                | github.com: RevJay
+                                        .col-md-1
+                                            img.round-pic(src='/images/loca.png')
+                                        .col-md-5.about-contact-col
                                             | Kyiv, Ukraine

@@ -5,90 +5,106 @@ block title
     -var selected = 'Kernels';
     -var a = 0;
 block content
-    .container
-        .cmd
-            ul.list-inline.breadcrumb(type='none')
-                li.list-inline-item
-                    | >
-                    a(href="/" tabindex="-1")  Home
-                li.list-inline-item
-                    a(href="/kernels" tabindex="-1") Kernels
-                li.list-inline-item
-                    a(href="/kernels/#{arch}" tabindex="-1") #{arch}
-                li.list-inline-item
-                    a(href="/kernels/#{arch}/#{famname}" tabindex="-1") #{famname}
-                li.list-inline-item
-                    a(href="/kernels/#{arch}/#{famname}/#{osname}" tabindex="-1") #{osname}
-                li.list-inline-item #{i.name}
-    .container.indent.data
-        .mainblock(style="min-height: 200px; padding-bottom: 5px;")
-            p.tdata
-                | #{i.name}
-            .row.bs-wizard(style='padding-bottom: 0px;')
-                if invertMapos[mapos[currOs] - 1] == null
-                    .col-sm-4.bs-wizard-step.disabled.toprow
-                        .text-center.bs-wizard-stepnum &nbsp; Previous
-                else
-                    .col-sm-4.bs-wizard-step.completed.toprow
-                        .text-center.bs-wizard-stepnum
-                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()} #{invertMapos[mapos[currOs] - 1].getArch()}
-                .col-sm-4.bs-wizard-step.complete.toprow
-                    .text-center.bs-wizard-stepnum
-                        a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()} #{invertMapos[mapos[currOs]].getArch()}
-                if invertMapos[mapos[currOs] + 1] == null
-                    .col-sm-4.bs-wizard-step.disabled.toprow
-                        .text-center.bs-wizard-stepnum &nbsp; Next
-                else
-                    .col-sm-4.bs-wizard-step.completed.toprow
-                        .text-center.bs-wizard-stepnum
-                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()} #{invertMapos[mapos[currOs] + 1].getArch()}
-            .row.bs-wizard(style='margin-top: 10px;')
-                if invertMapos[mapos[currOs] - 1] == null
-                    .col-sm-4.bs-wizard-step.disabled.bottomrow
-                        .progress
-                            .progress-bar
-                        a.bs-wizard-dot(href='#' tabindex="-1")
-                else
-                    .col-sm-4.bs-wizard-step.completed.bottomrow
-                        .progress
-                            .progress-bar
-                        a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1")
-                .col-sm-4.bs-wizard-step.complete.bottomrow
-                    .progress
-                        .progress-bar
-                    a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1")
-                if invertMapos[mapos[currOs] + 1] == null
-                    .col-sm-4.bs-wizard-step.disabled.bottomrow
-                        .progress
-                            .progress-bar
-                        a.bs-wizard-dot(href='#' tabindex="-1")
-                else
-                    .col-sm-4.bs-wizard-step.completed.bottomrow
-                        .progress
-                            .progress-bar
-                        a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1")
-            script(type='text/javascript').
-                (function () {
-                    new Clipboard('#copy-button');
-                })();
-            #outer
-                pre(style="margin-bottom: 10px;")
-                    code(class="c" style="min-height: 300px;")
-                        if(ttype == null)
-                            .nothing
-                                |Such structure doesn't exist in chosen version of the kernel...
-                                |Or we just have forgotten to add it to our database.
-                        else
-                            button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
-                            div#copyblock !{ttype}
-        if(cros != null)
-            .maincross
-                h4 Used in ...
-                div(style="padding-left: 20px;")
-                    ul(type='none')
-                        li
-                            for i in cros
-                                a.related(class='listos' href="/kernels/#{arch}/#{famname}/#{osname}/#{i}" tabindex="-1") #{i}
-                                if(a != cros.size() - 1)
-                                    - var a = a + 1
-                                    | ,&nbsp;
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/' tabindex="-1") > Home
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href="/kernels" tabindex="-1") Kernels
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href="/kernels/#{arch}" tabindex="-1") #{arch}
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href="/kernels/#{arch}/#{famname}" tabindex="-1") #{famname}
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href="/kernels/#{arch}/#{famname}/#{osname}" tabindex="-1") #{osname}
+                        li.breadcrumb-item.active(aria-current='page') #{i.name}
+        .row
+            .col-md-12
+                .container.mainblock-content
+                    .row
+                        .col-md-12
+                            h2.h2-tdata #{i.name}
+                    .row
+                        .col-md-12
+                            //.row.bs-wizard(style='padding-bottom: 0px;')
+                            .container
+                                .row.bs-wizard(style='padding-bottom: 0px; margin-top: 0px; padding-top: 30px;')
+                                    if invertMapos[mapos[currOs] - 1] == null
+                                        .col-sm-4.bs-wizard-step.disabled.toprow
+                                            .text-center.bs-wizard-stepnum &nbsp; Previous
+                                    else
+                                        .col-sm-4.bs-wizard-step.completed.toprow(style="padding-right: 5px;")
+                                            .text-center.bs-wizard-stepnum
+                                                a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()} #{invertMapos[mapos[currOs] - 1].getArch()}
+                                    .col-sm-4.bs-wizard-step.complete.toprow(style="padding-right: 5px;")
+                                        .text-center.bs-wizard-stepnum
+                                            a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()} #{invertMapos[mapos[currOs]].getArch()}
+                                    if invertMapos[mapos[currOs] + 1] == null
+                                        .col-sm-4.bs-wizard-step.disabled.toprow
+                                            .text-center.bs-wizard-stepnum &nbsp; Next
+                                    else
+                                        .col-sm-4.bs-wizard-step.completed.toprow(style="padding-right: 5px;")
+                                            .text-center.bs-wizard-stepnum
+                                                a.wizard-links(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()} #{invertMapos[mapos[currOs] + 1].getArch()}
+                            .row.bs-wizard(style='padding-top: 30px; margin-top: 0px;')
+                                if invertMapos[mapos[currOs] - 1] == null
+                                    .col-sm-4.bs-wizard-step.disabled.bottomrow.d-none.d-md-block
+                                        .progress
+                                            .progress-bar
+                                        a.bs-wizard-dot(href='#' tabindex="-1")
+                                else
+                                    .col-sm-4.bs-wizard-step.completed.bottomrow.d-none.d-md-block
+                                        .progress
+                                            .progress-bar
+                                        a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{i.name}' tabindex="-1")
+                                .col-sm-4.bs-wizard-step.complete.bottomrow.d-none.d-md-block
+                                    .progress
+                                        .progress-bar
+                                    a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{i.name}' tabindex="-1")
+                                if invertMapos[mapos[currOs] + 1] == null
+                                    .col-sm-4.bs-wizard-step.disabled.bottomrow.d-none.d-md-block
+                                        .progress
+                                            .progress-bar
+                                        a.bs-wizard-dot(href='#' tabindex="-1")
+                                else
+                                    .col-sm-4.bs-wizard-step.completed.bottomrow.d-none.d-md-block
+                                        .progress
+                                            .progress-bar
+                                        a.bs-wizard-dot(href='/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{i.name}' tabindex="-1")
+                    .row
+                        .col-md-12
+                            .container.tdata-code
+                                script(type='text/javascript').
+                                    (function () {
+                                        new Clipboard('#copy-button');
+                                    })();
+                                //#outer(style="border: solid 1px blue;")
+                                pre
+                                    code(class="c" style="min-height: 300px;")
+                                        if(ttype == null)
+                                            .nothing
+                                                | Such structure doesn't exist in chosen version of the kernel...
+                                                | Or we just have forgotten to add it to our database.
+                                        else
+                                            button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
+                                            div#copyblock !{ttype}
+                .row
+                    .col-md-12
+                        if(cros != null)
+                            .maincross
+                                h4.h4-tdata Used in ...
+                                div(style="padding-left: 20px;")
+                                    ul(type='none')
+                                        li
+                                            for i in cros
+                                                a.related(href="/kernels/#{arch}/#{famname}/#{osname}/#{i}" tabindex="-1") #{i}
+                                                if(a != cros.size() - 1)
+                                                    - var a = a + 1
+                                                    | ,&nbsp;
+
+
+
+

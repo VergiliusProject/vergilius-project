@@ -3,10 +3,23 @@ extends /partials/page
 block title
     title Vergilius Project | 404
 block content
-    .hero-image(style="background: url('/images/austro2.jpg') !important;")
-        .hero-text.err(style="color: #E0CD61;") - Houston, we have a problem...
-        .hero-text.err(style="font-size: 90px; top: 33%; left: 54%; font-weight: 700;") Page not found
-        .hero-text.err(style="font-size: 185px; top: 49%; left: 55%; font-weight: 900;") 404
+    .jumbotron.jumbotron-fluid.jumb-error
+        .container-fluid
+            .row
+                .col-md-6
+                .col-md-6(style='text-align:left; padding-top: 60px;')
+                    h2.err
+                        | - Houston, we have a problem...
+            .row
+                .col-md-6
+                .col-md-6(style='padding-top: 60px; text-align:center')
+                    h1.err
+                        | Page not found
+            .row
+                .col-md-6
+                .col-md-6(style='padding-top: 30px; text-align:center')
+                    h1.super-err
+                        | 404
 
 
 

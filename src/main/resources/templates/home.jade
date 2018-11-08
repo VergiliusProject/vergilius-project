@@ -4,15 +4,26 @@ block title
     title Vergilius Project | Home
     -var selected = 'Home';
 block content
-    .hero-image
-        .hero-text.home
-            h1 Take a look into the depths of
-            h1 Windows' kernels and
-            h1 reveal more than 60 000
-            h1 undocumented structures
-            h3(style="text-align:left; padding: 10px 10px; text-shadow: 0 0 3px black; color: #8894ae;") «The descent into Hell is easy...&nbsp;»
-            a.btn.btn-styled.explore(href="/kernels" tabindex="-1") Explore kernels!
-
-
-
-
+    .jumbotron.jumbotron-fluid.jumb-home
+        .container-fluid
+            .row(style='text-align: right;')
+                .col-md-6(style='padding-top: 125px; padding-right: 80px;')
+                    h2.h2-home
+                        | Take a look into the depths of
+                        br
+                    h2.h2-home
+                        | Windows kernels and
+                        br
+                    h2.h2-home
+                        | reveal more than 60 000
+                        br
+                    h2.h2-home
+                        | undocumented structures
+                        br
+            .row(style='text-align: left;')
+                .col-md-6
+                    h3.h3-home
+                        | «The descent into Hell is easy... »
+            .row(style='text-align: right;')
+                .col-md-6(style='padding-right: 45px;')
+                    a.btn.btn-styled.explore(href='/kernels', tabindex='-1')  Explore kernels!

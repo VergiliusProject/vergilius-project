@@ -1,78 +1,71 @@
-nav.site-header
-    .site-header__container.header-sticky
-        .logoblock
-            a.header-logo__image(href='/' tabindex="-1")
-            h1.title
-                a.title(href="/" tabindex="-1") VERGILIUS
-        ul.site-header__links
+nav.navbar.navbar-expand-lg.navbar-light.bg-dark
+    a.navbar-brand(href='/', tabindex='-1')
+        img.d-inline-block.logo(src='/images/logo.png', width='52', height='57', alt='')
+        | VERGILIUS
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+    #navbarSupportedContent.collapse.navbar-collapse
+        ul.navbar-nav.ml-auto
             if selected == "Home"
-                li
-                    a.header-link.active(href='/' tabindex="-1") Home
+                li.nav-item
+                    a.nav-link.active(href='/' tabindex="-1") Home
             else
-                li
-                    a.header-link(href='/' tabindex="-1") Home
+                li.nav-item
+                    a.nav-link(href='/' tabindex="-1") Home
             if selected == "Kernels"
-                li
-                    .dropdown.drop-height
-                        button.dropbtn.btn-style(tabindex="-1")
-                            a.header-link.active(href='/kernels' tabindex="-1" style="margin-left: 5px;") Kernels
-                        .dropdown-content.drop-style
-                            ul(type='none')
-                                div(style="width: 560px;")
-                                    div.menu-block
-                                        li
-                                            a.drp.caption(href="/kernels/x86") &nbsp;x86
-                                        li
-                                            ul(type='none')
-                                                for i in sortedFamx86
-                                                    li: p.menu-list
-                                                        a.foo-link.bar-link(href="/kernels/x86/#{i}" tabindex="-1") - #{i}
-                                    div.menu-block
-                                        li
-                                            a.drp.caption(href="/kernels/x64") &nbsp;x64
-                                        li
-                                            ul(type='none')
-                                                for i in sortedFamx64
-                                                    li: p.menu-list
-                                                        a.foo-link.bar-link(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
+                li.nav-item.dropdown
+                    //.btn-group
+                        a.nav-link.active(role="button" tabindex="-1" href="/kernels") Kernels
+                        button.button-part(type="button" tabindex="-1" class="dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+                    a#navbarDropdown.nav-link.dropdown-toggle.active(tabindex='-1', href='/kernels', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                        | Kernels
+                    .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
+                        .container.dropdown-menu-style
+                            .row
+                                .col-md-6.no-pad
+                                    a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x86') x86
+                                    ul(type='none')
+                                        for i in sortedFamx86
+                                            li: p.menu-list
+                                                a.dropdown-item(href="/kernels/x86/#{i}" tabindex="-1") - #{i}
+                                .col-md-6.no-pad
+                                    a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x64') x64
+                                    ul(type='none')
+                                        for i in sortedFamx64
+                                            li: p.menu-list
+                                                a.dropdown-item(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
             else
-                li
-                    .dropdown.drop-height
-                        button.dropbtn.btn-style(tabindex="-1")
-                            a.header-link.nobord(href='/kernels' tabindex="-1" style="margin-left: 5px;") Kernels
-                        .dropdown-content.drop-style
-                            ul(type='none')
-                                div(style="width: 560px;")
-                                    div.menu-block
-                                        li
-                                            a.drp.caption(href="/kernels/x86") &nbsp;x86
-                                        li
-                                            ul(type='none')
-                                                for i in sortedFamx86
-                                                    li: p.menu-list
-                                                        a.foo-link.bar-link(href="/kernels/x86/#{i}" tabindex="-1") - #{i}
-                                    div.menu-block
-                                        li
-                                            a.drp.caption(href="/kernels/x64") &nbsp;x64
-                                        li
-                                            ul(type='none')
-                                                for i in sortedFamx64
-                                                    li: p.menu-list
-                                                        a.foo-link.bar-link(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
+                li.nav-item.dropdown
+                    //.btn-group
+                        a.nav-link(role="button" tabindex="-1" href="/kernels") Kernels
+                        button.button-part(type="button" tabindex="-1" class="dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+                    a#navbarDropdown.nav-link.dropdown-toggle(tabindex='-1', href='/kernels', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                        | Kernels
+                    .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
+                        .container.dropdown-menu-style
+                            .row
+                                .col-md-6.no-pad
+                                    a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x86') x86
+                                    ul(type='none')
+                                        for i in sortedFamx86
+                                            li: p.menu-list
+                                                a.dropdown-item(href="/kernels/x86/#{i}" tabindex="-1") - #{i}
+                                .col-md-6.no-pad
+                                    a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x64') x64
+                                    ul(type='none')
+                                        for i in sortedFamx64
+                                            li: p.menu-list
+                                                a.dropdown-item(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
             if selected == "About"
-                li
-                    a.header-link.active.hlink-pad(href='/about' tabindex="-1") About
+                li.nav-item
+                    a.nav-link.active(href='/about' tabindex="-1") About
             else
-                li
-                    a.header-link.hlink-pad(href='/about' tabindex="-1") About
+                li.nav-item
+                    a.nav-link(href='/about' tabindex="-1") About
             if selected == "Admin"
-                li
-                    a.header-link.active.hlink-pad(href='/admin' tabindex="-1") Admin
+                li.nav-item
+                    a.nav-link.active(href='/admin' tabindex="-1") Admin
             else
-                li
-                    a.header-link.hlink-pad(href='/admin' tabindex="-1") Admin
-
-
-
-
+                li.nav-item
+                    a.nav-link(href='/admin' tabindex="-1") Admin
 
