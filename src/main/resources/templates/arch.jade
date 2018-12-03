@@ -25,28 +25,28 @@ block content
                                 .row
                                     each a in chosenArch
                                         if(i % 2 != 0)
-                                            .col-md-1(style="border: solid 2px blue")
-                                            .col-md-11(style="border: solid 2px blue")
+                                            .col-md-1
+                                            .col-md-11
                                                 .row
-                                                    .col-md-5.arch-col-right.my-auto.d-none.d-md-block(style="border: solid 2px green")
+                                                    .col-md-5.arch-col-right.my-auto.d-none.d-md-block
                                                         a.arch-link(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
-                                                    .col-md-2(style="border: solid 2px green; float: left;")
+                                                    .col-md-2.d-none.d-sm-block(style="float: left;")
                                                         a(href="/kernels/#{arch}/#{a}" tabindex="-1")
                                                             img.img-circle.img-arch(src='/images/edit.png', alt='')
                                                         if(i < chosenArch.size() - 1)
                                                             .arch-line-new-2.d-none.d-xl-block
-                                                    .col-md-5.my-auto.d-sm-none(style="border: solid 2px green")
+                                                    .col-md-5.my-auto.d-md-none.sm-modif
                                                         a.arch-link(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
                                                         -var i=i+1
                                         else
-                                            .col-md-4(style="border: solid 2px blue")
-                                            .col-md-8(style="border: solid 2px blue")
+                                            .col-md-4
+                                            .col-md-8
                                                 .row
-                                                    .col-md-4(style="border: solid 2px green")
+                                                    .col-md-4.d-none.d-sm-block
                                                         a(href="/kernels/#{arch}/#{a}" tabindex="-1")
                                                             img.img-circle.img-arch(src='/images/edit.png', alt='')
                                                         if(i < chosenArch.size() - 1)
                                                             .arch-line-new.d-none.d-xl-block
-                                                    .col-md-8.my-auto(style="border: solid 2px green")
+                                                    .col-md-8.my-auto(style="padding-left: 0px")
                                                         a.arch-link(href="/kernels/#{arch}/#{a}" tabindex="-1") #{a}
                                                         -var i=i+1

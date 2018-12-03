@@ -14,48 +14,16 @@ block content
         .row
             .col-md-12
                 .container.mainblock-content
-                    .row
-                        .col-md-12
-                            h3.h3-login  Welcome!
-                    .row
-                        .col-md-4
-                        .col-md-2
-                            form.form-horizontal(action='/login', method='post')
-                                .form-group.login-form
-                                    strong
-                                        label.control-label(for='username') Username:
-                                    input#username.form-control(type='text', name='username', placeholder='Enter username', tabindex='-1')
-                                .form-group.login-form
-                                    strong
-                                        label.control-label(for='password') Password:
-                                    input#password.form-control(type='password', name='password', placeholder='Enter password', tabindex='-1')
-                                .form-group.submit-but
-                                    input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
-                                    button.btn.btn-info(type='submit', tabindex='-1') Submit
-                        .col-md-4
-
-    //.container
-        .cmd
-            ul.list-inline.breadcrumb(type='none')
-                li.list-inline-item
-                    | >
-                    a(href='/' tabindex="-1")  Home
-                li.list-inline-item Admin
-    //.container.indent
-        .mainblock
-            h3(style='text-align: center') Welcome!
-            form.form-horizontal(style='width:35%; margin:auto;', action='/login', method='post')
-                .form-group
-                    label.control-label.col-sm-2(for='username') Username:
-                    .col-sm-10
-                        input#username.form-control(type='text', name='username', style='width: 355px;', placeholder='Enter username', tabindex="-1")
-                .form-group
-                    label.control-label.col-sm-2(for='password') Password:
-                    .col-sm-10
-                        input#password.form-control(type='password', name='password', style='width: 355px;', placeholder='Enter password', tabindex="-1")
-                .form-group(align='right')
-                    .col-sm-offset-2.col-sm-10
-                        input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
-                        button.btn.btn-info(type='submit', tabindex="-1" style="margin-left:216px;")
-                            |Submit
+                    .container(style="width: 50%; margin: 0 auto;")
+                        h3.h3-login(style="padding-bottom: 0px; padding-top: 40px;")  Welcome!
+                        form.form-horizontal(action='/login', method='post' style="padding-top: 15px;")
+                            .form-group.login-form
+                                label.control-label(for='username') Username:
+                                input#username.form-control(type='text', name='username', placeholder='Enter username', tabindex='-1')
+                            .form-group.login-form
+                                label.control-label(for='password') Password:
+                                input#password.form-control(type='password', name='password', placeholder='Enter password', tabindex='-1')
+                            .form-group(style="text-align: right; width: 30.2rem")
+                                input(type='hidden', name='${_csrf.parameterName}', value='${_csrf.token}')
+                                button.btn.btn-info.submit-but(type='submit', tabindex='-1') Submit
 

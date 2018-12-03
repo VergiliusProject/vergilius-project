@@ -26,7 +26,7 @@ block content
                             li.breadcrumb-item.active(aria-current='page') #{famname}
             .row
                 .col-md-12
-                    .container.mainblock-content(style="background-image: url(/images/newfam.png); background-color: #081120 !important;")
+                    .container.mainblock-content.content-family
                         .row
                             .col-md-12
                                 h2.text-center.maincap(style="margin-bottom: 0px;") #{famname}
@@ -34,42 +34,34 @@ block content
                                     .row.sm-timeline
                                         each a in fam
                                             if(i % 2 != 0)
-                                                .col-sm-6(style="border: solid 0px blue")
-                                                .col-sm-6(style="border: solid 0px blue")
+                                                .col-sm-4
+                                                .col-sm-8.sm-modif(style="margin-bottom: 5px")
                                                     .row
-                                                        .col-sm-3.d-none.d-sm-block(style="border: solid 0px yellow")
+                                                        .col-sm-2.d-none.d-sm-block.md-even
                                                             .sm-timeline-image
                                                                 a(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1")
                                                                     img.smcircle.img-arch(src='/images/mainpla.png', alt='')
                                                             if(i < fam.size() - 1)
                                                                 .new-small-line-2.d-none.d-xl-block
-                                                        .col-sm-9.family-col(style="border: solid 0px yellow")
+                                                        .col-sm-10.my-auto
                                                             a.fam-link(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1") #{a.family} #{a.osname}
-                                                            //p.family
-                                                                | build: #{a.buildnumber}
-                                                                br
-                                                                | date: #{a.convertTimestampToDate(a.timestamp)}
                                                             p.family
                                                                 | build: #{a.buildnumber}
                                                             p.family
                                                                 | date: #{a.convertTimestampToDate(a.timestamp)}
                                                             -var i=i+1
                                             else
-                                                .col-sm-5(style="border: solid 0px red")
-                                                .col-sm-7(style="border: solid 0px red")
+                                                .col-sm-3
+                                                .col-sm-9(style="margin-bottom: 5px")
                                                     .row
-                                                        .col-sm-3.sm-min-col.d-none.d-sm-block(style="border: solid 0px green")
+                                                        .col-sm-2.d-none.d-sm-block(style="padding-left: 0px;")
                                                             .sm-timeline-image
                                                                 a(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1")
                                                                     img.smcircle.img-arch(src='/images/mainpla.png', alt='')
                                                             if(i < fam.size() - 1)
                                                                 .new-small-line.d-none.d-xl-block
-                                                        .col-sm-9.family-col.sm-min-col(style="border: solid 0px green")
+                                                        .col-sm-10.my-auto.md-odd
                                                             a.fam-link(href="/kernels/#{arch}/#{famname}/#{a.osname}" tabindex="-1") #{a.family} #{a.osname}
-                                                            //p.family
-                                                                | build: #{a.buildnumber}
-                                                                br
-                                                                | date: #{a.convertTimestampToDate(a.timestamp)}
                                                             p.family
                                                                 | build: #{a.buildnumber}
                                                             p.family

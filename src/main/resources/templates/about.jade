@@ -1,7 +1,7 @@
 extends /partials/page
 block title
     title Vergilius Project | Kernels
-    -var selected = 'Kernels';
+    -var selected = 'About';
     -var i = 0;
 block content
     .container.mainblock
@@ -15,77 +15,66 @@ block content
         .jumbotron.jumbotron-fluid.jumb-about(style='padding-bottom: 0px;')
             .container-fluid
                 .row
-                    .col-md-12(style='padding-top: 200px;')
+                    .col-md-12(style='padding-top: 240px;')
                         h1.h1-title-about VERGILIUS PROJECT
         .row
             .col-md-12
                 .container.mainblock-content.about-info
                     .row.about-row
                         .col-md-12.about-column
-                            h3.h3-about(style='margin-top: 25px;') What is «Vergilius»?
-                            img.about-img.img-left(src='/images/hemi.png')
-                            |It's easy to find a general information about any existing operating system,
-                            |but when it comes to undocumented structures, which lie down somewhere in the
-                            |depths of Windows kernel, the task becomes more complicated and in this case even
-                            |experienced developers need an assistant. If you looking for one – you're in the right
-                            |place.
-                            br
-                            |Who can be a better guide in this dangerous and absolutely exciting trip to the 
-                            del Earth's core
-                            |&nbsp; Windows kernel then Vergilius, a man who literally went to Hell with Dante?
-                            |Well, of course I can't offer you a company of ancient Roman poet, but this website
-                            |with highlighted C/C++ syntax also will be helpful.
-                            br
-                            |&emsp;Before you start, remember just two things:
-                            br
-                            |&emsp;&emsp;✅  The descent into Hell is easy.
-                            br
-                            |&emsp;&emsp;✅  Test your code well and test often!
+                            .row
+                                .col-md-12(style="padding-top: 20px;")
+                                    h3.h3-about About
+                            .row
+                                .col.md-12
+                                    |This project provides a collection of Microsoft Windows kernel structures, unions
+                                    |and enumerations. Most of them are not officially documented and cannot be found
+                                    |in Windows Driver Kit (WDK) headers. The target audience of this site is driver
+                                    |developers and kernel researches.
                     .row.about-row
                         .col-md-12.about-column
-                            h3.h3-about About me
-                            img.about-img.img-right(src='/images/amy.png')
-                            span.white-text Name: 
-                            |Svitlana  
-                            span.white-text Age: 
-                            |22
-                            br
-                            span.white-text City: 
-                            |Kyiv (Ukraine)
-                            br
-                            span.white-text Status: 
-                            |Engineering faculty survivor (with no work experience, but with a great wish to get it),
-                            |who is looking for junior Java developer position.
-                            br
-                            span.white-text For the record: 
-                            |That's not my photo, but the one, which was available at the moment. Anyway,
-                            |I also wear glasses and look just the same, when I'm trying to understand
-                            |how my code works.
-                    .row.about-row
-                        .col-md-12.about-column
-                            img.about-img.img-left(src='/images/coper.png')
-                            h3.h3-about Contacts
-                            |If you want to share your ideas for "Vergilius Project" improvement, ask me something or
-                            |just leave a feedback about this website, please contact me:
-                            .row(style='margin-top: 15px;')
+                            .row
                                 .col-md-12
+                                    h3.h3-about Where did we get the information?
+                            .row
+                                .col.md-12
+                                    |Information about kernel structures, unions and enumerations is extracted from
+                                    |publicly available PDB files. We wrote a sophisticated parser that reconstructs
+                                    |C/C++ code from PDB files. So far it's the best known reconstructor as it can
+                                    |handle const/volatile modifiers, bit fields, function pointers, unions, arrays
+                                    |and anonymous types.
+                    .row.about-row
+                        .col-md-12.about-column
+                            .row
+                                .col-md-12
+                                    h3.h3-about Why "Vergilius"?
+                            .row
+                                .col-md-12
+                                    |Who can be a better guide in a dangerous and exciting trip to the depth of
+                                    |Microsoft Windows kernel than Vergilius, a man who literally went to Hell with
+                                    |Dante? We can't offer you a company of ancient Roman poet but this website with
+                                    |highlighted C/C++ syntax will be helpful.
+                    .row.about-row
+                        .col-md-12.about-column
+                            .row
+                                .col-md-12
+                                    h3.h3-about Creators
                                     .row
-                                        .col-md-1
-                                            img.round-pic(src='/images/mail.png')
-                                        .col-md-5.about-contact-col
-                                            | storchak_sv@ukr.net
-                                        .col-md-1
-                                            img.round-pic(src='/images/linked.png')
-                                        .col-md-5.about-contact-col
-                                            a.about-links(href="https://www.linkedin.com/in/svitlana-storchak-112706170/" tabindex="-1")
-                                                | Svitlana Storchak
+                                        .col-md-12(style="padding-top: 10px;")
+                                            //h4.h4-about Svitlana Storchak (design and programming)
+                                            h4.h4-about
+                                                a.linked-in(href="https://www.linkedin.com/in/svitlana-storchak-112706170/") &#128279; Svitlana Storchak (design and programming)
+                                            |“Vergilius” became my first serious and currently the most important experience
+                                            |in developing web-applications. With the help of modern technologies (such as
+                                            |Spring 5 and Bootstrap 4) implementing main functionality wasn’t very complicated,
+                                            |but web-pages design was a challenge. In that moment project name that was chosen
+                                            |at the very beginning inspired me to present Windows kernels as planets cores,
+                                            |because, as you know, Earth’s core is extremely hot and located so deeply that
+                                            |obviously reminds Hell. And here “Vergilius” comes to help.
                                     .row
-                                        .col-md-1
-                                            img.round-pic(src='/images/github.png')
-                                        .col-md-5.about-contact-col
-                                            a.about-links(href="https://github.com/RevJay" tabindex="-1")
-                                                | github.com: RevJay
-                                        .col-md-1
-                                            img.round-pic(src='/images/loca.png')
-                                        .col-md-5.about-contact-col
-                                            | Kyiv, Ukraine
+                                        .col-md-12(style="padding-top: 20px;")
+                                            h4.h4-about Sergey Podobry (inspirator and critic)
+                                            |My main profile is C/C++ system programming including Windows drivers. I saw a
+                                            |similar project on the web but it was outdated and abandoned however it was still
+                                            |helpful. So I decided to create a better one. Luckily I've got Svitlana just
+                                            |graduated so I've gave her an idea for her portfolio project.

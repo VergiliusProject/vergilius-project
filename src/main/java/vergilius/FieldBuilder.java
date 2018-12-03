@@ -2,8 +2,7 @@ package vergilius;
 
 import vergilius.repos.TtypeRepository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FieldBuilder
@@ -14,6 +13,7 @@ public class FieldBuilder
     private StringBuilder retval = new StringBuilder();
     private StringBuilder args = new StringBuilder();
     private int fbOffset = 0;
+
 
     //The method returns a string indent for a type, which depends on nesting level of this type
     public static String retIndent(int indent)
@@ -78,6 +78,102 @@ public class FieldBuilder
         }
     }
 
+
+    public static List<Integer> findDuplicates(List<Tdata> list, int val)
+    {
+        List<Integer> dupl = new ArrayList<>();
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(list.get(i).getOffset() == val)
+            {
+               dupl.add(i);
+            }
+        }
+        if(dupl.size() <= 1)
+        {
+            dupl.clear();
+        }
+        return dupl;
+    }
+
+    public static int getSizeOfUnion(List<Tdata> structFields, TtypeRepository repo, Os operSys, List<Integer> dupls)
+    {
+        int[] sizes = new int[dupls.size() - 1];
+        int k = 0;
+
+        for(int i = dupls.size() - 1; i > 0; i--) {
+            //prev
+            sizes[k] = repo.findByIdAndOpersys(structFields.get(dupls.get(i) - 1).getId(), operSys).getSizeof() + structFields.get(dupls.get(i) - 1).getOffset();
+            k++;
+        }
+        Arrays.sort(sizes);
+        return sizes[sizes.length - 1];
+    }
+
+    public static List<List<Tdata>> getFirstPieceOfStruct(List<Tdata> structFields, TtypeRepository repo, Os operSys)
+    {
+        List<List<Tdata>> retLists = new ArrayList<>();
+        Tdata currentField = structFields.get(0);
+
+        List<Integer> dupl = findDuplicates(structFields, currentField.getOffset());
+        if (!dupl.isEmpty()) {
+            int sizeOfUnion = getSizeOfUnion(structFields, repo, operSys, dupl);
+            int maxPossibleOffset = sizeOfUnion - 1;
+
+            for (int j = 0; j < dupl.size() - 1; j++) {
+                List<Tdata> list1 = new ArrayList<>();
+                for (int n = dupl.get(j); n < dupl.get(j + 1); n++) {
+                    list1.add(structFields.get(n));
+                }
+                retLists.add(list1);
+            }
+            //last
+            int bottomBorder = 0;
+            for (int k = dupl.get(dupl.size() - 1); k < structFields.size(); k++) {
+                if (structFields.get(k).getOffset() > maxPossibleOffset) {
+                    bottomBorder = k - 1;
+                    break;
+                }
+            }
+
+            List<Tdata> list1 = new ArrayList<>();
+            for (int n = dupl.get(dupl.size() - 1); n < bottomBorder + 1; n++) {
+                list1.add(structFields.get(n));
+            }
+            retLists.add(list1);
+        } else {
+            /*
+            List<Tdata> single = new ArrayList<>();
+            single.add(structFields.get(0));
+            retLists.add(single);
+            */
+            for(Tdata each: structFields)
+            {
+                List<Tdata> single = new ArrayList<>();
+                single.add(each);
+                retLists.add(single);
+            }
+            //plural
+        }
+
+        for (int m = 0; m < retLists.size(); m++) {
+            for (Tdata each : retLists.get(m)) {
+                structFields.remove(each);
+            }
+        }
+
+        for (List<Tdata> each : retLists) {
+            if(each.size() > 1) {
+                System.out.print("STRUCT");
+            }
+            System.out.println(each);
+            System.out.println("--------");
+        }
+
+        return retLists;
+    }
+
     public static void printStructFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int rpOffset, String link, Os operSys)
     {
         //if structure isn't bodiless
@@ -108,6 +204,28 @@ public class FieldBuilder
 
             }
             fb.type.append("\n").append(retIndent(--indent)).append("}");// braces are always on the same level with a word 'struct'
+
+            //lists for unions
+            /*
+            while(!structFields.isEmpty()) {
+                for (List<Tdata> each : getFirstPieceOfStruct(structFields, repo, operSys)) {
+                    System.out.println(each);
+                }
+            }
+            */
+
+            while(!structFields.isEmpty())
+            {
+                List<List<Tdata>> returned = getFirstPieceOfStruct(structFields, repo, operSys);
+                if(returned.size() > 1)
+                {
+                    for(List<Tdata> each: returned)
+                    {
+                       if(each.size() > 1) getFirstPieceOfStruct(each, repo, operSys);
+                    }
+                }
+            }
+
         }
 
     }

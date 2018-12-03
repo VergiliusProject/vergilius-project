@@ -41,17 +41,14 @@ block content
                                 div
                                     ul(type='none')
                                         for i in structs
-                                            li: p
-                                                a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                            li: a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
                                 h2.caption Enums:
                                     div
                                         ul(type='none')
                                             for i in enums
-                                                li: p
-                                                    a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                                li: a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
                                 h2.caption Unions:
                                     div
                                         ul(type='none')
                                             for i in unions
-                                                li: p
-                                                    a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                                li: a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
