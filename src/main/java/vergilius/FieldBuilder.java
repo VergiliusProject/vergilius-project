@@ -78,6 +78,10 @@ public class FieldBuilder
         }
     }
 
+    public static boolean isBitField(String fieldName)
+    {
+        return fieldName.contains(":");
+    }
 
     public static List<Integer> findDuplicates(List<Tdata> list, int val)
     {
@@ -87,8 +91,17 @@ public class FieldBuilder
         {
             if(list.get(i).getOffset() == val)
             {
-               dupl.add(i);
+                dupl.add(i);
+
+                if(isBitField(list.get(i).getName()))
+                {
+                    while (i + 1 < list.size() && isBitField(list.get(i + 1).getName()))
+                    {
+                        i++;
+                    }
+                }
             }
+
         }
         if(dupl.size() <= 1)
         {
@@ -117,7 +130,8 @@ public class FieldBuilder
         Tdata currentField = structFields.get(0);
 
         List<Integer> dupl = findDuplicates(structFields, currentField.getOffset());
-        if (!dupl.isEmpty()) {
+        if (!dupl.isEmpty())
+        {
             int sizeOfUnion = getSizeOfUnion(structFields, repo, operSys, dupl);
             int maxPossibleOffset = sizeOfUnion - 1;
 
@@ -128,12 +142,16 @@ public class FieldBuilder
                 }
                 retLists.add(list1);
             }
-            //last
-            int bottomBorder = 0;
-            for (int k = dupl.get(dupl.size() - 1); k < structFields.size(); k++) {
+
+            int bottomBorder = dupl.get(dupl.size() - 1);
+            for (int k = bottomBorder + 1; k < structFields.size(); k++) {
                 if (structFields.get(k).getOffset() > maxPossibleOffset) {
                     bottomBorder = k - 1;
                     break;
+                }
+                else
+                {
+                    bottomBorder++;
                 }
             }
 
@@ -141,20 +159,14 @@ public class FieldBuilder
             for (int n = dupl.get(dupl.size() - 1); n < bottomBorder + 1; n++) {
                 list1.add(structFields.get(n));
             }
+
             retLists.add(list1);
-        } else {
-            /*
+        }
+        else
+        {
             List<Tdata> single = new ArrayList<>();
             single.add(structFields.get(0));
             retLists.add(single);
-            */
-            for(Tdata each: structFields)
-            {
-                List<Tdata> single = new ArrayList<>();
-                single.add(each);
-                retLists.add(single);
-            }
-            //plural
         }
 
         for (int m = 0; m < retLists.size(); m++) {
@@ -163,15 +175,59 @@ public class FieldBuilder
             }
         }
 
-        for (List<Tdata> each : retLists) {
-            if(each.size() > 1) {
-                System.out.print("STRUCT");
-            }
-            System.out.println(each);
-            System.out.println("--------");
-        }
-
         return retLists;
+    }
+
+    public static void constructFieldType(Tdata currentField, FieldBuilder fb, Ttype type, int rpOffset, String link, TtypeRepository repo, Os operSys, int indent)
+    {
+        type = repo.findByIdAndOpersys(currentField.getId(), operSys);
+
+        FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, rpOffset + currentField.getOffset(), link, operSys);
+        field.setName(currentField.getName());
+        field.fbOffset = rpOffset + currentField.getOffset();
+
+        fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";"); //string creation
+
+        String str = new StringBuilder("\n").append(retIndent(indent)).append(field.toString()).append(";").toString();
+        String[] splitted = str.toString().replaceAll("(<.+?>)", "").split("\n");
+
+        int displayLength = splitted[splitted.length - 1].length();
+        fb.type.append(retSpaces(displayLength) + Integer.toHexString(field.fbOffset));
+    }
+
+    public static void recStructProcessing(List<Tdata> structFields, FieldBuilder fb, Ttype type, int rpOffset, String link, TtypeRepository repo, Os operSys, int indent)
+    {
+        while(!structFields.isEmpty())
+        {
+            List<List<Tdata>> returned = getFirstPieceOfStruct(structFields, repo, operSys);
+            if(returned.size() > 1)
+            {
+                fb.type.append("\n").append(retIndent(indent)).append("union").append("\n").append(retIndent(indent)).append("{");
+                indent++;
+                for(List<Tdata> each: returned)
+                {
+                    if(each.size() > 1)
+                    {
+                        fb.type.append("\n").append(retIndent(indent)).append("struct").append("\n").append(retIndent(indent)).append("{");
+                        indent++;
+                        recStructProcessing(each, fb, type, rpOffset, link, repo, operSys, indent);
+                        indent--;
+                        fb.type.append("\n").append(retIndent(indent)).append("}");
+                    }
+                    else
+                    {
+                        Tdata currentField = each.get(0);
+                        constructFieldType(currentField, fb, type, rpOffset, link, repo, operSys, indent);
+                    }
+                }
+                indent--;
+                fb.type.append("\n").append(retIndent(indent)).append("}");
+            }
+            else {
+                Tdata currentField = returned.get(0).get(0);
+                constructFieldType(currentField, fb, type, rpOffset, link, repo, operSys, indent);
+            }
+        }
     }
 
     public static void printStructFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int rpOffset, String link, Os operSys)
@@ -186,45 +242,9 @@ public class FieldBuilder
 
             List<Tdata> structFields = Sorter.sortByOrdinal(type.getData());
 
-            for (Tdata currentField : structFields)
-            {
-                type = repo.findByIdAndOpersys(currentField.getId(), operSys);
+            recStructProcessing(structFields, fb, type, rpOffset, link, repo, operSys, indent);
 
-                FieldBuilder field = FieldBuilder.recursionProcessing(repo, type, indent, rpOffset + currentField.getOffset(), link, operSys);
-                field.setName(currentField.getName());
-                field.fbOffset = rpOffset + currentField.getOffset();
-
-                fb.type.append("\n").append(retIndent(indent)).append(field.toString()).append(";"); //string creation
-
-                String str = new StringBuilder("\n").append(retIndent(indent)).append(field.toString()).append(";").toString();
-                String[] splitted = str.toString().replaceAll("(<.+?>)", "").split("\n");
-
-                int displayLength = splitted[splitted.length - 1].length();
-                fb.type.append(retSpaces(displayLength) + Integer.toHexString(field.fbOffset));
-
-            }
             fb.type.append("\n").append(retIndent(--indent)).append("}");// braces are always on the same level with a word 'struct'
-
-            //lists for unions
-            /*
-            while(!structFields.isEmpty()) {
-                for (List<Tdata> each : getFirstPieceOfStruct(structFields, repo, operSys)) {
-                    System.out.println(each);
-                }
-            }
-            */
-
-            while(!structFields.isEmpty())
-            {
-                List<List<Tdata>> returned = getFirstPieceOfStruct(structFields, repo, operSys);
-                if(returned.size() > 1)
-                {
-                    for(List<Tdata> each: returned)
-                    {
-                       if(each.size() > 1) getFirstPieceOfStruct(each, repo, operSys);
-                    }
-                }
-            }
 
         }
 

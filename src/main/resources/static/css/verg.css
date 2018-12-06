@@ -801,6 +801,36 @@ a.about-links:hover
     position: relative;
 }
 
+.jumb-privacy
+{
+    border: solid 2px #262633;
+    border-radius: 0.6rem;
+    background: url('/images/topsecret.png');
+    background-color: #040c13;
+    min-height: 350px;
+    margin-bottom: 15px;
+    height: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.jumb-terms
+{
+    border: solid 2px #262633;
+    border-radius: 0.6rem;
+    background: url('/images/terms.jpg');
+    background-color: #040c13;
+    min-height: 350px;
+    margin-bottom: 15px;
+    height: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
 .h1-title-about
 {
     text-align: center;
@@ -1244,30 +1274,6 @@ a.linked-in:hover
         padding-left: 5px;
     }
 
-    /*
-    .maincross-empty
-    {
-
-    }
-
-    .fill {
-
-    }
-
-
-    .kernels-bg
-    {
-        background-image: url('/images/multlong.png');
-
-    }
-
-    .content-family
-    {
-        background-image: url('/images/newfam.png');
-        background-color: #081120 !important;
-    }
-    */
-
 }
 /* Small devices */
 @media (min-width: 544px)
@@ -1349,27 +1355,6 @@ a.linked-in:hover
         padding-left: 5px;
     }
 
-    /*
-    .fill {
-
-    }
-
-    .kernels-bg
-    {
-        background-image: url('/images/multlong.png');
-    }
-    .content-family
-    {
-        background-image: url('/images/newfam.png');
-        background-color: #081120 !important;
-    }
-
-    .maincross-empty
-    {
-
-    }
-    */
-
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -1448,28 +1433,6 @@ a.linked-in:hover
     {
         min-height: 90%;
     }
-
-    /*
-    .fill {
-
-    }
-
-    .kernels-bg
-    {
-        background-image: url('/images/multlong.png');
-    }
-
-    .content-family
-    {
-        background-image: url('/images/newfam.png');
-        background-color: #081120 !important;
-    }
-
-    .maincross-empty
-    {
-
-    }
-    */
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -1548,28 +1511,6 @@ a.linked-in:hover
         min-height: 90%;
     }
 
-    /*
-    .fill {
-
-    }
-
-    .kernels-bg
-    {
-        background-image: url('/images/multlong.png');
-    }
-
-    .content-family
-    {
-        background-image: url('/images/newfam.png');
-        background-color: #081120 !important;
-    }
-
-    .maincross-empty
-    {
-
-    }
-    */
-
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
@@ -1646,119 +1587,5 @@ a.linked-in:hover
     {
         min-height: 90%;
     }
-    /*
-    .kernels-bg
-    {
-        background-image: url('/images/multlong.png');
-    }
-    .content-family
-    {
-        background-image: url('/images/newfam.png');
-        background-color: #081120 !important;
-    }
-
-    .maincross-empty
-    {
-
-    }
-    */
-}
-
-/*
-@media (min-width: 1920px)
-{
-    html
-    {
-        font-size: 10px;
-    }
-    .navbar-light .navbar-brand
-    {
-        font-size: 50px;
-    }
-    .h1-title-about
-    {
-        font-size: 65px;
-    }
-    .list-link
-    {
-        font-size: 2.3rem;
-        padding-left: 3rem;
-    }
-
-    .h4-tdata
-    {
-        font-size: 2.4rem;
-        padding-left: 1rem;
-    }
-
-    #copyblock
-    {
-        font-size: 1.8rem;
-    }
-    h2.text-center.maincap {
-        font-size: 8.5rem;
-    }
-    .breadcrumbs-col
-    {
-        font-size: 1.6rem;
-    }
-    #copy-button {
-        left: 95%;
-    }
-
-    .hide-padd
-    {
-        padding-top: 30px;
-        margin-top: 0px;
-    }
-    .nothing
-    {
-        padding-left: 10px;
-        font-size: 20px;
-    }
-    .md-odd
-    {
-        padding-left: 0px;
-    }
-    .md-even
-    {
-        padding-left: 10px;
-    }
-
-    .used-in-block {
-        padding-top: 1rem;
-    }
-
-    .maincross
-    {
-        padding-left: 10px;
-        min-height: 385px;
-    }
-
-    .fill {
-        min-height: 100%;
-        height: 100%;
-    }
-    .kernels-bg
-    {
-        background-image: url('/images/multlong.png');
-        height: -webkit-fill-available;
-    }
-
-    .content-family
-    {
-        background-image: url('/images/newfam.png');
-        background-color: #081120 !important;
-        height: -webkit-fill-available;
-    }
-
-    .maincross-empty
-    {
-        min-height: 385px;
-        margin-top: -16px;
-        margin-bottom: 15px;
-        background-color: #262633;
-    }
 
 }
-*/

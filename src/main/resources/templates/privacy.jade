@@ -1,7 +1,7 @@
 extends /partials/page
 block title
-    title Vergilius Project | About
-    -var selected = 'About';
+    title Vergilius Project | Privacy Policy
+    -var selected = 'Privacy';
     -var i = 0;
 block content
     .container.mainblock
@@ -11,12 +11,8 @@ block content
                     ol.breadcrumb
                         li.breadcrumb-item
                             a.breadcrumb-link(href='/' tabindex='-1') > Home
-                        li.breadcrumb-item.active(aria-current='page') About
-        .jumbotron.jumbotron-fluid.jumb-about(style='padding-bottom: 0px;')
-            .container-fluid
-                .row
-                    .col-md-12(style='padding-top: 240px;')
-                        h1.h1-title-about VERGILIUS PROJECT
+                        li.breadcrumb-item.active(aria-current='page') Privacy Policy
+        .jumbotron.jumbotron-fluid.jumb-privacy(style='padding-bottom: 0px;')
         .row
             .col-md-12
                 .container.mainblock-content.about-info
@@ -60,9 +56,8 @@ block content
                                 .col-md-12
                                     h3.h3-about Creators
                                     .row
-                                        .col-md-3(style="padding-top: 10px;")
-                                            img.about-img.img-left(src="/images/temporary.png")
-                                        .col-md-9(style="padding-top: 10px;")
+                                        .col-md-12(style="padding-top: 10px;")
+                                            //h4.h4-about Svitlana Storchak (design and programming)
                                             h4.h4-about
                                                 a.linked-in(href="https://www.linkedin.com/in/svitlana-storchak-112706170/") &#128279; Svitlana Storchak (design and programming)
                                             |“Vergilius” became my first serious and currently the most important experience
@@ -73,9 +68,7 @@ block content
                                             |because, as you know, Earth’s core is extremely hot and located so deeply that
                                             |obviously reminds Hell. And here “Vergilius” comes to help.
                                     .row
-                                        .col-md-3(style="padding-top: 10px;")
-                                            img.about-img.img-left(src="/images/temporary.png")
-                                        .col-md-9(style="padding-top: 20px;")
+                                        .col-md-12(style="padding-top: 20px;")
                                             h4.h4-about Sergey Podobry (inspirator and critic)
                                             |My main profile is C/C++ system programming including Windows drivers. I saw a
                                             |similar project on the web but it was outdated and abandoned however it was still

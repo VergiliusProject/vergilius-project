@@ -148,6 +148,21 @@ public class MainController implements ErrorController{
         return "home";
     }
 
+    @GetMapping("/terms")
+    public String displayTerms(Model model)
+    {
+        passFamilyList(model);
+        return "terms";
+    }
+
+    @GetMapping("/privacy")
+    public String displayPrivacy(Model model)
+    {
+        passFamilyList(model);
+        return "privacy";
+    }
+
+
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logoutPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 
