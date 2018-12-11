@@ -12,72 +12,48 @@ block content
                         li.breadcrumb-item
                             a.breadcrumb-link(href='/' tabindex='-1') > Home
                         li.breadcrumb-item.active(aria-current='page') About
-        .jumbotron.jumbotron-fluid.jumb-about(style='padding-bottom: 0px;')
+        .jumbotron.jumbotron-fluid.jumb-about(style='padding-bottom: 0px; padding-top: 0px;')
             .container-fluid
                 .row
                     .col-md-12(style='padding-top: 240px;')
-                        h1.h1-title-about VERGILIUS PROJECT
+                        h1.h1-title-about(style="padding-top: 20px;") VERGILIUS PROJECT
         .row
             .col-md-12
                 .container.mainblock-content.about-info
                     .row.about-row
                         .col-md-12.about-column
-                            .row
-                                .col-md-12(style="padding-top: 20px;")
-                                    h3.h3-about About
-                            .row
-                                .col.md-12
-                                    |This project provides a collection of Microsoft Windows kernel structures, unions
-                                    |and enumerations. Most of them are not officially documented and cannot be found
-                                    |in Windows Driver Kit (WDK) headers. The target audience of this site is driver
-                                    |developers and kernel researches.
-                    .row.about-row
-                        .col-md-12.about-column
-                            .row
-                                .col-md-12
-                                    h3.h3-about Where did we get the information?
-                            .row
-                                .col.md-12
-                                    |Information about kernel structures, unions and enumerations is extracted from
-                                    |publicly available PDB files. We wrote a sophisticated parser that reconstructs
-                                    |C/C++ code from PDB files. So far it's the best known reconstructor as it can
-                                    |handle const/volatile modifiers, bit fields, function pointers, unions, arrays
-                                    |and anonymous types.
-                    .row.about-row
-                        .col-md-12.about-column
-                            .row
-                                .col-md-12
-                                    h3.h3-about Why "Vergilius"?
-                            .row
-                                .col-md-12
-                                    |Who can be a better guide in a dangerous and exciting trip to the depth of
-                                    |Microsoft Windows kernel than Vergilius, a man who literally went to Hell with
-                                    |Dante? We can't offer you a company of ancient Roman poet but this website with
-                                    |highlighted C/C++ syntax will be helpful.
-                    .row.about-row
-                        .col-md-12.about-column
-                            .row
-                                .col-md-12
-                                    h3.h3-about Creators
-                                    .row
-                                        .col-md-3(style="padding-top: 10px;")
-                                            img.about-img.img-left(src="/images/temporary.png")
-                                        .col-md-9(style="padding-top: 10px;")
-                                            h4.h4-about
-                                                a.linked-in(href="https://www.linkedin.com/in/svitlana-storchak-112706170/") &#128279; Svitlana Storchak (design and programming)
-                                            |“Vergilius” became my first serious and currently the most important experience
-                                            |in developing web-applications. With the help of modern technologies (such as
-                                            |Spring 5 and Bootstrap 4) implementing main functionality wasn’t very complicated,
-                                            |but web-pages design was a challenge. In that moment project name that was chosen
-                                            |at the very beginning inspired me to present Windows kernels as planets cores,
-                                            |because, as you know, Earth’s core is extremely hot and located so deeply that
-                                            |obviously reminds Hell. And here “Vergilius” comes to help.
-                                    .row
-                                        .col-md-3(style="padding-top: 10px;")
-                                            img.about-img.img-left(src="/images/temporary.png")
-                                        .col-md-9(style="padding-top: 20px;")
-                                            h4.h4-about Sergey Podobry (inspirator and critic)
-                                            |My main profile is C/C++ system programming including Windows drivers. I saw a
-                                            |similar project on the web but it was outdated and abandoned however it was still
-                                            |helpful. So I decided to create a better one. Luckily I've got Svitlana just
-                                            |graduated so I've gave her an idea for her portfolio project.
+                            h3.h3-about About
+                            p This project provides a collection of Microsoft Windows kernel structures, unions
+                                |and enumerations. Most of them are not officially documented and cannot be found
+                                |in Windows Driver Kit (WDK) headers. The target audience of this site is driver
+                                |developers and kernel researches.
+                            h3.h3-about Where did we get the information?
+                            p Information about kernel structures, unions and enumerations is extracted from
+                                |publicly available PDB files. We wrote a sophisticated parser that reconstructs
+                                |C/C++ code from PDB files. So far it's the best known reconstructor as it can
+                                |handle const/volatile modifiers, bit fields, function pointers, unions, arrays
+                                |and anonymous types.
+                            h3.h3-about Why "Vergilius"?
+                            p Who can be a better guide in a dangerous and exciting trip to the depth of
+                                |Microsoft Windows kernel than Vergilius, a man who literally went to Hell with
+                                |Dante? We can't offer you a company of ancient Roman poet but this website with
+                                |highlighted C/C++ syntax will be helpful.
+                            h3.h3-about Creators
+                            h4.h4-about(style="padding-bottom: 15px;") Svitlana Storchak (design and programming)&nbsp;
+                                a.linked-in.socicon-linkedin(href="https://www.linkedin.com/in/svitlana-storchak-112706170")
+                            p
+                                img.about-img.img-left(src="/images/temporary.png")
+                                |“Vergilius” is my first serious and currently the most important experience in creating web-applications.
+                                |Despite improving and acquiring new skills, this project also helped me realize that even in a such sophisticated area
+                                |like software development there are plenty of possibilities for creativity and self-expression.
+                                |Combined with understanding that "Vergilius" can be useful for other developers, this discovery
+                                |made design process so interesting and inspiring.
+                            h4.h4-about(style="padding-bottom: 15px;") Sergey Podobry (inspirator and critic)&nbsp;
+                                a.linked-in.socicon-linkedin(href="https://www.linkedin.com/in/sergey-podobry-4951b638")
+                            p
+                                img.about-img.img-left(src="/images/temporary.png")
+                                |My main profile is C/C++ system programming including Windows drivers. I saw a
+                                |similar project on the web but it was outdated and abandoned however it was still
+                                |helpful. So I decided to create a better one. Luckily I've got Svitlana just
+                                |graduated so I've gave her an idea for her portfolio project.
+

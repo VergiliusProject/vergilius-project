@@ -720,11 +720,7 @@ a.breadcrumb-link:hover
 
 .kernels-bg
 {
-    background-image: url('/images/multlong.png');
-    /*
-    height: 100%;
-    min-height: 100%;
-    */
+    background-image: url('/images/multlong2.jpg');
     min-height:1170px;
     background-position: center;
 }
@@ -805,7 +801,9 @@ a.about-links:hover
 {
     border: solid 2px #262633;
     border-radius: 0.6rem;
-    background: url('/images/topsecret.png');
+    /*background: url('/images/topsecret.png');*/
+    background: url('/images/inter.jpg');
+    padding-top: 0px;
     background-color: #040c13;
     min-height: 350px;
     margin-bottom: 15px;
@@ -819,8 +817,10 @@ a.about-links:hover
 .jumb-terms
 {
     border: solid 2px #262633;
+    padding-top: 0px;
     border-radius: 0.6rem;
-    background: url('/images/terms.jpg');
+    /*background: url('/images/terms.jpg');*/
+    background: url('/images/view.jpg');
     background-color: #040c13;
     min-height: 350px;
     margin-bottom: 15px;
@@ -830,6 +830,17 @@ a.about-links:hover
     background-size: cover;
     position: relative;
 }
+
+.terms-column p
+{
+    font-weight: 500;
+}
+
+.about-column p
+{
+    font-weight: 500;
+}
+
 
 .h1-title-about
 {
@@ -842,12 +853,12 @@ a.about-links:hover
 
 h3.h3-about
 {
-    /*color: white;*/
     color: #1cc1cc;
     font-weight: 800;
     margin-bottom: 0.9rem;
     font-size: 35px;
     text-align: left;
+    padding-top: 25px;
 }
 .about-info
 {
@@ -860,9 +871,10 @@ h3.h3-about
 .about-column
 {
     /*padding-top: 20px;*/
-    padding-bottom: 25px;
-    border-bottom: solid 3px #141422;
+    /*padding-bottom: 25px;*/
+    /*border-bottom: solid 3px #141422;*/
 }
+
 .about-row
 {
     padding-left: 30px;
@@ -871,9 +883,29 @@ h3.h3-about
     padding-bottom: 10px;
 }
 
+a.term-link
+{
+    color: white;
+}
+
+a.term-link:hover
+{
+    color: white;
+}
+
+.terms-column
+{
+    padding-bottom: 10px;
+}
+
+.row.about-row p
+{
+    color: white;
+}
+
 img.about-img
 {
-    border: solid 5px #141422;
+    /*border: solid 5px #141422;*/
     border-radius: 100%;
     margin-left: 10px;
     width: 19.4rem;
@@ -884,6 +916,7 @@ img.about-img.img-left
 {
     float: left;
     margin-right: 20px;
+    border: solid 3px white;
 }
 
 img.about-img.img-right
@@ -1163,24 +1196,30 @@ h4.h4-about
     margin-bottom: 0.5rem;
     font-size: 23px;
     text-align: left;
+    padding-top: 10px;
 }
 
 .content-family
 {
-    background-image: url('/images/newfam.png');
+    background-image: url('/images/newfam.jpg');
     background-color: #081120 !important;
     min-height: 1170px;
 }
 
-a.linked-in
+a.linked-in.socicon-linkedin
 {
-    color: #1cc1cc;
     text-decoration: none;
+    /*border: solid #141422 2px;*/
+    color: white;
+    font-size: 18px;
+    background-color: #3371b7;
+    padding: 8px;
+    border-radius:15%;
 }
 
-a.linked-in:hover
+a.linked-in.socicon-linkedin:hover
 {
-    color: #1cc1cc;
+    color: white;
     text-decoration: none;
 }
 

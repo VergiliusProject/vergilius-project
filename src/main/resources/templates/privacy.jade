@@ -12,65 +12,80 @@ block content
                         li.breadcrumb-item
                             a.breadcrumb-link(href='/' tabindex='-1') > Home
                         li.breadcrumb-item.active(aria-current='page') Privacy Policy
-        .jumbotron.jumbotron-fluid.jumb-privacy(style='padding-bottom: 0px;')
+        .jumbotron.jumbotron-fluid.jumb-privacy(style="padding-bottom: 0px;")
+            .container-fluid
+                .row
+                    .col-md-12
+                        h2.text-center.maincap(style="color: #1cc1cc; padding-top: 240px; font-size: 65px; text-shadow: 0 0 5px #00050c; margin-bottom: 5px;")
+                            | PRIVACY POLICY
+                    //.col-md-12(style='padding-top: 240px;')
         .row
             .col-md-12
                 .container.mainblock-content.about-info
                     .row.about-row
-                        .col-md-12.about-column
-                            .row
-                                .col-md-12(style="padding-top: 20px;")
-                                    h3.h3-about About
-                            .row
-                                .col.md-12
-                                    |This project provides a collection of Microsoft Windows kernel structures, unions
-                                    |and enumerations. Most of them are not officially documented and cannot be found
-                                    |in Windows Driver Kit (WDK) headers. The target audience of this site is driver
-                                    |developers and kernel researches.
-                    .row.about-row
-                        .col-md-12.about-column
-                            .row
-                                .col-md-12
-                                    h3.h3-about Where did we get the information?
-                            .row
-                                .col.md-12
-                                    |Information about kernel structures, unions and enumerations is extracted from
-                                    |publicly available PDB files. We wrote a sophisticated parser that reconstructs
-                                    |C/C++ code from PDB files. So far it's the best known reconstructor as it can
-                                    |handle const/volatile modifiers, bit fields, function pointers, unions, arrays
-                                    |and anonymous types.
-                    .row.about-row
-                        .col-md-12.about-column
-                            .row
-                                .col-md-12
-                                    h3.h3-about Why "Vergilius"?
-                            .row
-                                .col-md-12
-                                    |Who can be a better guide in a dangerous and exciting trip to the depth of
-                                    |Microsoft Windows kernel than Vergilius, a man who literally went to Hell with
-                                    |Dante? We can't offer you a company of ancient Roman poet but this website with
-                                    |highlighted C/C++ syntax will be helpful.
-                    .row.about-row
-                        .col-md-12.about-column
-                            .row
-                                .col-md-12
-                                    h3.h3-about Creators
-                                    .row
-                                        .col-md-12(style="padding-top: 10px;")
-                                            //h4.h4-about Svitlana Storchak (design and programming)
-                                            h4.h4-about
-                                                a.linked-in(href="https://www.linkedin.com/in/svitlana-storchak-112706170/") &#128279; Svitlana Storchak (design and programming)
-                                            |“Vergilius” became my first serious and currently the most important experience
-                                            |in developing web-applications. With the help of modern technologies (such as
-                                            |Spring 5 and Bootstrap 4) implementing main functionality wasn’t very complicated,
-                                            |but web-pages design was a challenge. In that moment project name that was chosen
-                                            |at the very beginning inspired me to present Windows kernels as planets cores,
-                                            |because, as you know, Earth’s core is extremely hot and located so deeply that
-                                            |obviously reminds Hell. And here “Vergilius” comes to help.
-                                    .row
-                                        .col-md-12(style="padding-top: 20px;")
-                                            h4.h4-about Sergey Podobry (inspirator and critic)
-                                            |My main profile is C/C++ system programming including Windows drivers. I saw a
-                                            |similar project on the web but it was outdated and abandoned however it was still
-                                            |helpful. So I decided to create a better one. Luckily I've got Svitlana just
-                                            |graduated so I've gave her an idea for her portfolio project.
+                        .col-md-12.terms-column(style="padding-top: 40px;")
+                            p Effective starting: Dec 16, 2018
+                            p We ("Vergilius Project" or "Company") respect your privacy and are committed to
+                                |protect it through our compliance with this policy. This Privacy Policy governs
+                                |our data collection, processing and usage practices. If you do not agree with the
+                                |data practices described in this policy you should not use the Website. By
+                                |accessing or using the Website you agree to this Privacy Policy.
+                            p This policy may change from time to time. Your continued use of this Website
+                                |after we make changes is deemed to be acceptance of those changes, so please
+                                |check the policy periodically for updates.
+                            h3.h3-about Information We Collect When You Visit Our Website
+                            p When you visit our Website we may collect Technical Information about the
+                                |computer, mobile device, or other device you use to visit the site (screen
+                                |resolution, browser, operating system, date, time and etc). We may also use
+                                |cookies, web beacons, tags, scripts, and other similar technologies in order to
+                                |help us understand your visit to our Website.
+                            p We don’t collect any of your Personal Information, including your IP address
+                                |(we use IP address anonymization). We are unable and not willing to identify
+                                |individuals using the Website.
+                            h3.h3-about Information You Provide When You Communicate with Us
+                            p If you send us an email, fill out a feedback form,  call us or choose to
+                                |communicate with us in another way, we will collect the information necessary
+                                |to respond to your request, feedback, or question. We will use and share
+                                |information you provide to us only as described in this Privacy Policy.
+                            h3.h3-about We Do Not Collect Sensitive Information
+                            p We will not ask for and do not collect – either directly or through third
+                                |parties – sensitive information such as social security numbers, medical
+                                |information, or financial information. Please do not provide this information to
+                                |us through emails, feedback forms or in any other way.
+                            h3.h3-about How We Use Information We Collect
+                            p We will use this information as aggregate data to help us maintain this site,
+                                |e.g., to determine the number of visitors to different sections of our site,
+                                |to ensure the site is working properly, and to help us make our site more
+                                |accessible and useful.
+                            h3.h3-about How Long We Keep Information
+                            p We may keep information that we collect for an unlimited period of time.
+                            h3.h3-about Cookies
+                            p Cookies are text files stored on your computer, and accessible only to the
+                                |websites which create them.
+                            h4.h4-about Google Analytics
+                            p This Website uses Google Analytics, a web analytics service provided by Google,
+                                |Inc. ("Google"). Google Analytics uses cookies. The information generated by the
+                                |cookie about your use of our Website will be transmitted to and stored by Google
+                                |on servers in the United States. Google will use this information on our behalf
+                                |for the purpose of evaluating your use of our Website, compiling reports on
+                                |website activity and providing other services relating to website activity and
+                                |internet usage. Google may also transfer this information to third parties where
+                                |required to do so by law, or where such third parties process the information on
+                                |Google’s behalf.
+                            p We use Google Analytics only with IP anonymization enabled. This means that
+                                |Google will truncate the IP address so it's impossible to identify the Website
+                                |user personality.
+                            p Google’s ability to use and share information collected by Google Analytics about
+                                |your visits to this site is restricted by the &nbsp;
+                                a.footer_link(href="http://www.google.com/analytics/tos.html") Google Analytics Terms of Use
+                                |&nbsp;and the&nbsp;
+                                a.footer_link(href="http://www.google.com/privacypolicy.html") Google Privacy Policy.
+                            p You can prevent Google Analytics from recognizing you on return visits to this
+                                |site by disabling cookies on your browser or by downloading and installing&nbsp;
+                                a.footer_link(href="http://tools.google.com/dlpage/gaoptout?hl=en") Google Analytics Opt-out Browser Add-on.
+                            h3.h3-about Disclosure of Your Information
+                            p We may disclose aggregated information about our site visitors, and information
+                                |that does not identify any individual, without restriction.
+                            h3.h3-about Contact
+                            p You can contact us at support@vergiliusproject.com if you have any questions about
+                                |this policy.
