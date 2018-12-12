@@ -1,0 +1,2 @@
+# vergilius-project [![Build Status](https://travis-ci.com/RevJay/vergilius-project.svg?branch=master)](https://travis-ci.com/RevJay/vergilius-project)
+This project provides a collection of Microsoft Windows kernel structures, unions and enumerations. Most of them are not officially documented and cannot be found in Windows Driver Kit (WDK) headers. The target audience of this site is driver developers and kernel researches.
