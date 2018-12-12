@@ -908,15 +908,19 @@ img.about-img
     /*border: solid 5px #141422;*/
     border-radius: 100%;
     margin-left: 10px;
-    width: 19.4rem;
+
+    /*width: 19.4rem;
     height: 19rem;
+    */
+    width: 16rem;
+    height: 16rem;
 }
 
 img.about-img.img-left
 {
     float: left;
     margin-right: 20px;
-    border: solid 3px white;
+    border: solid 2px white;
 }
 
 img.about-img.img-right
@@ -1205,13 +1209,19 @@ h4.h4-about
     background-color: #081120 !important;
     min-height: 1170px;
 }
-
+.content-arch
+{
+    background-image: url('/images/lonelysturn.jpg');
+    background-color: #081120 !important;
+    min-height: 1170px;
+}
 a.linked-in.socicon-linkedin
 {
     text-decoration: none;
     /*border: solid #141422 2px;*/
     color: white;
-    font-size: 18px;
+    /*font-size: 18px;*/
+    font-size: 1.8rem;
     background-color: #3371b7;
     padding: 8px;
     border-radius:15%;
