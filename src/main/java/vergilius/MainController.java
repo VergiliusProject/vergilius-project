@@ -40,7 +40,7 @@ public class MainController implements ErrorController{
 
     @Override
     public String getErrorPath() {
-        return "/error";
+        return "/404";
     }
 
     @RequestMapping("/error")
@@ -62,7 +62,7 @@ public class MainController implements ErrorController{
             }
         }
 
-        return "error";
+        return "404";
     }
 
     @GetMapping("/login")
@@ -228,65 +228,68 @@ public class MainController implements ErrorController{
 
     /* FieldBuilder!!! */
     @RequestMapping(value = "/kernels/{arch:.+}/{famname:.+}/{osname:.+}/{name:.+}", method = RequestMethod.GET)
-    public String displayType(@PathVariable String arch, @PathVariable String famname,@PathVariable String osname,@PathVariable String name, Model model)
-    {
-        Os opersys = osRepo.findByArchAndFamilyAndOsname(arch, famname, osname);
+    public String displayType(@PathVariable String arch, @PathVariable String famname,@PathVariable String osname,@PathVariable String name, Model model) {
 
-        String link = "/kernels/" + arch + "/" + famname + "/" + osname + "/";
+            Os opersys = osRepo.findByArchAndFamilyAndOsname(arch, famname, osname);
 
-        List<Ttype> typeslist = ttypeRepo.findByNameAndOpersys(name, opersys);
+            String link = "/kernels/" + arch + "/" + famname + "/" + osname + "/";
 
-        if(typeslist != null && !typeslist.isEmpty()) {
-            model.addAttribute("ttype", FieldBuilder.recursionProcessing(ttypeRepo, typeslist.get(0), 0, 0, link, opersys).toString());
+            List<Ttype> typeslist = ttypeRepo.findByNameAndOpersys(name, opersys);
 
-            //search for cross-links
-            List<Ttype> used_in = new ArrayList<>();
+            if (typeslist != null && !typeslist.isEmpty()) {
+                try {
+                    model.addAttribute("ttype", FieldBuilder.recursionProcessing(ttypeRepo, typeslist.get(0), 0, 0, link, opersys).toString());
 
-            for(Ttype i: typeslist)
-            {
-                used_in.addAll(ttypeRepo.findByOpersysAndId1(opersys, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId2(opersys, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId3(opersys, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId4(opersys, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId5(opersys, i.getId()));
+                }
+                catch(Exception e)
+                {
+                    System.out.println(e.getClass());
+                    for(StackTraceElement each: e.getStackTrace())
+                    {
+                        System.out.println(each);
+                    }
+                }
+                //search for cross-links
+                List<Ttype> used_in = new ArrayList<>();
+
+                for (Ttype i : typeslist) {
+                    used_in.addAll(ttypeRepo.findByOpersysAndId1(opersys, i.getId()));
+                    used_in.addAll(ttypeRepo.findByOpersysAndId2(opersys, i.getId()));
+                    used_in.addAll(ttypeRepo.findByOpersysAndId3(opersys, i.getId()));
+                    used_in.addAll(ttypeRepo.findByOpersysAndId4(opersys, i.getId()));
+                    used_in.addAll(ttypeRepo.findByOpersysAndId5(opersys, i.getId()));
+                }
+
+                ///Rewrite ?!
+                List<String> used_in_names = new ArrayList<>();
+                for (Ttype i : used_in) {
+                    used_in_names.add(i.getName());
+                }
+
+                if (!used_in_names.isEmpty()) {
+                    used_in_names = used_in_names.stream().distinct().sorted().collect(Collectors.toList());
+                } else {
+                    used_in_names = null;
+                }
+                model.addAttribute("cros", used_in_names);
             }
 
-            ///Rewrite ?!
-            List<String> used_in_names = new ArrayList<>();
-            for (Ttype i : used_in)
-            {
-                used_in_names.add(i.getName());
+            model.addAttribute("currOs", opersys);
+
+            List<Os> os = Sorter.sortByBuildnumber(osRepo.findOsByArch(opersys.getArch()), true);
+            Map<Os, Integer> map = new LinkedHashMap<>();
+            Map<Integer, Os> mapInverted = new LinkedHashMap<>();
+            for (int i = 1; i <= os.size(); i++) {
+                map.put(os.get(i - 1), i);
+                mapInverted.put(i, os.get(i - 1));
             }
 
-            if (!used_in_names.isEmpty())
-            {
-                used_in_names = used_in_names.stream().distinct().sorted().collect(Collectors.toList());
-            }
-            else
-            {
-                used_in_names = null;
-            }
-            model.addAttribute("cros", used_in_names);
-        }
+            model.addAttribute("mapos", map);
+            model.addAttribute("invertMapos", mapInverted);
 
-        model.addAttribute("currOs", opersys);
-
-        List<Os> os = Sorter.sortByBuildnumber(osRepo.findOsByArch(opersys.getArch()), true);
-        Map<Os, Integer> map = new LinkedHashMap<>();
-        Map<Integer, Os> mapInverted = new LinkedHashMap<>();
-        for(int i = 1; i <= os.size(); i++)
-        {
-            map.put(os.get(i - 1), i);
-            mapInverted.put(i, os.get(i - 1));
-        }
-
-        model.addAttribute("mapos", map);
-        model.addAttribute("invertMapos", mapInverted);
-
-        passFamilyList(model);
+            passFamilyList(model);
 
         return "tdata";
     }
-
 }
 
