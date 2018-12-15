@@ -371,7 +371,6 @@ public class FieldBuilder
                     return fb;
                 }
 
-                //union, enum... ???
                 if(repo.findByIdAndOpersys(refType.getId(), operSys).getKind() == Ttype.Kind.STRUCT)
                 {
                     FieldBuilder fb = new FieldBuilder();
@@ -439,7 +438,7 @@ public class FieldBuilder
                 else
                 {   //not top-level structure without name should be displayed with it's all fields
                     //directly at that place, where it's declared
-                    if(type.getName().equals("<unnamed-tag>"))
+                    if(type.getName().equals("<unnamed-tag>") || type.getName().equals("__unnamed"))
                     {
                         fb.type.append("struct");
                         printStructFields(fb, type, repo, indent, rpOffset, link, operSys);
@@ -469,7 +468,7 @@ public class FieldBuilder
                 }
                 else
                 {
-                    if(type.getName().equals("<unnamed-tag>"))
+                    if(type.getName().equals("<unnamed-tag>") || type.getName().equals("__unnamed"))
                     {
                         fb.type.append(new StringBuilder("enum"));
                         printEnumFields(fb, type, indent, operSys);
@@ -497,7 +496,7 @@ public class FieldBuilder
                 }
                 else
                 {
-                    if(type.getName().equals("<unnamed-tag>"))
+                    if(type.getName().equals("<unnamed-tag>") || type.getName().equals("__unnamed"))
                     {
                         //fb.type.append("union " + getModifier(type));
                         fb.type.append(getModifier(type) + "union");

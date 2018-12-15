@@ -123,7 +123,7 @@ public class Ttype {
         for(Ttype i: list)
         {
             String name = i.getName();
-            if(name != null && !name.equals("<unnamed-tag>") && i.getKind() == param)
+            if(name != null && !name.equals("<unnamed-tag>") && !name.equals("__unnamed") && i.getKind() == param)
             {
                 retVal.add(i);
             }
