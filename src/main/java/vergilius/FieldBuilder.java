@@ -212,7 +212,7 @@ public class FieldBuilder
                         indent++;
                         recStructProcessing(each, fb, type, rpOffset, link, repo, operSys, indent);
                         indent--;
-                        fb.type.append("\n").append(retIndent(indent)).append("}");
+                        fb.type.append("\n").append(retIndent(indent)).append("};");
                     }
                     else
                     {
@@ -221,7 +221,7 @@ public class FieldBuilder
                     }
                 }
                 indent--;
-                fb.type.append("\n").append(retIndent(indent)).append("}");
+                fb.type.append("\n").append(retIndent(indent)).append("};");
             }
             else {
                 Tdata currentField = returned.get(0).get(0);
