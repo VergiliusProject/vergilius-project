@@ -14,9 +14,6 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-dark
                     a.nav-link(href='/' tabindex="-1") HOME
             if selected == "Kernels"
                 li.nav-item.dropdown
-                    //.btn-group
-                        a.nav-link.active(role="button" tabindex="-1" href="/kernels") Kernels
-                        button.button-part(type="button" tabindex="-1" class="dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
                     a#navbarDropdown.nav-link.dropdown-toggle.active(tabindex='-1', href='/kernels', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                         | KERNELS
                     .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
@@ -36,9 +33,6 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-dark
                                                 a.dropdown-item(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
             else
                 li.nav-item.dropdown
-                    //.btn-group
-                        a.nav-link(role="button" tabindex="-1" href="/kernels") Kernels
-                        button.button-part(type="button" tabindex="-1" class="dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
                     a#navbarDropdown.nav-link.dropdown-toggle(tabindex='-1', href='/kernels', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                         | KERNELS
                     .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')

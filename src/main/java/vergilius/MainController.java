@@ -182,12 +182,11 @@ public class MainController implements ErrorController{
         return "about";
     }
 
-    //T H R O W S
+
     @GetMapping("/kernels")
     public String displayKernels(Model model) throws Exception
     {
         passFamilyList(model);
-        //if(1 == 1)throw new Exception("Catch exception, dude!");
         return "kernels";
     }
 
@@ -226,7 +225,6 @@ public class MainController implements ErrorController{
         return "ttype";
     }
 
-    /* FieldBuilder!!! */
     @RequestMapping(value = "/kernels/{arch:.+}/{famname:.+}/{osname:.+}/{name:.+}", method = RequestMethod.GET)
     public String displayType(@PathVariable String arch, @PathVariable String famname,@PathVariable String osname,@PathVariable String name, Model model) {
 
@@ -260,7 +258,6 @@ public class MainController implements ErrorController{
                     used_in.addAll(ttypeRepo.findByOpersysAndId5(opersys, i.getId()));
                 }
 
-                ///Rewrite ?!
                 List<String> used_in_names = new ArrayList<>();
                 for (Ttype i : used_in) {
                     used_in_names.add(i.getName());

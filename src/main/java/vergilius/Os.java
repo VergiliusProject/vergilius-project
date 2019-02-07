@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Os implements Comparator<Os>{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    //@Column(updatable = false, nullable = false, unique = true)
+
     private int idopersys;
 
     private String osname;
@@ -44,7 +44,6 @@ public class Os implements Comparator<Os>{
         this.ttypes = ttypes;
     }
 
-
     private String family;
 
     private long timestamp;
@@ -71,10 +70,7 @@ public class Os implements Comparator<Os>{
 
     public String convertTimestampToDate(long timestamp)
     {
-        //convert seconds to milliseconds
         Date date = new Date(timestamp*1000L);
-        // format of the date
-        //SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
         SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd");
         return jdf.format(date);
     }

@@ -15,7 +15,7 @@ public class FieldBuilder
     private int fbOffset = 0;
 
 
-    //The method returns a string indent for a type, which depends on nesting level of this type
+    //Method returns a string indent for a type, which depends on nesting level of this type
     public static String retIndent(int indent)
     {
         StringBuilder str = new StringBuilder();
@@ -59,7 +59,7 @@ public class FieldBuilder
 
     public static void printEnumFields(FieldBuilder fb, Ttype type, int indent, Os operSys)
     {
-        //if not bodiless
+        //if not bodyless
         if(type.getData() != null && type.getSizeof() != 0)
         {
             fb.type.append("\n" + retIndent(indent) + "{");
@@ -232,7 +232,7 @@ public class FieldBuilder
 
     public static void printStructFields(FieldBuilder fb, Ttype type, TtypeRepository repo, int indent, int rpOffset, String link, Os operSys)
     {
-        //if structure isn't bodiless
+        //if structure isn't bodyless
         if(type.getData() != null && type.getSizeof() != 0)
         {
             fb.type.append("\n").append(retIndent(indent)).append("{");
@@ -254,7 +254,7 @@ public class FieldBuilder
         this.name = name;
     }
 
-    //The method checks type's modifier (const or volatile)
+    //The method checks type modifier (const or volatile)
     public static String getModifier(Ttype typeOfField)
     {
         return (typeOfField.isIsConst() ? "const" : "").isEmpty()?(typeOfField.isIsVolatile() ? "volatile" : ""): (typeOfField.isIsVolatile() ? "volatile" : "");
@@ -344,7 +344,7 @@ public class FieldBuilder
         }
     }
 
-    //The method returns an object(fb), which represents some type.
+    //Method returns an object(fb), which represents some type.
     public static FieldBuilder recursionProcessing(TtypeRepository repo, Ttype type, int indent, int rpOffset, String link, Os operSys)
     {
         switch (type.getKind())
@@ -429,7 +429,6 @@ public class FieldBuilder
                     //size of structure in hex format
                     fb.type.append("//0x" + Integer.toHexString(type.getSizeof()) + " bytes (sizeof)\n");
 
-                    //fb.type.append(getModifier(type).isEmpty()? "" : (getModifier(type) + " ")).append("struct" + " " +  type.getName());
                     fb.type.append("struct" + " " +  type.getName());
 
                     printStructFields(fb, type, repo, indent, rpOffset, link, operSys);
@@ -498,7 +497,6 @@ public class FieldBuilder
                 {
                     if(type.getName().equals("<unnamed-tag>") || type.getName().equals("__unnamed"))
                     {
-                        //fb.type.append("union " + getModifier(type));
                         fb.type.append(getModifier(type) + "union");
 
                         printUnionFields(fb, type, repo, indent, rpOffset, link, operSys);

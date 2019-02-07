@@ -82,14 +82,13 @@ block content
                                     })();
                                 if(ttype == null)
                                     .nothing
-                                        | Such structure doesn't exist in chosen version of the kernel...
-                                        | Or we just have forgotten to add it to our database.
+                                        | Sorry, but such structure doesn't exist in chosen version of the kernel,
+                                        | or we just forgot to add it to our database.
                                 else
                                     pre
                                         code(class="c" style="min-height: 300px; padding-left: 0px;")
                                             button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
                                             div#copyblock !{ttype}
-
         .row
             .col-md-12
                 if(cros != null)

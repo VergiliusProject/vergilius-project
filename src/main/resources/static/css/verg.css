@@ -82,7 +82,7 @@ strong {
     padding-top: 5px;
     font-size: 20px;
     font-weight: 600;
-    color: white;
+    color: #1CC1CC;
     text-align: left;
 }
 
@@ -1613,7 +1613,7 @@ a.linked-in.socicon-linkedin:hover
     .nothing
     {
         padding-left: 10px;
-        font-size: 20px;
+        font-size: 26px;
     }
     .md-odd
     {
