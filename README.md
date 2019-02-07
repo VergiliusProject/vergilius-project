@@ -1,3 +1,5 @@
+# **VERGILIUS PROJECT** [![Build Status](https://travis-ci.com/RevJay/vergilius-project.svg?branch=master)](https://travis-ci.com/RevJay/vergilius-project)
+
 #### **Implementation details**
 
 Build tool: **Gradle** 
@@ -19,6 +21,7 @@ Database schema reflects a structure of [**YAML file**](#YAML-files) and consist
 - **“tdata”** stores types fields. 
 
 ![](database.jpg)
+
 Relations between these tables imply that each kernel has a certain number of types and each type has a certain number of fields (however, some types might not contain any fields). 
 
 |Table | Columns  | Description | 
