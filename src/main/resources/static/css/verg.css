@@ -78,12 +78,13 @@ strong {
 .nothing
 {
     padding-left: 10px;
+    padding-top: 40px !important;
     font-family: "Open Sans", sans-serif;
     padding-top: 5px;
     font-size: 20px;
     font-weight: 600;
     color: #1CC1CC;
-    text-align: left;
+    text-align: center;
 }
 
 a.related
