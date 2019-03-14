@@ -7,7 +7,7 @@ This project provides a collection of Microsoft Windows kernel structures, union
 * Build tool: **Gradle** 
 * Language: **Java 8**
 * RDBMS: **MySQL 5.7** 
-* Frameworks: **SpringBoot 1.5.8, Bootstrap 4** 
+* Frameworks: **Spring Boot 1.5.8, Bootstrap 4** 
 * Template engine: **Jade/Pug**
 
 ## Back-end
@@ -45,7 +45,7 @@ Relations between these tables imply that each kernel has a certain number of ty
 || idordinal | an ordinal number of field (used to restore a correct order of field declaration) |
 || ttype_idtype | foreign key |
 
-Since a SpringBoot application uses object-oriented data model, every relational table gets a proper representation as an entity class (**Os**, **Ttype**, **Tdata**). Specifying *spring.jpa.hibernate.ddl-auto* property in **_application.properties_** allows **Hibernate** to generate tables automatically. A connection between database and application also demands to specify *spring.datasource.url*, username and password, which are used in the database.
+Since a Spring Boot application uses object-oriented data model, every relational table gets a proper representation as an entity class (**Os**, **Ttype**, **Tdata**). Specifying *spring.jpa.hibernate.ddl-auto* property in **_application.properties_** allows **Hibernate** to generate tables automatically. A connection between database and application also demands to specify *spring.datasource.url*, username and password, which are used in the database.
 
 ### YAML files
 All YAML files are based on PDB files and contain information about kernels. Each YAML file has a following structure:
