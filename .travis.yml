@@ -14,8 +14,17 @@ script:
   - sudo apt-get update -q && sudo apt install wget2 -y
   - mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;"
   - ./gradlew bootRun &
-  - sleep 20s
-  - wget2 --mirror --page-requisites -E http://127.0.0.1:8080/
+  - sleep 15s
+  - git clone https://github.com/VergiliusProject/kernels-data.git
+  - |
+    for f in kernels-data/yml/*.yml
+    do
+      curl -F file=@$f http://localhost:8080/admin
+    done
+  - wget2 --mirror --page-requisites -E http://localhost:8080/
+  - wget2 --mirror --page-requisites --content-on-error -E http://localhost:8080/404
+  - echo '<?xml version="1.0"?><users><user>F12AA557AA5A0DC44FE2FFBD688B0E56</user></users>' > localhost/BingSiteAuth.xml
+  - echo > localhost/.nojekyll
   - jobs -p | xargs kill -9
 
 before_cache:
@@ -34,6 +43,6 @@ deploy:
   keep_history: true
   repo: VergiliusProject/vergiliusproject-test.github.io
   target_branch: master
-  local_dir: 127.0.0.1
+  local_dir: localhost
   on:
     branch: release
