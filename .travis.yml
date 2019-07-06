@@ -25,23 +25,21 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+after_success:
+  - if [[ "$TRAVIS_BRANCH" != "release" || "$TRAVIS_PULL_REQUEST" != "false" ]]; then travis_terminate 0; fi
+  - mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;"
+  - ./gradlew bootRun &
+  - sleep 20s
+  - wget2 --mirror --page-requisites -E http://127.0.0.1:8080/
+  - jobs -p | xargs kill -9
+
 deploy:
-  - provider: script
-    skip_cleanup: true
-    script:
-      - mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;"
-      - ./gradlew bootRun &
-      - sleep 20s
-      - wget2 --mirror --page-requisites -E http://127.0.0.1:8080/
-      - jobs -p | xargs kill -9
-    on:
-      branch: release
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-    keep_history: true
-    repo: VergiliusProject/vergiliusproject-test.github.io
-    target_branch: master
-    local_dir: 127.0.0.1
-    on:
-      branch: release
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  repo: VergiliusProject/vergiliusproject-test.github.io
+  target_branch: master
+  local_dir: 127.0.0.1
+  on:
+    branch: release
