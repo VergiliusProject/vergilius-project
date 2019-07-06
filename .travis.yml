@@ -8,13 +8,15 @@ jdk:
 services:
   - mysql
 
-addons:
-  apt:
-    packages:
-    - wget2
-
 script:
   - ./gradlew build
+  - if [[ "$TRAVIS_BRANCH" != "release" || "$TRAVIS_PULL_REQUEST" != "false" ]]; then travis_terminate 0; fi
+  - apt install wget2
+  - mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;"
+  - ./gradlew bootRun &
+  - sleep 20s
+  - wget2 --mirror --page-requisites -E http://127.0.0.1:8080/
+  - jobs -p | xargs kill -9
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -24,14 +26,6 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-
-after_success:
-  - if [[ "$TRAVIS_BRANCH" != "release" || "$TRAVIS_PULL_REQUEST" != "false" ]]; then travis_terminate 0; fi
-  - mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;"
-  - ./gradlew bootRun &
-  - sleep 20s
-  - wget2 --mirror --page-requisites -E http://127.0.0.1:8080/
-  - jobs -p | xargs kill -9
 
 deploy:
   provider: pages
