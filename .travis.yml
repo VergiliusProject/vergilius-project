@@ -11,7 +11,7 @@ services:
 script:
   - ./gradlew build
   - if [[ "$TRAVIS_BRANCH" != "release" || "$TRAVIS_PULL_REQUEST" != "false" ]]; then travis_terminate 0; fi
-  - apt install wget2
+  - sudo apt-get update -q && sudo apt install wget2 -y
   - mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;"
   - ./gradlew bootRun &
   - sleep 20s
