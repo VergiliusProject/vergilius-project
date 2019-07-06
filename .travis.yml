@@ -19,12 +19,13 @@ script:
   - |
     for f in kernels-data/yml/*.yml
     do
-      curl -F file=@$f http://localhost:8080/admin
+      echo curl -F "file=@$f" http://localhost:8080/admin
     done
   - wget2 --mirror --page-requisites -E http://localhost:8080/
-  - wget2 --mirror --page-requisites --content-on-error -E http://localhost:8080/404
+  - wget2 --mirror --page-requisites --content-on-error -E http://localhost:8080/404 || true
   - echo '<?xml version="1.0"?><users><user>F12AA557AA5A0DC44FE2FFBD688B0E56</user></users>' > localhost/BingSiteAuth.xml
   - echo > localhost/.nojekyll
+  - echo www.vergiliusproject.com > localhost/CNAME
   - jobs -p | xargs kill -9
 
 before_cache:
