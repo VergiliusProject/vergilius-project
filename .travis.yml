@@ -23,9 +23,9 @@ script:
   - (while true; do echo '[sending keep alive]'; sleep 60s; done;) &
   - wget -q --mirror --page-requisites -E http://localhost:8080/ || true
   - wget -q --mirror --page-requisites --content-on-error -E http://localhost:8080/404 || true
-  - echo '<?xml version="1.0"?><users><user>F12AA557AA5A0DC44FE2FFBD688B0E56</user></users>' > localhost/BingSiteAuth.xml
-  - echo > localhost/.nojekyll
-  - echo www.vergiliusproject.com > localhost/CNAME
+  - echo '<?xml version="1.0"?><users><user>F12AA557AA5A0DC44FE2FFBD688B0E56</user></users>' > localhost:8080/BingSiteAuth.xml
+  - echo > localhost:8080/.nojekyll
+  - echo www.vergiliusproject.com > localhost:8080/CNAME
   - jobs -p | xargs kill -9
 
 before_cache:
@@ -44,6 +44,6 @@ deploy:
   keep_history: true
   repo: VergiliusProject/vergiliusproject-test.github.io
   target_branch: master
-  local_dir: localhost
+  local_dir: localhost:8080
   on:
     branch: release
