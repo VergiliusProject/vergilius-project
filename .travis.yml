@@ -9,7 +9,11 @@ services:
 
 script:
   - ./gradlew build
-  - test "$TRAVIS_BRANCH" = "release" && test "$TRAVIS_PULL_REQUEST" = "false" && mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;" && ./generate.sh
+  - |
+    if [["$TRAVIS_BRANCH" = "release" && test "$TRAVIS_PULL_REQUEST" = "false"]];
+    then
+      mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;" && ./generate.sh
+    fi
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
