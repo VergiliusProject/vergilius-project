@@ -1,9 +1,8 @@
 language: java
 install: true
-dist: bionic
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 services:
   - mysql
