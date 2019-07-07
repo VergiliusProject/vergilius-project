@@ -1,6 +1,5 @@
 language: java
 install: true
-dist: bionic
 
 jdk:
   - oraclejdk8
@@ -21,6 +20,7 @@ script:
       echo importing $f
       curl -F "file=@$f" http://localhost:8080/admin
     done
+  - (while true; do echo '[sending keep alive]'; sleep 60s; done;) &
   - wget -q --mirror --page-requisites -E http://localhost:8080/ || true
   - wget -q --mirror --page-requisites --content-on-error -E http://localhost:8080/404 || true
   - echo '<?xml version="1.0"?><users><user>F12AA557AA5A0DC44FE2FFBD688B0E56</user></users>' > localhost/BingSiteAuth.xml
