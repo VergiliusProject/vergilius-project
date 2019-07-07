@@ -14,7 +14,7 @@ done
 set +e
 
 (while true; do echo '[sending keep alive]'; sleep 60s; done;) &
-wget -q --mirror --page-requisites -E http://localhost:8080/
+#wget -q --mirror --page-requisites -E http://localhost:8080/
 wget -q --mirror http://localhost:8080/BingSiteAuth.xml
 wget -q --mirror http://localhost:8080/.nojekyll
 wget -q --mirror http://localhost:8080/CNAME
