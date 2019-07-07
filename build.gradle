@@ -38,7 +38,7 @@ dependencies {
 
     compile 'de.neuland-bfi:spring-jade4j:1.2.7'
     compile 'de.neuland-bfi:jade4j:1.2.7'
-    compile 'org.yaml:snakeyaml:1.12'
+    compile 'org.yaml:snakeyaml:1.24'
 
     testCompile(
             'org.junit.jupiter:junit-jupiter-api:5.1.0'
