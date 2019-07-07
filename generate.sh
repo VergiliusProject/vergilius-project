@@ -11,13 +11,14 @@ do
     curl -s -F "file=@$f" http://localhost:8080/admin
 done
 
-set +e
-
 (while true; do echo '[sending keep alive]'; sleep 60s; done;) &
-#wget -q --mirror --page-requisites -E http://localhost:8080/
+wget -q --mirror --page-requisites -E http://localhost:8080/
 wget -q --mirror http://localhost:8080/BingSiteAuth.xml
-wget -q --mirror http://localhost:8080/.nojekyll
 wget -q --mirror http://localhost:8080/CNAME
+echo > localhost:8080/.nojekyll
+
+set +e
 wget -q --mirror --page-requisites --content-on-error -E http://localhost:8080/404
+set -e
 
 jobs -p | xargs kill -9
