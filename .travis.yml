@@ -29,7 +29,7 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true
-  repo: VergiliusProject/vergiliusproject-test.github.io
+  repo: VergiliusProject/vergiliusproject.github.io
   target_branch: master
   local_dir: localhost:8080
   on:
