@@ -146,6 +146,12 @@ $ wget --mirror --page-requisites -E http://127.0.0.1:8080/
 ```
 and published with a help of [**GitHub Pages**.](https://pages.github.com ) 
 
+## Running
+
+```
+./gradlew bootRun
+```
+
 ## Tutorials
 1. [**Building Java Projects with Gradle**](https://spring.io/guides/gs/gradle/)
 2. [**Building an Application with Spring Boot**](https://spring.io/guides/gs/spring-boot/)
