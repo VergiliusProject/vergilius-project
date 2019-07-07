@@ -10,7 +10,7 @@ services:
 script:
   - ./gradlew build
   - |
-    if [[$TRAVIS_BRANCH == "release" && $TRAVIS_PULL_REQUEST == "false"]];
+    if [[ $TRAVIS_BRANCH == "release" && $TRAVIS_PULL_REQUEST == "false" ]];
     then
       mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;" && ./generate.sh
     fi
