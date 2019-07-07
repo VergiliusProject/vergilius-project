@@ -9,24 +9,7 @@ services:
 
 script:
   - ./gradlew build
-  - if [[ "$TRAVIS_BRANCH" != "release" || "$TRAVIS_PULL_REQUEST" != "false" ]]; then travis_terminate 0; fi
-  - mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;"
-  - ./gradlew bootRun &
-  - sleep 15s
-  - git clone https://github.com/VergiliusProject/kernels-data.git
-  - |
-    for f in kernels-data/yml/*.yml
-    do
-      echo importing $f
-      curl -F "file=@$f" http://localhost:8080/admin
-    done
-  - (while true; do echo '[sending keep alive]'; sleep 60s; done;) &
-  - wget -q --mirror --page-requisites -E http://localhost:8080/ || true
-  - wget -q --mirror --page-requisites --content-on-error -E http://localhost:8080/404 || true
-  - echo '<?xml version="1.0"?><users><user>F12AA557AA5A0DC44FE2FFBD688B0E56</user></users>' > localhost:8080/BingSiteAuth.xml
-  - echo > localhost:8080/.nojekyll
-  - echo www.vergiliusproject.com > localhost:8080/CNAME
-  - jobs -p | xargs kill -9
+  - test "$TRAVIS_BRANCH" = "release" && test "$TRAVIS_PULL_REQUEST" = "false" && mysql -e "CREATE DATABASE dbvergilius; CREATE USER 'vergilius' IDENTIFIED BY '3034'; GRANT ALL PRIVILEGES ON dbvergilius.* TO 'vergilius'; FLUSH PRIVILEGES;" && ./generate.sh
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
