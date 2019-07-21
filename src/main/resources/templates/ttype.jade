@@ -26,7 +26,6 @@ block content
                             input#myInput(type="text" tabindex="-1" placeholder="Enter type name...")
                     .row
                         .col-md-12
-                            h2.caption Structures:
                             script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
                             script.
                                 $(document).ready(function () {
@@ -38,17 +37,27 @@ block content
                                     });
                                 });
                             div#myDiv
-                                div
-                                    ul(type='none')
-                                        for i in structs
-                                            li: a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                h2.caption Structures:
+                                    div
+                                        ul(type='none')
+                                            for i in structs
+                                                li
+                                                    a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                                        if i.isNew
+                                                            span(class='badge badge-success type-badge') new
                                 h2.caption Enums:
                                     div
                                         ul(type='none')
                                             for i in enums
-                                                li: a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                                li
+                                                    a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                                        if i.isNew
+                                                            span(class='badge badge-success type-badge') new
                                 h2.caption Unions:
                                     div
                                         ul(type='none')
                                             for i in unions
-                                                li: a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                                li
+                                                    a(class='list-link' href="/kernels/#{arch}/#{famname}/#{osname}/#{i.name}" tabindex="-1") #{i.name}
+                                                        if i.isNew
+                                                            span(class='badge badge-success type-badge') new

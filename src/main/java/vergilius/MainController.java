@@ -21,7 +21,7 @@ import vergilius.repos.TtypeRepository;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
-
+import vergilius.dto.TypeEntry;
 
 @Controller
 public class MainController implements ErrorController{
@@ -112,10 +112,15 @@ public class MainController implements ErrorController{
         return "redirect:/admin";
     }
 
-    public void passFamilyList(Model model)
+    private void passFamilyList(Model model)
     {
         model.addAttribute("sortedFamx86", Sorter.sortByBuildnumber(osRepo.findOsByArch("x86"), false).stream().map(os -> os.getFamily()).distinct().collect(Collectors.toList()));
         model.addAttribute("sortedFamx64", Sorter.sortByBuildnumber(osRepo.findOsByArch("x64"), false).stream().map(os -> os.getFamily()).distinct().collect(Collectors.toList()));
+    }
+    
+    private Optional<Os> getPreviousOs(Os os)
+    {
+        return Sorter.sortByBuildnumber(osRepo.findOsByArch(os.getArch()), false).stream().filter(x -> x.compare(x, os) < 0).findFirst();
     }
 
     @GetMapping("/")
@@ -173,16 +178,29 @@ public class MainController implements ErrorController{
 
         return "family";
     }
+    
+    private List<TypeEntry> makeTypeEnties(List<Ttype> types, Set<String> prevTypes)
+    {
+        return types.stream().map(x -> new TypeEntry(x.getName(), prevTypes.isEmpty() ? false : !prevTypes.contains(x.getName()))).collect(Collectors.toList());
+    }
 
     @RequestMapping(value = "/kernels/{arch:.+}/{famname:.+}/{osname:.+}", method = RequestMethod.GET)
     public String displayKinds(@PathVariable String arch, @PathVariable String famname, @PathVariable String osname, Model model)
     {
-        Os opersys = osRepo.findByArchAndFamilyAndOsname(arch, famname, osname);
-        List<Ttype> reslist = ttypeRepo.findByOpersysAndIsConstFalseAndIsVolatileFalse(opersys);
+        Os os = osRepo.findByArchAndFamilyAndOsname(arch, famname, osname);
+        List<Ttype> types = ttypeRepo.findByOpersysAndIsConstFalseAndIsVolatileFalse(os);
+        
+        Set<String> prevTypes = Collections.emptySet();
 
-        model.addAttribute("structs", Sorter.sortByName(Ttype.FilterByTypes(reslist, Ttype.Kind.STRUCT)));
-        model.addAttribute("unions", Sorter.sortByName(Ttype.FilterByTypes(reslist, Ttype.Kind.UNION)));
-        model.addAttribute("enums", Sorter.sortByName(Ttype.FilterByTypes(reslist, Ttype.Kind.ENUM)));
+        Optional<Os> prevOs = getPreviousOs(os);
+        if (prevOs.isPresent())
+        {
+            prevTypes = ttypeRepo.findByOpersysAndIsConstFalseAndIsVolatileFalse(prevOs.get()).stream().map(x -> x.getName()).collect(Collectors.toSet());
+        }        
+
+        model.addAttribute("structs", makeTypeEnties(Sorter.sortByName(Ttype.FilterByTypes(types, Ttype.Kind.STRUCT)), prevTypes));
+        model.addAttribute("unions", makeTypeEnties(Sorter.sortByName(Ttype.FilterByTypes(types, Ttype.Kind.UNION)), prevTypes));
+        model.addAttribute("enums", makeTypeEnties(Sorter.sortByName(Ttype.FilterByTypes(types, Ttype.Kind.ENUM)), prevTypes));
 
         passFamilyList(model);
 

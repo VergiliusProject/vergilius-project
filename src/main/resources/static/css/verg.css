@@ -23,12 +23,12 @@ p {
     font-family:"Open Sans", sans-serif;
 
 }
+
 blockquote, p {
     /*line-height:1.7rem;*/
     font-weight: 600;
     color: #1CC1CC;
 }
-
 
 body, html {
     height: 100%;
@@ -54,6 +54,18 @@ body, html {
 {
     text-decoration: none;
     color: #fae134 !important;
+}
+
+.type-badge
+{
+    display: inline;
+    position: relative;
+    top: -1rem;
+    margin-left: 0.5rem;
+    font-size: 60%;
+    padding: 0.1rem 0.4rem;
+    color: #fff;
+    background-color: #0f7927;
 }
 
 li {
