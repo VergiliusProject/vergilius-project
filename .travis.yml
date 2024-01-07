@@ -1,8 +1,9 @@
 language: java
+dist: focal
 install: true
 
 jdk:
-  - openjdk8
+  - openjdk14
 
 services:
   - mysql

@@ -1,48 +1,38 @@
-group 'vergilius'
-version '1.0-SNAPSHOT'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE")
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
-    }
+plugins {
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'org.junit.platform.gradle.plugin'
+group 'com.vergiliusproject'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 14
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-devtools")
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'mysql:mysql-connector-java:8.0.16'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java:8.0.28'
 
-    compile 'com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.0'
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile("org.springframework:spring-core") {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation('org.springframework:spring-core') {
         exclude module: 'commons-logging'
     }
 
-    compile 'de.neuland-bfi:spring-jade4j:1.2.7'
-    compile 'de.neuland-bfi:jade4j:1.2.7'
-    compile 'org.yaml:snakeyaml:1.24'
+    implementation 'de.neuland-bfi:pug4j:2.0.4'
+    implementation 'de.neuland-bfi:spring-pug4j:2.0.4'
+    implementation 'org.yaml:snakeyaml:1.30'
 
-    testCompile(
-            'org.junit.jupiter:junit-jupiter-api:5.1.0'
-    )
-    testRuntime(
-            'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-    )
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter', 'junit-vintage'
+    }
 }

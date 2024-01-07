@@ -1,0 +1,53 @@
+extends /partials/page
+
+block title
+    title Vergilius Project | #{arch}
+    -var selected = 'Kernels';
+    -var i = 0;
+block content
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/' tabindex='-1') > Home
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/kernels' tabindex='-1') Kernels
+                        li.breadcrumb-item.active(aria-current='page') #{arch}
+        .row
+            .col-md-12
+                .container.mainblock-content.content-arch
+                    .row
+                        .col-md-12
+                            h2.text-center.maincap To the depths of kernel...
+                            .container.timeline
+                                .row
+                                    each a in chosenArch
+                                        -var url = `/kernels/${arch}/${a}`;
+                                        if(i % 2 != 0)
+                                            .col-md-1
+                                            .col-md-11
+                                                .row
+                                                    .col-md-5.arch-col-right.my-auto.d-none.d-md-block
+                                                        a.arch-link(href=url tabindex="-1") #{a}
+                                                    .col-md-2.d-none.d-sm-block(style="float: left;")
+                                                        a(href=url tabindex="-1")
+                                                            img.img-circle.img-arch(src='/images/edit.png', alt='')
+                                                        if(i < chosenArch.size() - 1)
+                                                            .arch-line-new-2.d-none.d-xl-block
+                                                    .col-md-5.my-auto.d-md-none.sm-modif
+                                                        a.arch-link(href=url tabindex="-1") #{a}
+                                                        -var i=i+1
+                                        else
+                                            .col-md-4
+                                            .col-md-8
+                                                .row
+                                                    .col-md-4.d-none.d-sm-block
+                                                        a(href=url tabindex="-1")
+                                                            img.img-circle.img-arch(src='/images/edit.png', alt='')
+                                                        if(i < chosenArch.size() - 1)
+                                                            .arch-line-new.d-none.d-xl-block
+                                                    .col-md-8.my-auto(style="padding-left: 0px")
+                                                        a.arch-link(href=url tabindex="-1") #{a}
+                                                        -var i=i+1

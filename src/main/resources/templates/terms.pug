@@ -1,0 +1,67 @@
+extends /partials/page
+block title
+    title Vergilius Project | Terms of Service
+    -var selected = 'Terms';
+    -var i = 0;
+block content
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href='/' tabindex='-1') > Home
+                        li.breadcrumb-item.active(aria-current='page') Terms of Service
+        .jumbotron.jumbotron-fluid.jumb-terms(style='padding-top: 240px; padding-bottom: 0px;')
+            .container-fluid
+                .row
+                    .col-md-12
+                        h2.text-center.maincap(style="color: #1cc1cc; font-size: 65px; text-shadow: 0 0 5px #00050c; margin-bottom: 5px;")
+                            | TERMS OF SERVICE
+        .row
+            .col-md-12
+                .container.mainblock-content.about-info
+                    .row.about-row
+                        .col-md-12.terms-column(style="padding-top: 40px;")
+                            p Effective starting: Dec 16, 2018
+                            p We ("Vergilius Project" or "Company") thank you for using this Website
+                                |("the service").
+                            p By using this Website you are agreeing to be bound by the following terms and
+                                |conditions (“Terms of Service”, or “the terms”). We reserve the right to update
+                                |and change these terms from time to time without notice. Your continued use of the
+                                |service after any such changes will constitute your consent to such changes.
+                            h3.h3-about Licensing of C/C++ Code Provided by the Service
+                            p C/C++ code provided by the Service is licensed to you under&nbsp;
+                                a.footer_link(href="https://creativecommons.org/publicdomain/zero/1.0/")
+                                    |Creative Commons Zero License.
+                                |&nbsp;This license grants
+                                |permissive rights for you to use the data commercially, create and distribute
+                                |derivative works, all without asking permission.
+                            h3.h3-about Disclaimer of Warranty and Liability
+                            p We does not warrant that (i) the service will meet your specific requirements,
+                                |(ii) the service will be uninterrupted, timely, secure, or error-free, (iii)
+                                |the results that may be obtained from the use of the service will be accurate or
+                                |reliable, (iv) the quality of any products, services, information, or other
+                                |material purchased or obtained by you through the service will meet your
+                                |expectations, and (v) any errors in the service will be corrected. Your use of
+                                |the service is at your sole risk. The service is provided on an "as is" and
+                                |"as available" basis.
+                            p You expressly understand and agree that we will not be liable for any direct,
+                                |indirect, incidental, special, consequential or exemplary damages, including but
+                                |not limited to, damages for loss of profits, goodwill, use, data or other
+                                |intangible losses, resulting from: (i) the use or the inability to use the
+                                |service; (ii) the cost of procurement of substitute goods and services resulting
+                                |from any goods, data, information or services purchased or obtained or messages
+                                |received or transactions entered into through or from the service; (iii)
+                                |unauthorized access to or alteration of your transmissions or data; (iv)
+                                |statements or conduct of any third party on the service; (v) or any other matter
+                                |relating to the service.
+                            h3.h3-about Indemnification
+                            p You agree to defend, indemnify and hold us harmless from and against any and all
+                                |claims, damages, costs and expenses, including attorneys' fees, arising from or
+                                |related to your use of the service.
+                            h3.h3-about Contact
+                            p You can
+                                a.footer_link(href='mailto:sp@@@vergiliusproject#gmail.comsp@@@', onfocus="href=href.replace(/sp@@@/g,'').replace(/#/, '@');", onmouseover="href=href.replace(/sp@@@/g,'').replace(/#/, '@');")
+                                    | &nbsp;contact us&nbsp;
+                                | if you have any questions about this policy.
