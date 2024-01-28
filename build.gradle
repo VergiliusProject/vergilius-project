@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.3'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.1.4'
     id 'java'
 }
 
@@ -11,24 +11,29 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 14
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation 'mysql:mysql-connector-java:8.0.33'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation('org.springframework:spring-core') {
         exclude module: 'commons-logging'
     }
 
-    implementation 'de.neuland-bfi:pug4j:2.0.4'
-    implementation 'de.neuland-bfi:spring-pug4j:2.0.4'
-    implementation 'org.yaml:snakeyaml:1.30'
+    implementation 'de.neuland-bfi:pug4j:2.2.0'
+    implementation 'de.neuland-bfi:spring-pug4j:2.0.6'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'org.apache.commons:commons-text:1.11.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation 'org.yaml:snakeyaml:2.2'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
 }
 
 test {
