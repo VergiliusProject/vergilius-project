@@ -187,6 +187,8 @@ public class MainController implements ErrorController {
         List<Ttype> typeslist = ttypeRepo.findByNameAndOpersys(name, opersys);
 
         if (typeslist != null && !typeslist.isEmpty()) {
+            model.addAttribute("ttypename", typeslist.get(0).getName());
+             
             try {
                 model.addAttribute("ttype", FieldBuilder.recursionProcessing(ttypeRepo, typeslist.get(0), 0, 0, link, opersys).toString());
 
