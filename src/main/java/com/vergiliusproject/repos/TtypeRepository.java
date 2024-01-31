@@ -3,8 +3,8 @@ package com.vergiliusproject.repos;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import com.vergiliusproject.Os;
-import com.vergiliusproject.Ttype;
+import com.vergiliusproject.entities.Os;
+import com.vergiliusproject.entities.Ttype;
 
 import java.util.List;
 

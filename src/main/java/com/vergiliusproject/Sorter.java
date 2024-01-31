@@ -1,5 +1,8 @@
 package com.vergiliusproject;
 
+import com.vergiliusproject.entities.Os;
+import com.vergiliusproject.entities.Tdata;
+import com.vergiliusproject.entities.Ttype;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;

@@ -1,8 +1,8 @@
 package com.vergiliusproject.repos;
 
 import org.springframework.data.repository.CrudRepository;
-import com.vergiliusproject.Tdata;
-import com.vergiliusproject.Ttype;
+import com.vergiliusproject.entities.Tdata;
+import com.vergiliusproject.entities.Ttype;
 
 import java.util.List;
 

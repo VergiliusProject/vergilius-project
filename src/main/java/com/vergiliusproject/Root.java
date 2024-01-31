@@ -1,5 +1,6 @@
 package com.vergiliusproject;
 
+import com.vergiliusproject.entities.Ttype;
 import java.util.List;
 
 public class Root {

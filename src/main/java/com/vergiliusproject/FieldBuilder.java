@@ -1,5 +1,8 @@
 package com.vergiliusproject;
 
+import com.vergiliusproject.entities.Os;
+import com.vergiliusproject.entities.Tdata;
+import com.vergiliusproject.entities.Ttype;
 import com.vergiliusproject.repos.TtypeRepository;
 import java.util.*;
 import java.util.stream.Collectors;

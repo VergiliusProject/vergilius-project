@@ -1,4 +1,4 @@
-package com.vergiliusproject;
+package com.vergiliusproject.entities;
 
 import javax.persistence.*;
 

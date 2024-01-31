@@ -1,4 +1,4 @@
-package com.vergiliusproject;
+package com.vergiliusproject.entities;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import javax.persistence.*;

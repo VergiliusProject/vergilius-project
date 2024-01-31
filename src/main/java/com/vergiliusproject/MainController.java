@@ -22,6 +22,9 @@ import com.vergiliusproject.repos.TtypeRepository;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import com.vergiliusproject.dto.TypeEntry;
+import com.vergiliusproject.entities.Os;
+import com.vergiliusproject.entities.Tdata;
+import com.vergiliusproject.entities.Ttype;
 
 @Controller
 public class MainController implements ErrorController {
