@@ -3,7 +3,6 @@ extends /partials/page
 block title
     title Vergilius Project | #{famname}
     -var selected = 'Kernels';
-    -var i = 0;
 block content
     .container.mainblock
         .row
@@ -25,9 +24,15 @@ block content
                             h2.text-center.maincap(style="margin-bottom: 0px;") #{famname}
                             .container
                                 .row.sm-timeline
-                                    each a in fam
-                                        -var url = `/kernels/#{arch}/#{famname}/#{a.osname}`;
-                                        if(i % 2 != 0)
+                                    mixin osinfo(os, url)
+                                        a.fam-link(href=url tabindex="-1") #{os.osname}
+                                        p.family
+                                            | build: #{os.buildnumber}
+                                        p.family
+                                            | date: #{os.convertTimestampToDate(os.timestamp)}
+                                    each os, i in fam
+                                        -var url = `/kernels/#{arch}/#{famname}/#{os.osname}`;
+                                        if (i % 2)
                                             .col-sm-4
                                             .col-sm-8.sm-modif(style="margin-bottom: 5px")
                                                 .row
@@ -38,12 +43,7 @@ block content
                                                         if(i < fam.size() - 1)
                                                             .new-small-line-2.d-none.d-xl-block
                                                     .col-sm-10.my-auto
-                                                        a.fam-link(href=url tabindex="-1") #{a.osname}
-                                                        p.family
-                                                            | build: #{a.buildnumber}
-                                                        p.family
-                                                            | date: #{a.convertTimestampToDate(a.timestamp)}
-                                                        -var i=i+1
+                                                        +osinfo(os, url)
                                         else
                                             .col-sm-3
                                             .col-sm-9(style="margin-bottom: 5px")
@@ -55,9 +55,4 @@ block content
                                                         if(i < fam.size() - 1)
                                                             .new-small-line.d-none.d-xl-block
                                                     .col-sm-10.my-auto.md-odd
-                                                        a.fam-link(href=url tabindex="-1") #{a.osname}
-                                                        p.family
-                                                            | build: #{a.buildnumber}
-                                                        p.family
-                                                            | date: #{a.convertTimestampToDate(a.timestamp)}
-                                                        -var i=i+1
+                                                        +osinfo(os, url)
