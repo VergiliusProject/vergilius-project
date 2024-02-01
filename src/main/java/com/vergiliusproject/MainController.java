@@ -244,4 +244,11 @@ public class MainController implements ErrorController {
 
         return "tdata";
     }
+    
+    @GetMapping("/redirect")
+    public String displayRedirect(Model model) throws IOException {
+        model.addAttribute("targetUrl", "/about");
+
+        return "redirect";
+    }
 }
