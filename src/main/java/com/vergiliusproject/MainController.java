@@ -251,4 +251,12 @@ public class MainController implements ErrorController {
 
         return "redirect";
     }
+    
+    @GetMapping("/oldlinks")
+    public String displayOldLinks(Model model) throws IOException {
+        List<String> oldLinks = Arrays.asList("/about", "/kernels");
+        model.addAttribute("oldLinks", oldLinks);
+
+        return "oldlinks";
+    }
 }

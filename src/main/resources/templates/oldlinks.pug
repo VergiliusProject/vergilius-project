@@ -1,0 +1,7 @@
+head
+  meta(charset='utf-8')
+body
+  ul
+    each url in oldLinks
+      li
+        a(href=url tabindex="-1") #{url}
