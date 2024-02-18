@@ -1,4 +1,4 @@
-package com.vergiliusproject;
+package com.vergiliusproject.dto;
 
 import com.vergiliusproject.entities.Ttype;
 import java.util.List;
