@@ -1,10 +1,18 @@
 package com.vergiliusproject;
 
 import com.vergiliusproject.dto.Root;
+import com.vergiliusproject.dto.TypeEntry;
+import com.vergiliusproject.entities.Os;
+import com.vergiliusproject.entities.Tdata;
+import com.vergiliusproject.entities.Ttype;
+import com.vergiliusproject.repos.OsRepository;
+import com.vergiliusproject.repos.TdataRepository;
+import com.vergiliusproject.repos.TtypeRepository;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
-
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -12,20 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.yaml.snakeyaml.Yaml;
-
 import org.yaml.snakeyaml.introspector.BeanAccess;
-import com.vergiliusproject.repos.TdataRepository;
-import com.vergiliusproject.repos.OsRepository;
-import com.vergiliusproject.repos.TtypeRepository;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
-import com.vergiliusproject.dto.TypeEntry;
-import com.vergiliusproject.entities.Os;
-import com.vergiliusproject.entities.Tdata;
-import com.vergiliusproject.entities.Ttype;
 
 @Controller
 public class MainController implements ErrorController {
@@ -71,11 +69,13 @@ public class MainController implements ErrorController {
 
             Os os = new Os();
 
-            os.setOsname(root.getOsname());
             os.setFamily(root.getFamily());
-            os.setTimestamp(root.getTimestamp());
+            os.setOsname(root.getOsname());
+            os.setOldfamily(root.getOldfamily());
+            os.setOldosname(root.getOldosname());
             os.setBuildnumber(root.getBuildnumber());
             os.setArch(root.getArch());
+            os.setTimestamp(root.getTimestamp());
 
             List<Ttype> types = root.getTypes();
 
@@ -90,7 +90,7 @@ public class MainController implements ErrorController {
                 }
             }
             
-            os.setTypes(new HashSet<>(types));
+            os.setTtypes(new HashSet<>(types));
             osRepo.save(os);
         }
         catch (IOException e){}
@@ -150,7 +150,21 @@ public class MainController implements ErrorController {
 
     @RequestMapping(value="/kernels/{arch:.+}/{famname:.+}")
     public String displayFamily(@PathVariable String arch, @PathVariable String famname, Model model) {
-        model.addAttribute("fam", Sorter.sortByBuildnumber(osRepo.findByArchAndFamily(arch, famname), false));
+        List<Os> oses = osRepo.findByArchAndFamily(arch, famname);
+        
+        // deal with the old family name
+        if (oses.isEmpty()) {
+            oses = osRepo.findByArchAndOldFamily(arch, famname);
+            
+            if (oses.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            }
+            
+            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + oses.getFirst().getFamily());
+            return "redirect";
+        }
+        
+        model.addAttribute("fam", Sorter.sortByBuildnumber(oses, false));
 
         passFamilyList(model);
 
@@ -164,6 +178,19 @@ public class MainController implements ErrorController {
     @RequestMapping(value = "/kernels/{arch:.+}/{famname:.+}/{osname:.+}", method = RequestMethod.GET)
     public String displayKinds(@PathVariable String arch, @PathVariable String famname, @PathVariable String osname, Model model) {
         Os os = osRepo.findByArchAndFamilyAndOsname(arch, famname, osname);
+        
+        // deal with the old family name
+        if (os == null) {
+            os = osRepo.findByArchAndOldFamilyAndOldOsname(arch, famname, osname);
+            
+            if (os == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            }
+            
+            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + os.getFamily() + "/" + os.getOsname());
+            return "redirect";
+        }
+        
         List<Ttype> types = ttypeRepo.findByOpersysAndIsConstFalseAndIsVolatileFalse(os);
         
         Set<String> prevTypes = Collections.emptySet();
@@ -183,8 +210,20 @@ public class MainController implements ErrorController {
     }
 
     @RequestMapping(value = "/kernels/{arch:.+}/{famname:.+}/{osname:.+}/{name:.+}", method = RequestMethod.GET)
-    public String displayType(@PathVariable String arch, @PathVariable String famname,@PathVariable String osname,@PathVariable String name, Model model) {
+    public String displayType(@PathVariable String arch, @PathVariable String famname, @PathVariable String osname, @PathVariable String name, Model model) {
         Os opersys = osRepo.findByArchAndFamilyAndOsname(arch, famname, osname);
+        
+        // deal with the old family name
+        if (opersys == null) {
+            opersys = osRepo.findByArchAndOldFamilyAndOldOsname(arch, famname, osname);
+            
+            if (opersys == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            }
+            
+            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + opersys.getFamily() + "/" + opersys.getOsname() + "/" + name);
+            return "redirect";
+        }
 
         String link = "/kernels/" + arch + "/" + famname + "/" + osname + "/";
 
@@ -246,17 +285,25 @@ public class MainController implements ErrorController {
         return "tdata";
     }
     
-    @GetMapping("/redirect")
-    public String displayRedirect(Model model) throws IOException {
-        model.addAttribute("targetUrl", "/about");
-
-        return "redirect";
-    }
-    
     @GetMapping("/oldlinks")
     public String displayOldLinks(Model model) throws IOException {
-        List<String> oldLinks = Arrays.asList("/about", "/kernels");
-        model.addAttribute("oldLinks", oldLinks);
+        List<Os> oses = osRepo.findWithOldFamilyNotNull();
+        
+        List<String> families = oses.stream()
+            .map(os -> "/kernels/" + os.getArch() + "/" + os.getOldfamily())
+            .distinct()
+            .toList();
+        List<String> osnames = oses.stream()
+            .map(os -> "/kernels/" + os.getArch() + "/" + os.getOldfamily() + "/" + os.getOldosname())
+            .toList();
+        List<String> ttypes = oses.stream()
+            .flatMap(os -> ttypeRepo.findStructEnumUnionByOpersys(os).stream()
+                .map(ttype -> "/kernels/" + os.getArch() + "/" + os.getOldfamily() + "/" + os.getOldosname() + "/" + ttype.getName()))
+            .toList();
+        
+        model.addAttribute("families", families);
+        model.addAttribute("osnames", osnames);
+        model.addAttribute("ttypes", ttypes);
 
         return "oldlinks";
     }

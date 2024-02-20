@@ -1,9 +1,9 @@
 package com.vergiliusproject;
 
-import org.apache.commons.lang3.builder.CompareToBuilder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 public class Buildnumber {
     public static int compareBuildnumbers(String buildnumber1, String buildnumber2) {

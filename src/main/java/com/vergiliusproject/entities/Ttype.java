@@ -1,14 +1,14 @@
 package com.vergiliusproject.entities;
 
-import javax.persistence.*;
 import java.util.*;
+import javax.persistence.*;
 
 @Table(name = "ttype",
        indexes = {@Index(name = "indexTtype", columnList = "id, Operating_system_idopersys")})
 @Entity
 public class Ttype {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Integer idtype;
 
     @Column(name="tname")
@@ -108,7 +108,6 @@ public class Ttype {
     public boolean isIsConst() {
         return (isConst != null && isConst != false);
     }
-
 
     public boolean isIsVolatile() {
        return (isVolatile != null && isVolatile != false);

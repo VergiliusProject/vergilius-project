@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 public class Tdata {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Integer iddata;
 
     private Integer offset;
@@ -74,7 +74,6 @@ public class Tdata {
 
     @Override
     public String toString() {
-        //return "" + getId();
         return "" + getName() + " " + getOffset()+ " " + getId();
     }
 }

@@ -1,93 +1,59 @@
 package com.vergiliusproject.entities;
 
-import org.apache.commons.lang3.builder.CompareToBuilder;
-import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.persistence.*;
+import lombok.Data;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 @Entity
+@Data
 public class Os implements Comparator<Os> {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(length=16)
+    private UUID idopersys;
 
-    private int idopersys;
-
+    @Column(length=32)
+    private String family;
+    
+    @Column(length=64)
     private String osname;
-
+    
+    @Column(length=32)
+    private String oldfamily;
+    
+    @Column(length=64)
+    private String oldosname;
+    
+    @Column(length=32)
+    private String buildnumber;
+    
+    @Column(length=3)
+    private String arch;
+    
+    @Column(name="n_timestamp") // timestamp is an SQL reserver keyword, so rename the column
+    private long timestamp;
+    
     @OneToMany(mappedBy = "opersys", cascade = CascadeType.ALL)
     private Set<Ttype> ttypes;
-
-    public int getIdopersys() {
-        return idopersys;
-    }
-
-    public void setIdopersys(Integer idopersys) {
-        this.idopersys = idopersys;
-    }
-
-    public String getOsname() {
-        return osname;
-    }
-
-    public void setOsname(String osname) {
-        this.osname = osname;
-    }
-
-
-    public Set<Ttype> getTypes() {
-        return ttypes;
-    }
-
-    public void setTypes(Set<Ttype> ttypes) {
-        this.ttypes = ttypes;
-    }
-
-    private String family;
-
-    private long timestamp;
-
-    private String buildnumber;
-
-    private String arch;
-
-    public String getBuildnumber() {
-        return buildnumber;
-    }
-
-    public void setBuildnumber(String buildnumber) {
-        this.buildnumber = buildnumber;
-    }
-
-    public String getArch() {
-        return arch;
-    }
-
-    public void setArch(String arch) {
-        this.arch = arch;
+    
+    @PrePersist
+    protected void onCreation() {
+        if (idopersys == null) {
+            idopersys = UUID.nameUUIDFromBytes((buildnumber + arch).getBytes());
+        }
+        
+        if (oldfamily != null && oldosname == null ||
+            oldfamily == null && oldosname != null) {
+            throw new IllegalStateException("oldfamily and oldosname should be both null or not null!");
+        }
     }
 
     public String convertTimestampToDate(long timestamp) {
         Date date = new Date(timestamp*1000L);
         SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd");
         return jdf.format(date);
-    }
-
-    public String getFamily() {
-
-        return family;
-    }
-
-    public void setFamily(String family) {
-        this.family = family;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
     }
 
     @Override

@@ -2,6 +2,12 @@ head
   meta(charset='utf-8')
 body
   ul
-    each url in oldLinks
+    each url in families
+      li
+        a(href=url tabindex="-1") #{url}
+    each url in osnames
+      li
+        a(href=url tabindex="-1") #{url}
+    each url in ttypes
       li
         a(href=url tabindex="-1") #{url}
