@@ -113,16 +113,10 @@ public class Ttype {
        return (isVolatile != null && isVolatile != false);
     }
 
-    public static List<Ttype>FilterByTypes(List<Ttype> list, Kind param) {
-        List<Ttype> retVal = new ArrayList<>();
-        
-        for (Ttype i: list) {
-            String name = i.getName();
-            if (name != null && !name.equals("<unnamed-tag>") && !name.equals("__unnamed") && i.getKind() == param) {
-                retVal.add(i);
-            }
-        }
-        
-        return retVal;
+    public static List<Ttype> filterByTypes(List<Ttype> list, Kind param) {
+        return list.stream().filter(x -> { 
+            String name = x.getName();
+            return name != null && !name.equals("<unnamed-tag>") && !name.equals("__unnamed") && x.getKind() == param;
+        }).toList();
     }
 }

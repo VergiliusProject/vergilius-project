@@ -78,17 +78,15 @@ public class MainController implements ErrorController {
             os.setTimestamp(root.getTimestamp());
 
             List<Ttype> types = root.getTypes();
-
-            for (Ttype type: types) {
-                type.setOpersys(os);
+            
+            types.stream().forEach(type -> { 
+                type.setOpersys(os); 
                 Set<Tdata> datas = type.getData();
-
+                
                 if (datas != null) {
-                    for (Tdata data: datas) {
-                        data.setTtype(type);
-                    }
+                    datas.forEach(data -> data.setTtype(type));
                 }
-            }
+            });
             
             os.setTtypes(new HashSet<>(types));
             osRepo.save(os);
@@ -101,8 +99,8 @@ public class MainController implements ErrorController {
     }
 
     private void passFamilyList(Model model) {
-        model.addAttribute("sortedFamx86", Sorter.sortByBuildnumber(osRepo.findOsByArch("x86"), false).stream().map(os -> os.getFamily()).distinct().collect(Collectors.toList()));
-        model.addAttribute("sortedFamx64", Sorter.sortByBuildnumber(osRepo.findOsByArch("x64"), false).stream().map(os -> os.getFamily()).distinct().collect(Collectors.toList()));
+        model.addAttribute("sortedFamx86", Sorter.sortByBuildnumber(osRepo.findOsByArch("x86"), false).stream().map(Os::getFamily).distinct().toList());
+        model.addAttribute("sortedFamx64", Sorter.sortByBuildnumber(osRepo.findOsByArch("x64"), false).stream().map(Os::getFamily).distinct().toList());
     }
     
     private Optional<Os> getPreviousOs(Os os) {
@@ -141,7 +139,7 @@ public class MainController implements ErrorController {
 
     @GetMapping("/kernels/{arch:.+}")
     public String displayArch(@PathVariable String arch, Model model) {
-        model.addAttribute("chosenArch", Sorter.sortByBuildnumber(osRepo.findOsByArch(arch), false).stream().map(os -> os.getFamily()).distinct().collect(Collectors.toList()));
+        model.addAttribute("chosenArch", Sorter.sortByBuildnumber(osRepo.findOsByArch(arch), false).stream().map(os -> os.getFamily()).distinct().toList());
 
         passFamilyList(model);
 
@@ -172,7 +170,7 @@ public class MainController implements ErrorController {
     }
     
     private List<TypeEntry> makeTypeEnties(List<Ttype> types, Set<String> prevTypes) {
-        return types.stream().map(x -> new TypeEntry(x.getName(), prevTypes.isEmpty() ? false : !prevTypes.contains(x.getName()))).collect(Collectors.toList());
+        return types.stream().map(x -> new TypeEntry(x.getName(), prevTypes.isEmpty() ? false : !prevTypes.contains(x.getName()))).toList();
     }
 
     @RequestMapping(value = "/kernels/{arch:.+}/{famname:.+}/{osname:.+}", method = RequestMethod.GET)
@@ -197,12 +195,12 @@ public class MainController implements ErrorController {
 
         Optional<Os> prevOs = getPreviousOs(os);
         if (prevOs.isPresent()) {
-            prevTypes = ttypeRepo.findByOpersysAndIsConstFalseAndIsVolatileFalse(prevOs.get()).stream().map(x -> x.getName()).collect(Collectors.toSet());
+            prevTypes = ttypeRepo.findByOpersysAndIsConstFalseAndIsVolatileFalse(prevOs.get()).stream().map(Ttype::getName).collect(Collectors.toSet());
         }        
 
-        model.addAttribute("structs", makeTypeEnties(Sorter.sortByName(Ttype.FilterByTypes(types, Ttype.Kind.STRUCT)), prevTypes));
-        model.addAttribute("unions", makeTypeEnties(Sorter.sortByName(Ttype.FilterByTypes(types, Ttype.Kind.UNION)), prevTypes));
-        model.addAttribute("enums", makeTypeEnties(Sorter.sortByName(Ttype.FilterByTypes(types, Ttype.Kind.ENUM)), prevTypes));
+        model.addAttribute("structs", makeTypeEnties(Sorter.sortByName(Ttype.filterByTypes(types, Ttype.Kind.STRUCT)), prevTypes));
+        model.addAttribute("unions", makeTypeEnties(Sorter.sortByName(Ttype.filterByTypes(types, Ttype.Kind.UNION)), prevTypes));
+        model.addAttribute("enums", makeTypeEnties(Sorter.sortByName(Ttype.filterByTypes(types, Ttype.Kind.ENUM)), prevTypes));
 
         passFamilyList(model);
 
@@ -254,17 +252,9 @@ public class MainController implements ErrorController {
                 used_in.addAll(ttypeRepo.findByOpersysAndId5(opersys, i.getId()));
             }
 
-            List<String> used_in_names = new ArrayList<>();
-            for (Ttype i : used_in) {
-                used_in_names.add(i.getName());
-            }
-
-            if (!used_in_names.isEmpty()) {
-                used_in_names = used_in_names.stream().distinct().sorted().collect(Collectors.toList());
-            } else {
-                used_in_names = null;
-            }
-            model.addAttribute("cros", used_in_names);
+            List<String> used_in_names = used_in.stream().map(Ttype::getName).sorted().distinct().toList();
+                    
+            model.addAttribute("cros", used_in_names.isEmpty() ? null : used_in_names);
         }
 
         model.addAttribute("currOs", opersys);
