@@ -1,9 +1,9 @@
 package com.vergiliusproject.entities;
 
+import jakarta.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.persistence.*;
 import lombok.Data;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 

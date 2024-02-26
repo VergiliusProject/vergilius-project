@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.18'
+    id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'io.freefair.lombok' version '8.6'
     id 'java'
@@ -27,7 +27,7 @@ dependencies {
     }
 
     implementation 'de.neuland-bfi:pug4j:2.2.0'
-    implementation 'de.neuland-bfi:spring-pug4j:2.0.6'
+    implementation 'de.neuland-bfi:spring-pug4j:3.2.0'
     implementation 'org.apache.commons:commons-lang3:3.14.0'
     implementation 'org.apache.commons:commons-text:1.11.0'
 

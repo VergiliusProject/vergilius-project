@@ -207,6 +207,9 @@ import de.neuland.pug4j.Pug4J;
 import de.neuland.pug4j.PugConfiguration;
 import de.neuland.pug4j.spring.template.SpringTemplateLoader;
 import de.neuland.pug4j.spring.view.PugViewResolver;
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.Servlet;
+import java.util.Map;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -225,10 +228,6 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.Servlet;
-import java.util.Map;
 
 /**
  * {@link org.springframework.boot.autoconfigure.EnableAutoConfiguration Auto-configuration} for pug4j.
@@ -286,9 +285,7 @@ public class Pug4JAutoConfiguration {
       configuration.setMode(this.environment.getProperty("spring.pug4j.mode", Pug4J.Mode.class, Pug4J.Mode.HTML));
       return configuration;
     }
-
   }
-
 
   @Configuration
   @ConditionalOnClass({Servlet.class})
@@ -348,14 +345,11 @@ public class Pug4JAutoConfiguration {
       };
     }
 
-
     private String appendCharset(String type, String charset) {
       if (type.contains("charset=")) {
         return type;
       }
       return type + ";charset=" + charset;
     }
-
   }
-
 }

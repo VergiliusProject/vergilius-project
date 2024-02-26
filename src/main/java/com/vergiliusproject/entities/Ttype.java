@@ -1,7 +1,8 @@
 package com.vergiliusproject.entities;
 
-import java.util.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Table(name = "ttype",
        indexes = {@Index(name = "indexTtype", columnList = "id, Operating_system_idopersys")})

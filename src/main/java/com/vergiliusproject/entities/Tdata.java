@@ -1,6 +1,6 @@
 package com.vergiliusproject.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Table(name = "tdata",
        indexes = {@Index(name = "indexTdata", columnList = "id, Ttype_idtype")})

@@ -24,13 +24,13 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-dark
                                     ul(type='none')
                                         for i in sortedFamx86
                                             li: p.menu-list
-                                                a.dropdown-item(href="/kernels/x86/#{i}" tabindex="-1") - #{i}
+                                                a.dropdown-item(href=`/kernels/x86/#{i}` tabindex="-1") - #{i}
                                 .col-md-6.no-pad
                                     a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x64') x64
                                     ul(type='none')
                                         for i in sortedFamx64
                                             li: p.menu-list
-                                                a.dropdown-item(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
+                                                a.dropdown-item(href=`/kernels/x64/#{i}` tabindex="-1") - #{i}
             else
                 li.nav-item.dropdown
                     a#navbarDropdown.nav-link.dropdown-toggle(tabindex='-1', href='/kernels', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
@@ -43,13 +43,13 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-dark
                                     ul(type='none')
                                         for i in sortedFamx86
                                             li: p.menu-list
-                                                a.dropdown-item(href="/kernels/x86/#{i}" tabindex="-1") - #{i}
+                                                a.dropdown-item(href=`/kernels/x86/#{i}` tabindex="-1") - #{i}
                                 .col-md-6.no-pad
                                     a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x64') x64
                                     ul(type='none')
                                         for i in sortedFamx64
                                             li: p.menu-list
-                                                a.dropdown-item(href="/kernels/x64/#{i}" tabindex="-1") - #{i}
+                                                a.dropdown-item(href=`/kernels/x64/#{i}` tabindex="-1") - #{i}
             if selected == "About"
                 li.nav-item
                     a.nav-link.active(href='/about' tabindex="-1") ABOUT
