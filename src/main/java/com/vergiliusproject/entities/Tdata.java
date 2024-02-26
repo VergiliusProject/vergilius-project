@@ -7,7 +7,8 @@ import jakarta.persistence.*;
 @Entity
 public class Tdata {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="tdata_seq")
+    @SequenceGenerator(name="tdata_seq", allocationSize=500)
     private Integer iddata;
 
     private Integer offset;

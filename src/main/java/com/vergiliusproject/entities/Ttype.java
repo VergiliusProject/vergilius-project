@@ -9,7 +9,8 @@ import java.util.Set;
 @Entity
 public class Ttype {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ttype_seq")
+    @SequenceGenerator(name="ttype_seq", allocationSize=500)
     private Integer idtype;
 
     @Column(name="tname")
