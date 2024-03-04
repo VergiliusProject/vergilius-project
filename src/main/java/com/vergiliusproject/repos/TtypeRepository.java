@@ -14,8 +14,8 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
             + " WHERE u.opersys= :opersys"
             + " AND u.name <> '<unnamed-tag>' AND u.name <> '__unnamed' AND u.name IS NOT NULL"
             + " AND (u.kind = 'STRUCT' OR u.kind = 'ENUM' OR u.kind = 'UNION')"
-            + " AND u.isConst IS FALSE"
-            + " AND u.isVolatile IS FALSE")
+            + " AND u.isConst = FALSE"
+            + " AND u.isVolatile = FALSE")
     List<Ttype> findStructEnumUnionByOpersys(@Param("opersys") Os opersys);
 
     Ttype findByIdAndOpersys(@Param("id") int id, @Param("opersys") Os opersys);
