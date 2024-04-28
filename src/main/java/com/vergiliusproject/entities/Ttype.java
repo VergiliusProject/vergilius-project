@@ -3,6 +3,7 @@ package com.vergiliusproject.entities;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Table(name = "ttype",
        indexes = {@Index(name = "indexTtype", columnList = "id, Operating_system_idopersys")})
@@ -49,6 +50,14 @@ public class Ttype {
     //relationship with Tdata
     @OneToMany(mappedBy="ttype", cascade = CascadeType.ALL)
     private Set<Tdata> data;
+    
+    @PrePersist
+    protected void onCreation() {
+        // Trasfrorm various unnamed type names to null
+        if (Stream.of("__unnamed", "<unnamed-tag>").anyMatch(x -> x.equals(name))) {
+            name = null;
+        }
+    }
 
     public Integer getIdtype() {
         return idtype;

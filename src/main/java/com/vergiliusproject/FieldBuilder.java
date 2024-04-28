@@ -319,7 +319,7 @@ public class FieldBuilder {
 
                 String name = repo.findByIdAndOpersys(refType.getId(), operSys).getName();
 
-                if (repo.findByIdAndOpersys(refType.getId(), operSys).getKind() == Ttype.Kind.STRUCT && name.equals("<unnamed-tag>")) {
+                if (repo.findByIdAndOpersys(refType.getId(), operSys).getKind() == Ttype.Kind.STRUCT && name == null) {
                     FieldBuilder fb = FieldBuilder.recursionProcessing(repo, repo.findByIdAndOpersys(refType.getId(), operSys), indent, rpOffset, link, operSys);
                     fb.type.append("*").append(getModifier(type).isEmpty() ? "" : (" " + getModifier(type)));
                     fb.fbOffset = rpOffset;
@@ -384,7 +384,7 @@ public class FieldBuilder {
                 } else {   
                     //not top-level structure without name should be displayed with it's all fields
                     //directly at that place, where it's declared
-                    if (type.getName().equals("<unnamed-tag>") || type.getName().equals("__unnamed")) {
+                    if (type.getName() == null) {
                         fb.type.append("struct");
                         printStructFields(fb, type, repo, indent, rpOffset, link, operSys);
                     } else {
@@ -406,7 +406,7 @@ public class FieldBuilder {
                     printEnumFields(fb, type, indent, operSys);
                     fb.type.append(";");
                 } else {
-                    if (type.getName().equals("<unnamed-tag>") || type.getName().equals("__unnamed")) {
+                    if (type.getName() == null) {
                         fb.type.append(new StringBuilder("enum"));
                         printEnumFields(fb, type, indent, operSys);
                     } else {
@@ -428,7 +428,7 @@ public class FieldBuilder {
 
                     fb.type.append(";");
                 } else {
-                    if (type.getName().equals("<unnamed-tag>") || type.getName().equals("__unnamed")) {
+                    if (type.getName() == null) {
                         fb.type.append(getModifier(type)).append("union");
 
                         printUnionFields(fb, type, repo, indent, rpOffset, link, operSys);

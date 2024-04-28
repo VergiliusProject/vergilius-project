@@ -12,7 +12,7 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
     
     @Query("SELECT u FROM Ttype u"
             + " WHERE u.opersys= :opersys"
-            + " AND u.name <> '<unnamed-tag>' AND u.name <> '__unnamed' AND u.name IS NOT NULL"
+            + " AND u.name IS NOT NULL"
             + " AND (u.kind = 'STRUCT' OR u.kind = 'ENUM' OR u.kind = 'UNION')"
             + " AND u.isConst = FALSE"
             + " AND u.isVolatile = FALSE")
@@ -24,16 +24,16 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
 
     @Query("SELECT DISTINCT u.ttype FROM Tdata u"
             + " WHERE u.id= :id AND u.ttype.opersys= :opersys"
-            + " AND u.ttype.name <> '<unnamed-tag>' AND u.ttype.name <> '__unnamed' AND u.ttype.name IS NOT NULL AND u.ttype.kind <>'POINTER'")
+            + " AND u.ttype.name IS NOT NULL AND u.ttype.kind <>'POINTER'")
     List<Ttype> findByOpersysAndId1(@Param("opersys") Os opersys, @Param("id") Integer id);
 
     @Query("SELECT DISTINCT s.ttype FROM Tdata s"
             + " WHERE s.id in(SELECT m.ttype.id FROM Tdata m"
                                 + " WHERE m.id= :id AND m.ttype.opersys= :opersys"
                                 + " AND (m.ttype.kind = 'POINTER' OR m.ttype.kind = 'ARRAY' OR m.ttype.kind = 'FUNCTION'"
-                                + " OR m.ttype.name = '<unnamed-tag>' OR m.ttype.name = '__unnamed'))"
+                                + " OR m.ttype.name IS NULL))"
             + " AND s.ttype.opersys= :opersys"
-            + " AND s.ttype.name <> '<unnamed-tag>' AND s.ttype.name <> '__unnamed' AND s.ttype.name IS NOT NULL")
+            + " AND s.ttype.name IS NOT NULL")
     List<Ttype> findByOpersysAndId2(@Param("opersys") Os opersys, @Param("id") Integer id);
 
     @Query("SELECT DISTINCT y.ttype FROM Tdata y"
@@ -41,11 +41,11 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
                                 + " WHERE q.ttype.opersys= :opersys AND q.id IN(SELECT z.ttype.id FROM Tdata z"
                                                                                     + " WHERE z.id= :id AND z.ttype.opersys= :opersys"
                                                                                     + " AND (z.ttype.kind = 'POINTER' OR z.ttype.kind = 'ARRAY'"
-                                                                                    + " OR z.ttype.kind = 'FUNCTION' OR z.ttype.name = '<unnamed-tag>' OR z.ttype.name = '__unnamed'))"
+                                                                                    + " OR z.ttype.kind = 'FUNCTION' OR z.ttype.name IS NULL))"
                                 + " AND (q.ttype.kind = 'POINTER' OR q.ttype.kind = 'ARRAY'"
-                                + " OR q.ttype.kind = 'FUNCTION' OR q.ttype.name = '<unnamed-tag>' OR q.ttype.name = '__unnamed'))"
+                                + " OR q.ttype.kind = 'FUNCTION' OR q.ttype.name IS NULL))"
             + " AND y.ttype.opersys= :opersys"
-            + " AND y.ttype.name <> '<unnamed-tag>' AND y.ttype.name <> '__unnamed' AND y.ttype.name IS NOT NULL")
+            + " AND y.ttype.name IS NOT NULL")
     List<Ttype> findByOpersysAndId3(@Param("opersys") Os opersys, @Param("id") Integer id);
 
     @Query("SELECT DISTINCT u.ttype FROM Tdata u"
@@ -54,15 +54,15 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
                                                         + " WHERE p.id IN (SELECT k.ttype.id FROM Tdata k"
                                                                                 + " WHERE k.id= :id AND k.ttype.opersys= :opersys"
                                                                                 + " AND (k.ttype.kind = 'POINTER' OR k.ttype.kind = 'ARRAY'"
-                                                                                + " OR k.ttype.kind = 'FUNCTION' OR k.ttype.name = '<unnamed-tag>' OR k.ttype.name = '__unnamed'))"
+                                                                                + " OR k.ttype.kind = 'FUNCTION' OR k.ttype.name IS NULL))"
                                                         + " AND p.ttype.opersys= :opersys"
                                                         + " AND (p.ttype.kind = 'POINTER' OR p.ttype.kind = 'ARRAY'"
-                                                        + " OR p.ttype.kind = 'FUNCTION' OR p.ttype.name = '<unnamed-tag>' OR p.ttype.name = '__unnamed'))"
+                                                        + " OR p.ttype.kind = 'FUNCTION' OR p.ttype.name IS NULL))"
                                     + " AND w.ttype.opersys= :opersys"
                                     + " AND (w.ttype.kind = 'POINTER' OR w.ttype.kind = 'ARRAY'"
-                                    + " OR w.ttype.kind = 'FUNCTION' OR w.ttype.name = '<unnamed-tag>' OR w.ttype.name = '__unnamed'))"
+                                    + " OR w.ttype.kind = 'FUNCTION' OR w.ttype.name IS NULL))"
             + " AND u.ttype.opersys= :opersys"
-            + " AND u.ttype.name <> '<unnamed-tag>' AND u.ttype.name <> '__unnamed' AND u.ttype.name IS NOT NULL")
+            + " AND u.ttype.name IS NOT NULL")
     List<Ttype> findByOpersysAndId4(@Param("opersys") Os opersys, @Param("id") Integer id);
 
     @Query("SELECT DISTINCT u.ttype FROM Tdata u"
@@ -72,17 +72,17 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
             + " WHERE k.id in("
             + " SELECT m.ttype.id FROM Tdata m WHERE m.id= :id AND m.ttype.opersys= :opersys"
             + " AND (m.ttype.kind = 'POINTER' OR m.ttype.kind = 'ARRAY' OR m.ttype.kind = 'FUNCTION'"
-            + " OR m.ttype.name = '<unnamed-tag>' OR m.ttype.name = '__unnamed'))"
+            + " OR m.ttype.name IS NULL))"
             + " AND k.ttype.opersys= :opersys"
             + " AND (k.ttype.kind = 'POINTER' OR k.ttype.kind = 'ARRAY'"
-            + " OR k.ttype.kind = 'FUNCTION' OR k.ttype.name = '<unnamed-tag>' OR k.ttype.name = '__unnamed'))"
+            + " OR k.ttype.kind = 'FUNCTION' OR k.ttype.name IS NULL))"
             + " AND p.ttype.opersys= :opersys"
             + " AND (p.ttype.kind = 'POINTER' OR p.ttype.kind = 'ARRAY'"
-            + " OR p.ttype.kind = 'FUNCTION' OR p.ttype.name = '<unnamed-tag>' OR p.ttype.name = '__unnamed'))"
+            + " OR p.ttype.kind = 'FUNCTION' OR p.ttype.name IS NULL))"
             + " AND w.ttype.opersys= :opersys"
             + " AND (w.ttype.kind = 'POINTER' OR w.ttype.kind = 'ARRAY'"
-            + " OR w.ttype.kind = 'FUNCTION' OR w.ttype.name = '<unnamed-tag>' OR w.ttype.name = '__unnamed'))"
+            + " OR w.ttype.kind = 'FUNCTION' OR w.ttype.name IS NULL))"
             + " AND u.ttype.opersys= :opersys"
-            + " AND u.ttype.name <> '<unnamed-tag>' AND u.ttype.name <> '__unnamed' AND u.ttype.name IS NOT NULL")
+            + " AND u.ttype.name IS NOT NULL")
     List<Ttype> findByOpersysAndId5(@Param("opersys") Os opersys, @Param("id") Integer id);
 }
