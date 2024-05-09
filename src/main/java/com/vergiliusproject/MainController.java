@@ -14,6 +14,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -27,16 +28,18 @@ import org.yaml.snakeyaml.introspector.BeanAccess;
 
 @Controller
 public class MainController implements ErrorController {
+    @Value("${GIT_HASH}")
+    private String gitHash;
     @Autowired
     public OsRepository osRepo;
     @Autowired
     public TtypeRepository ttypeRepo;
     @Autowired
-    public TdataRepository tdataRepo;
+    public TdataRepository tdataRepo;   
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
-        passFamilyList(model);
+        addCommonAttributes(model);
 
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
@@ -55,7 +58,7 @@ public class MainController implements ErrorController {
 
     @GetMapping("/admin")
     public String displayAdmin(Model model) throws IOException {
-        passFamilyList(model);
+        addCommonAttributes(model);
 
         return "admin";
     }
@@ -98,9 +101,10 @@ public class MainController implements ErrorController {
         return "redirect:/admin";
     }
 
-    private void passFamilyList(Model model) {
+    private void addCommonAttributes(Model model) {
         model.addAttribute("sortedFamx86", Sorter.sortByBuildnumber(osRepo.findOsByArch("x86"), false).stream().map(Os::getFamily).distinct().toList());
         model.addAttribute("sortedFamx64", Sorter.sortByBuildnumber(osRepo.findOsByArch("x64"), false).stream().map(Os::getFamily).distinct().toList());
+        model.addAttribute("gitHash", gitHash);
     }
     
     private Optional<Os> getPreviousOs(Os os) {
@@ -109,31 +113,31 @@ public class MainController implements ErrorController {
 
     @GetMapping("/")
     public String displayHome(Model model) {
-        passFamilyList(model);
+        addCommonAttributes(model);
         return "home";
     }
 
     @GetMapping("/terms")
     public String displayTerms(Model model) {
-        passFamilyList(model);
+        addCommonAttributes(model);
         return "terms";
     }
 
     @GetMapping("/privacy")
     public String displayPrivacy(Model model) {
-        passFamilyList(model);
+        addCommonAttributes(model);
         return "privacy";
     }
 
     @GetMapping("/about")
     public String displayAbout(Model model) {
-        passFamilyList(model);
+        addCommonAttributes(model);
         return "about";
     }
 
     @GetMapping("/kernels")
     public String displayKernels(Model model) throws Exception {
-        passFamilyList(model);
+        addCommonAttributes(model);
         return "kernels";
     }
 
@@ -141,7 +145,7 @@ public class MainController implements ErrorController {
     public String displayArch(@PathVariable String arch, Model model) {
         model.addAttribute("chosenArch", Sorter.sortByBuildnumber(osRepo.findOsByArch(arch), false).stream().map(os -> os.getFamily()).distinct().toList());
 
-        passFamilyList(model);
+        addCommonAttributes(model);
 
         return "arch";
     }
@@ -164,7 +168,7 @@ public class MainController implements ErrorController {
         
         model.addAttribute("fam", Sorter.sortByBuildnumber(oses, false));
 
-        passFamilyList(model);
+        addCommonAttributes(model);
 
         return "family";
     }
@@ -202,7 +206,7 @@ public class MainController implements ErrorController {
         model.addAttribute("unions", makeTypeEnties(Sorter.sortByName(Ttype.filterByTypes(types, Ttype.Kind.UNION)), prevTypes));
         model.addAttribute("enums", makeTypeEnties(Sorter.sortByName(Ttype.filterByTypes(types, Ttype.Kind.ENUM)), prevTypes));
 
-        passFamilyList(model);
+        addCommonAttributes(model);
 
         return "ttype";
     }
@@ -270,7 +274,7 @@ public class MainController implements ErrorController {
         model.addAttribute("mapos", map);
         model.addAttribute("invertMapos", mapInverted);
 
-        passFamilyList(model);
+        addCommonAttributes(model);
 
         return "tdata";
     }

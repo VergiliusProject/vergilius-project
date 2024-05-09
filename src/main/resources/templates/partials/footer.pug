@@ -1,20 +1,18 @@
 footer.container-fluid.footer-fluid
     .container
-        .row
-            .col-md-12.footer-style
+        .row.footer-style
+            .col-md-10
                 a.footer_link(href='/terms', tabindex='-1')
-                    strong
-                        | Terms of Service&nbsp;
-                span(style="color: #262633") |
+                    strong Terms of Service
+                span(style="color: #262633") &nbsp;|&nbsp;
                 a.footer_link(href='/privacy', tabindex='-1')
-                    strong
-                        | &nbsp;Privacy Policy&nbsp;
-                span(style="color: #262633") |
-                    a.footer_link(href='https://github.com/VergiliusProject/vergilius-project/issues', tabindex='-1')
-                        strong
-                            | &nbsp;Report a Bug &nbsp;
-                span(style="color: #262633") |
-                | &nbsp;© 2018-2024 Copyright: 
+                    strong Privacy Policy
+                span(style="color: #262633") &nbsp;|&nbsp;
+                a.footer_link(href='https://github.com/VergiliusProject/vergilius-project/issues', tabindex='-1')
+                    strong Report a Bug
+                span(style="color: #262633") &nbsp;|&nbsp;
+                | © 2018-2024 Copyright 
                 a.footer_link(href='https://github.com/VergiliusProject', tabindex='-1')
-                    strong
-                        | VergiliusProject&nbsp;
+                    strong VergiliusProject
+            .col-md-2.d-none.d-md-block
+                small revision #{gitHash}
