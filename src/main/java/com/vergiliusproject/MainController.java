@@ -227,16 +227,14 @@ public class MainController implements ErrorController {
             return "redirect";
         }
 
-        String link = "/kernels/" + arch + "/" + famname + "/" + osname + "/";
+        model.addAttribute("ttypename", name);
 
         List<Ttype> typeslist = ttypeRepo.findByNameAndOpersys(name, opersys);
 
-        if (typeslist != null && !typeslist.isEmpty()) {
-            model.addAttribute("ttypename", typeslist.get(0).getName());
-             
+        if (typeslist != null && !typeslist.isEmpty()) {                         
             try {
+                String link = "/kernels/" + arch + "/" + famname + "/" + osname + "/";
                 model.addAttribute("ttype", FieldBuilder.recursionProcessing(ttypeRepo, typeslist.get(0), 0, 0, link, opersys).toString());
-
             }
             catch (Exception e) {
                 System.out.println(e.getClass());
