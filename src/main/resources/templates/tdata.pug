@@ -37,17 +37,17 @@ block content
                                     else
                                         .col-sm-4.bs-wizard-step.completed.toprow.d-none.d-md-block(style="padding-right: 5px;")
                                             .text-center.bs-wizard-stepnum
-                                                a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()} #{invertMapos[mapos[currOs] - 1].getArch()}
+                                                a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()}
                                     .col-sm-4.bs-wizard-step.complete.toprow.d-none.d-md-block(style="padding-right: 5px;")
                                         .text-center.bs-wizard-stepnum
-                                            a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()} #{invertMapos[mapos[currOs]].getArch()}
+                                            a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()}
                                     if invertMapos[mapos[currOs] + 1] == null
                                         .col-sm-4.bs-wizard-step.disabled.toprow.d-none.d-md-block
                                             .text-center.bs-wizard-stepnum.ord-text &nbsp; Next
                                     else
                                         .col-sm-4.bs-wizard-step.completed.toprow.d-none.d-md-block(style="padding-right: 5px;")
                                             .text-center.bs-wizard-stepnum
-                                                a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()} #{invertMapos[mapos[currOs] + 1].getArch()}
+                                                a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()}
                             .row.bs-wizard.hide-padd
                                 if invertMapos[mapos[currOs] - 1] == null
                                     .col-sm-4.bs-wizard-step.disabled.bottomrow.d-none.d-md-block
