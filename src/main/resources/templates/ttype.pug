@@ -2,22 +2,22 @@ extends /partials/page
 
 block title
     title Vergilius Project | #{os.name}
-    -var selected = 'Kernels';
+    -var selected = "Kernels";
 block content
     .container.mainblock
         .row
             .col-md-12.breadcrumbs-col
-                nav(aria-label='breadcrumb')
+                nav(aria-label="breadcrumb")
                     ol.breadcrumb
                         li.breadcrumb-item
-                            a.breadcrumb-link(href='/' tabindex="-1") > Home
+                            a.breadcrumb-link(href="/" tabindex="-1") > Home
                         li.breadcrumb-item
-                            a.breadcrumb-link(href='/kernels' tabindex="-1") Kernels
+                            a.breadcrumb-link(href="/kernels" tabindex="-1") Kernels
                         li.breadcrumb-item
                             a.breadcrumb-link(href=`/kernels/#{arch}` tabindex="-1") #{arch}
                         li.breadcrumb-item
                             a.breadcrumb-link(href=`/kernels/#{arch}/#{family.slug}` tabindex="-1") #{family.name}
-                        li.breadcrumb-item.active(aria-current='page') #{os.name}
+                        li.breadcrumb-item.active(aria-current="page") #{os.name}
         .row
             .col-md-12
                 .container.mainblock-content
@@ -38,25 +38,25 @@ block content
                             div#myDiv
                                 h2.caption Structures:
                                     div
-                                        ul(type='none')
+                                        ul(type="none")
                                             for i in structs
                                                 li
-                                                    a(class='list-link' href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
+                                                    a.list-link(href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
                                                         if i.isNew
-                                                            span(class='badge badge-success type-badge') new
+                                                            span.badge.badge-success.type-badge new
                                 h2.caption Enums:
                                     div
-                                        ul(type='none')
+                                        ul(type="none")
                                             for i in enums
                                                 li
-                                                    a(class='list-link' href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
+                                                    a.list-link(href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
                                                         if i.isNew
-                                                            span(class='badge badge-success type-badge') new
+                                                            span.badge.badge-success.type-badge new
                                 h2.caption Unions:
                                     div
-                                        ul(type='none')
+                                        ul(type="none")
                                             for i in unions
                                                 li
-                                                    a(class='list-link' href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
+                                                    a.list-link(href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
                                                         if i.isNew
-                                                            span(class='badge badge-success type-badge') new
+                                                            span.badge.badge-success.type-badge new

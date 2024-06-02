@@ -1,20 +1,20 @@
 extends /partials/page
 block title
     title Vergilius Project | About
-    -var selected = 'About';
+    -var selected = "About";
 block content
     .container.mainblock
         .row
             .col-md-12.breadcrumbs-col
-                nav(aria-label='breadcrumb')
+                nav(aria-label="breadcrumb")
                     ol.breadcrumb
                         li.breadcrumb-item
-                            a.breadcrumb-link(href='/' tabindex='-1') > Home
-                        li.breadcrumb-item.active(aria-current='page') About
-        .jumbotron.jumbotron-fluid.jumb-about(style='padding-bottom: 0px; padding-top: 0px;')
+                            a.breadcrumb-link(href="/" tabindex="-1") > Home
+                        li.breadcrumb-item.active(aria-current="page") About
+        .jumbotron.jumbotron-fluid.jumb-about(style="padding-bottom: 0px; padding-top: 0px;")
             .container-fluid
                 .row
-                    .col-md-12(style='padding-top: 240px;')
+                    .col-md-12(style="padding-top: 240px;")
                         h1.h1-title-about(style="padding-top: 20px;") VERGILIUS PROJECT
         .row
             .col-md-12
@@ -29,17 +29,17 @@ block content
                             h3.h3-about Where did we get the information?
                             p Information about kernel structures, unions and enumerations is extracted from
                                 |publicly available PDB files. We wrote a sophisticated parser that reconstructs
-                                |C/C++ code from PDB files. So far it's the best known reconstructor as it can
+                                |C/C++ code from PDB files. So far it"s the best known reconstructor as it can
                                 |handle const/volatile modifiers, bit fields, function pointers, unions, arrays
                                 |and anonymous types.
                             h3.h3-about Why "Vergilius"?
                             p Who can be a better guide in a dangerous and exciting trip to the depth of
                                 |Microsoft Windows kernel than Vergilius, a man who literally went to Hell with
-                                |Dante? We can't offer you a company of ancient Roman poet but this website with
+                                |Dante? We can"t offer you a company of ancient Roman poet but this website with
                                 |highlighted C/C++ syntax will be helpful.
                             h3.h3-about Contact
                             p If you have any questions or ideas for improving our website please
-                                a.footer_link(href='mailto:sp@@@vergiliusproject#gmail.comsp@@@', onfocus="href=href.replace(/sp@@@/g,'').replace(/#/, '@');", onmouseover="href=href.replace(/sp@@@/g,'').replace(/#/, '@');")
+                                a.footer_link(href="mailto:sp@@@vergiliusproject#gmail.comsp@@@" onfocus="href=href.replace(/sp@@@/g,"").replace(/#/, "@");" onmouseover="href=href.replace(/sp@@@/g,"").replace(/#/, "@");")
                                     | &nbsp;contact us
                                 |.
                             h3.h3-about Creators
@@ -58,5 +58,5 @@ block content
                                 img.about-img.img-left(src="https://www.gravatar.com/avatar/689d383717f92bc02f16fbb8ce47683f?s=128")
                                 |My main profile is C/C++ system programming including Windows drivers. I saw a
                                 |similar project on the web but it was outdated and abandoned however it was still
-                                |helpful. So I decided to create a better one. Luckily I've got Svitlana just
-                                |graduated so I've gave her an idea for her portfolio project.
+                                |helpful. So I decided to create a better one. Luckily I"ve got Svitlana just
+                                |graduated so I"ve gave her an idea for her portfolio project.

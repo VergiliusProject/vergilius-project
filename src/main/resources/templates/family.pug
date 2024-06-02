@@ -2,20 +2,20 @@ extends /partials/page
 
 block title
     title Vergilius Project | #{family.name}
-    -var selected = 'Kernels';
+    -var selected = "Kernels";
 block content
     .container.mainblock
         .row
             .col-md-12.breadcrumbs-col
-                nav(aria-label='breadcrumb')
+                nav(aria-label="breadcrumb")
                     ol.breadcrumb
                         li.breadcrumb-item
-                            a.breadcrumb-link(href='/' tabindex='-1') > Home
+                            a.breadcrumb-link(href="/" tabindex="-1") > Home
                         li.breadcrumb-item
-                            a.breadcrumb-link(href='/kernels' tabindex='-1') Kernels
+                            a.breadcrumb-link(href="/kernels" tabindex="-1") Kernels
                         li.breadcrumb-item
                             a.breadcrumb-link(href=`/kernels/${arch}` tabindex="-1") #{arch}
-                        li.breadcrumb-item.active(aria-current='page') #{family.name}
+                        li.breadcrumb-item.active(aria-current="page") #{family.name}
         .row
             .col-md-12
                 .container.mainblock-content.content-family
@@ -39,7 +39,7 @@ block content
                                                     .col-sm-2.d-none.d-sm-block.md-even
                                                         .sm-timeline-image
                                                             a(href=url tabindex="-1")
-                                                                img.smcircle.img-arch(src='/images/mainpla.png', alt='')
+                                                                img.smcircle.img-arch(src="/images/mainpla.png" alt="")
                                                         if i < oses.size() - 1
                                                             .new-small-line-2.d-none.d-xl-block
                                                     .col-sm-10.my-auto
@@ -51,7 +51,7 @@ block content
                                                     .col-sm-2.d-none.d-sm-block(style="padding-left: 0px;")
                                                         .sm-timeline-image
                                                             a(href=url tabindex="-1")
-                                                                img.smcircle.img-arch(src='/images/mainpla.png', alt='')
+                                                                img.smcircle.img-arch(src="/images/mainpla.png" alt="")
                                                         if i < oses.size() - 1
                                                             .new-small-line.d-none.d-xl-block
                                                     .col-sm-10.my-auto.md-odd

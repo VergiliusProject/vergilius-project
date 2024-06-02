@@ -1,58 +1,58 @@
 nav.navbar.navbar-expand-lg.navbar-light.bg-dark
-    a.navbar-brand(href='/', tabindex='-1')
-        img.d-inline-block.logo(src='/images/logo.png', width='52', height='57', alt='')
+    a.navbar-brand(href="/" tabindex="-1")
+        img.d-inline-block.logo(src="/images/logo.png" width="52" height="57" alt="")
         | VERGILIUS
-    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
         span.navbar-toggler-icon
     #navbarSupportedContent.collapse.navbar-collapse
         ul.navbar-nav.ml-auto
             if selected == "Home"
                 li.nav-item
-                    a.nav-link.active(href='/' tabindex="-1") HOME
+                    a.nav-link.active(href="/" tabindex="-1") HOME
             else
                 li.nav-item
-                    a.nav-link(href='/' tabindex="-1") HOME
+                    a.nav-link(href="/" tabindex="-1") HOME
             if selected == "Kernels"
                 li.nav-item.dropdown
-                    a#navbarDropdown.nav-link.dropdown-toggle.active(tabindex='-1', href='/kernels', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                    a#navbarDropdown.nav-link.dropdown-toggle.active(href="/kernels" tabindex="-1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
                         | KERNELS
-                    .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
+                    .dropdown-menu.dropdown-menu-right(aria-labelledby="navbarDropdown")
                         .container.dropdown-menu-style.d-block
                             .row
                                 .col-md-6.no-pad
-                                    a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x86') x86
-                                    ul(type='none')
+                                    a.dropdown-item.blue-item(href="/kernels/x86" tabindex="-1") x86
+                                    ul(type="none")
                                         for family in x86families
                                             li: p.menu-list
                                                 a.dropdown-item(href=`/kernels/x86/#{family.slug}` tabindex="-1") - #{family.name}
                                 .col-md-6.no-pad
-                                    a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x64') x64
-                                    ul(type='none')
+                                    a.dropdown-item.blue-item(href="/kernels/x64" tabindex="-1") x64
+                                    ul(type="none")
                                         for family in x64families
                                             li: p.menu-list
                                                 a.dropdown-item(href=`/kernels/x64/#{family.slug}` tabindex="-1") - #{family.name}
             else
                 li.nav-item.dropdown
-                    a#navbarDropdown.nav-link.dropdown-toggle(tabindex='-1', href='/kernels', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                    a#navbarDropdown.nav-link.dropdown-toggle(href="/kernels" tabindex="-1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
                         | KERNELS
-                    .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
+                    .dropdown-menu.dropdown-menu-right(aria-labelledby="navbarDropdown")
                         .container.dropdown-menu-style.d-block
                             .row
                                 .col-md-6.no-pad
-                                    a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x86') x86
-                                    ul(type='none')
+                                    a.dropdown-item.blue-item(href="/kernels/x86" tabindex="-1") x86
+                                    ul(type="none")
                                         for family in x86families
                                             li: p.menu-list
                                                 a.dropdown-item(href=`/kernels/x86/#{family.slug}` tabindex="-1") - #{family.name}
                                 .col-md-6.no-pad
-                                    a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x64') x64
-                                    ul(type='none')
+                                    a.dropdown-item.blue-item(href="/kernels/x64" tabindex="-1") x64
+                                    ul(type="none")
                                         for family in x64families
                                             li: p.menu-list
                                                 a.dropdown-item(href=`/kernels/x64/#{family.slug}` tabindex="-1") - #{family.name}
             if selected == "About"
                 li.nav-item
-                    a.nav-link.active(href='/about' tabindex="-1") ABOUT
+                    a.nav-link.active(href="/about" tabindex="-1") ABOUT
             else
                 li.nav-item
-                    a.nav-link(href='/about' tabindex="-1") ABOUT
+                    a.nav-link(href="/about" tabindex="-1") ABOUT

@@ -1,16 +1,16 @@
 extends /partials/page
 block title
     title Vergilius Project | Kernels
-    -var selected = 'Kernels';
+    -var selected = "Kernels";
 block content
     .container.mainblock
         .row
             .col-md-12.breadcrumbs-col
-                nav(aria-label='breadcrumb')
+                nav(aria-label="breadcrumb")
                     ol.breadcrumb
                         li.breadcrumb-item
-                            a.breadcrumb-link(href='/' tabindex='-1') > Home
-                        li.breadcrumb-item.active(aria-current='page') Kernels
+                            a.breadcrumb-link(href="/" tabindex="-1") > Home
+                        li.breadcrumb-item.active(aria-current="page") Kernels
         .row
             .col-md-12
                 .container.mainblock-content.kernels-bg.dark
@@ -19,8 +19,8 @@ block content
                             h1.text-center.h1-kernels System architecture
                     .row
                         .col-md-6.kernels-column
-                            a.kernels-button(href='/kernels/x86', tabindex='-1')
+                            a.kernels-button(href="/kernels/x86", tabindex="-1")
                                 | x86
                         .col-md-6.kernels-column
-                            a.kernels-button(href='/kernels/x64', tabindex='-1')
+                            a.kernels-button(href="/kernels/x64", tabindex="-1")
                                 | x64

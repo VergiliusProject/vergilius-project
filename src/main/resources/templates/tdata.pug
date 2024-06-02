@@ -2,15 +2,15 @@ extends /partials/page
 
 block title
     title Vergilius Project | #{ttypename}
-    -var selected = 'Kernels';
+    -var selected = "Kernels";
 block content
     .container.mainblock.main-tdata-sm
         .row
             .col-md-12.breadcrumbs-col
-                nav(aria-label='breadcrumb')
+                nav(aria-label="breadcrumb")
                     ol.breadcrumb
                         li.breadcrumb-item
-                            a.breadcrumb-link(href='/' tabindex="-1") > Home
+                            a.breadcrumb-link(href="/" tabindex="-1") > Home
                         li.breadcrumb-item
                             a.breadcrumb-link(href="/kernels" tabindex="-1") Kernels
                         li.breadcrumb-item
@@ -19,7 +19,7 @@ block content
                             a.breadcrumb-link(href=`/kernels/${arch}/${family.slug}` tabindex="-1") #{family.name}
                         li.breadcrumb-item
                             a.breadcrumb-link(href=`/kernels/#{arch}/#{family.slug}/#{os.slug}` tabindex="-1") #{os.name}
-                        li.breadcrumb-item.active(aria-current='page') #{ttypename}
+                        li.breadcrumb-item.active(aria-current="page") #{ttypename}
         .row.fill
             .col-md-12
                 .container.mainblock-content.main-tdata-sm
@@ -52,7 +52,7 @@ block content
                                     .col-sm-4.bs-wizard-step.disabled.bottomrow.d-none.d-md-block
                                         .progress
                                             .progress-bar
-                                        a.bs-wizard-dot(href='#' tabindex="-1")
+                                        a.bs-wizard-dot(href="#" tabindex="-1")
                                 else
                                     .col-sm-4.bs-wizard-step.completed.bottomrow.d-none.d-md-block
                                         .progress
@@ -66,7 +66,7 @@ block content
                                     .col-sm-4.bs-wizard-step.disabled.bottomrow.d-none.d-md-block
                                         .progress
                                             .progress-bar
-                                        a.bs-wizard-dot(href='#' tabindex="-1")
+                                        a.bs-wizard-dot(href="#" tabindex="-1")
                                 else
                                     .col-sm-4.bs-wizard-step.completed.bottomrow.d-none.d-md-block
                                         .progress
@@ -75,17 +75,17 @@ block content
                     .row
                         .col-md-12
                             .container.tdata-code
-                                script(type='text/javascript').
+                                script(type="text/javascript").
                                     (function () {
-                                        new Clipboard('#copy-button');
+                                        new Clipboard("#copy-button");
                                     })();
                                 if ttype == null
                                     .nothing
-                                        | Sorry, this structure doesn't exist in the chosen kernel version.
+                                        | Sorry, this structure doesn"t exist in the chosen kernel version.
                                 else
                                     pre
-                                        code(class="c" style="min-height: 300px; padding-left: 0px;")
-                                            button#copy-button.button(data-clipboard-target='#copyblock' tabindex="-1" data-clipboard-action="copy").btn-info copy
+                                        code.c(style="min-height: 300px; padding-left: 0px;")
+                                            button#copy-button.button(data-clipboard-target="#copyblock" tabindex="-1" data-clipboard-action="copy").btn-info copy
                                             div#copyblock !{ttype}
         .row
             .col-md-12
@@ -93,7 +93,7 @@ block content
                     .maincross
                         h4.h4-tdata Used in
                         .used-in-block
-                            ul(type='none')
+                            ul(type="none")
                                 li
                                     for x, i in cros
                                         a.related(href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{x}` tabindex="-1") #{x}
