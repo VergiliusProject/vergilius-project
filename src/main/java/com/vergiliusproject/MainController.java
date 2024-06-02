@@ -101,15 +101,19 @@ public class MainController implements ErrorController {
     }
 
     private void addCommonAttributes(Model model) {
-        model.addAttribute("x86families", osRepo.findByArch("x86").stream().sorted()
+        model.addAttribute("x86families", osRepo.findByArch("x86").stream().sorted(Comparator.reverseOrder())
                 .map(x -> new NamedSlug(x.getFamilyName(), x.getFamilySlug())).distinct().toList());
-        model.addAttribute("x64families", osRepo.findByArch("x64").stream().sorted()
+        model.addAttribute("x64families", osRepo.findByArch("x64").stream().sorted(Comparator.reverseOrder())
                 .map(x -> new NamedSlug(x.getFamilyName(), x.getFamilySlug())).distinct().toList());
         model.addAttribute("gitHash", gitHash);
     }
     
     private Optional<Os> getPreviousOs(Os os) {
-        return Sorter.sortByBuildnumber(osRepo.findByArch(os.getArch()), false).stream().filter(x -> x.compareTo(os) < 0).findFirst();
+        return osRepo.findByArch(os.getArch()).stream().sorted(Comparator.reverseOrder()).filter(x -> x.compareTo(os) < 0).findFirst();
+    }
+    
+    private Optional<Os> getNextOs(Os os) {
+        return osRepo.findByArch(os.getArch()).stream().sorted().filter(x -> x.compareTo(os) > 0).findFirst();
     }
 
     @GetMapping("/")
@@ -144,7 +148,7 @@ public class MainController implements ErrorController {
 
     @GetMapping("/kernels/{arch:.+}")
     public String displayArch(@PathVariable String arch, Model model) {
-        model.addAttribute("families", Sorter.sortByBuildnumber(osRepo.findByArch(arch), false).stream().sorted()
+        model.addAttribute("families", osRepo.findByArch(arch).stream().sorted(Comparator.reverseOrder())
                 .map(x -> new NamedSlug(x.getFamilyName(), x.getFamilySlug())).distinct().toList());
 
         addCommonAttributes(model);
@@ -168,7 +172,9 @@ public class MainController implements ErrorController {
             return "redirect";
         }
         
-        model.addAttribute("oses", Sorter.sortByBuildnumber(oses, false));
+        Collections.sort(oses, Collections.reverseOrder());
+                
+        model.addAttribute("oses", oses);
         model.addAttribute("family", new NamedSlug(oses.getFirst().getFamilyName(), oses.getFirst().getFamilySlug()));
 
         addCommonAttributes(model);
@@ -266,21 +272,11 @@ public class MainController implements ErrorController {
             model.addAttribute("cros", used_in_names.isEmpty() ? null : used_in_names);
         }
 
-        model.addAttribute("currOs", os);
-
-        List<Os> oses = Sorter.sortByBuildnumber(osRepo.findByArch(os.getArch()), true);
-        Map<Os, Integer> map = new LinkedHashMap<>();
-        Map<Integer, Os> mapInverted = new LinkedHashMap<>();
-        for (int i = 1; i <= oses.size(); i++) {
-            map.put(oses.get(i - 1), i);
-            mapInverted.put(i, oses.get(i - 1));
-        }
-
-        model.addAttribute("mapos", map);
-        model.addAttribute("invertMapos", mapInverted);
-
         model.addAttribute("family", new NamedSlug(os.getFamilyName(), os.getFamilySlug()));
         model.addAttribute("os", new NamedSlug(os.getOsName(), os.getOsSlug()));
+        
+        getPreviousOs(os).ifPresent(x -> model.addAttribute("previousOs", x));
+        getNextOs(os).ifPresent(x -> model.addAttribute("nextOs", x));
         
         addCommonAttributes(model);
         return "tdata";
