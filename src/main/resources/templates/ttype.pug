@@ -1,7 +1,7 @@
 extends /partials/page
 
 block title
-    title Vergilius Project | #{osname}
+    title Vergilius Project | #{os.name}
     -var selected = 'Kernels';
 block content
     .container.mainblock
@@ -16,8 +16,8 @@ block content
                         li.breadcrumb-item
                             a.breadcrumb-link(href=`/kernels/#{arch}` tabindex="-1") #{arch}
                         li.breadcrumb-item
-                            a.breadcrumb-link(href=`/kernels/#{arch}/#{famname}` tabindex="-1") #{famname}
-                        li.breadcrumb-item.active(aria-current='page') #{osname}
+                            a.breadcrumb-link(href=`/kernels/#{arch}/#{family.slug}` tabindex="-1") #{family.name}
+                        li.breadcrumb-item.active(aria-current='page') #{os.name}
         .row
             .col-md-12
                 .container.mainblock-content
@@ -41,7 +41,7 @@ block content
                                         ul(type='none')
                                             for i in structs
                                                 li
-                                                    a(class='list-link' href=`/kernels/#{arch}/#{famname}/#{osname}/#{i.name}` tabindex="-1") #{i.name}
+                                                    a(class='list-link' href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
                                                         if i.isNew
                                                             span(class='badge badge-success type-badge') new
                                 h2.caption Enums:
@@ -49,7 +49,7 @@ block content
                                         ul(type='none')
                                             for i in enums
                                                 li
-                                                    a(class='list-link' href=`/kernels/#{arch}/#{famname}/#{osname}/#{i.name}` tabindex="-1") #{i.name}
+                                                    a(class='list-link' href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
                                                         if i.isNew
                                                             span(class='badge badge-success type-badge') new
                                 h2.caption Unions:
@@ -57,6 +57,6 @@ block content
                                         ul(type='none')
                                             for i in unions
                                                 li
-                                                    a(class='list-link' href=`/kernels/#{arch}/#{famname}/#{osname}/#{i.name}` tabindex="-1") #{i.name}
+                                                    a(class='list-link' href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{i.name}` tabindex="-1") #{i.name}
                                                         if i.isNew
                                                             span(class='badge badge-success type-badge') new

@@ -1,5 +1,6 @@
 package com.vergiliusproject;
 
+import com.vergiliusproject.dto.NamedSlug;
 import com.vergiliusproject.dto.Root;
 import com.vergiliusproject.dto.TypeEntry;
 import com.vergiliusproject.entities.Os;
@@ -39,8 +40,6 @@ public class MainController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
-        addCommonAttributes(model);
-
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
         if (status != null) {
@@ -53,13 +52,13 @@ public class MainController implements ErrorController {
             }
         }
 
+        addCommonAttributes(model);
         return "404";
     }
 
     @GetMapping("/admin")
     public String displayAdmin(Model model) throws IOException {
         addCommonAttributes(model);
-
         return "admin";
     }
 
@@ -72,10 +71,10 @@ public class MainController implements ErrorController {
 
             Os os = new Os();
 
-            os.setFamily(root.getFamily());
-            os.setOsname(root.getOsname());
-            os.setOldfamily(root.getOldfamily());
-            os.setOldosname(root.getOldosname());
+            os.setFamilyName(root.getFamily());
+            os.setOsName(root.getOsname());
+            os.setOldFamilyName(root.getOldfamily());
+            os.setOldOsName(root.getOldosname());
             os.setBuildnumber(root.getBuildnumber());
             os.setArch(root.getArch());
             os.setTimestamp(root.getTimestamp());
@@ -102,13 +101,15 @@ public class MainController implements ErrorController {
     }
 
     private void addCommonAttributes(Model model) {
-        model.addAttribute("sortedFamx86", Sorter.sortByBuildnumber(osRepo.findOsByArch("x86"), false).stream().map(Os::getFamily).distinct().toList());
-        model.addAttribute("sortedFamx64", Sorter.sortByBuildnumber(osRepo.findOsByArch("x64"), false).stream().map(Os::getFamily).distinct().toList());
+        model.addAttribute("x86families", osRepo.findByArch("x86").stream().sorted()
+                .map(x -> new NamedSlug(x.getFamilyName(), x.getFamilySlug())).distinct().toList());
+        model.addAttribute("x64families", osRepo.findByArch("x64").stream().sorted()
+                .map(x -> new NamedSlug(x.getFamilyName(), x.getFamilySlug())).distinct().toList());
         model.addAttribute("gitHash", gitHash);
     }
     
     private Optional<Os> getPreviousOs(Os os) {
-        return Sorter.sortByBuildnumber(osRepo.findOsByArch(os.getArch()), false).stream().filter(x -> x.compare(x, os) < 0).findFirst();
+        return Sorter.sortByBuildnumber(osRepo.findByArch(os.getArch()), false).stream().filter(x -> x.compareTo(os) < 0).findFirst();
     }
 
     @GetMapping("/")
@@ -143,33 +144,34 @@ public class MainController implements ErrorController {
 
     @GetMapping("/kernels/{arch:.+}")
     public String displayArch(@PathVariable String arch, Model model) {
-        model.addAttribute("chosenArch", Sorter.sortByBuildnumber(osRepo.findOsByArch(arch), false).stream().map(os -> os.getFamily()).distinct().toList());
+        model.addAttribute("families", Sorter.sortByBuildnumber(osRepo.findByArch(arch), false).stream().sorted()
+                .map(x -> new NamedSlug(x.getFamilyName(), x.getFamilySlug())).distinct().toList());
 
         addCommonAttributes(model);
-
         return "arch";
     }
 
-    @RequestMapping(value="/kernels/{arch:.+}/{famname:.+}")
-    public String displayFamily(@PathVariable String arch, @PathVariable String famname, Model model) {
-        List<Os> oses = osRepo.findByArchAndFamily(arch, famname);
+    @RequestMapping(value="/kernels/{arch:.+}/{familySlug:.+}")
+    public String displayFamily(@PathVariable String arch, @PathVariable String familySlug, Model model) {
+        List<Os> oses = osRepo.findByArchAndFamilySlug(arch, familySlug);
         
-        // deal with the old family name
+        // deal with old family names
         if (oses.isEmpty()) {
-            oses = osRepo.findByArchAndOldFamily(arch, famname);
+            oses = osRepo.findByArchAndOldFamilyName(arch, familySlug);
             
             if (oses.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
             
-            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + oses.getFirst().getFamily());
+            // redirect to a new url: oldFamilyName -> familySlug
+            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + oses.getFirst().getFamilySlug());
             return "redirect";
         }
         
-        model.addAttribute("fam", Sorter.sortByBuildnumber(oses, false));
+        model.addAttribute("oses", Sorter.sortByBuildnumber(oses, false));
+        model.addAttribute("family", new NamedSlug(oses.getFirst().getFamilyName(), oses.getFirst().getFamilySlug()));
 
         addCommonAttributes(model);
-
         return "family";
     }
     
@@ -177,19 +179,20 @@ public class MainController implements ErrorController {
         return types.stream().map(x -> new TypeEntry(x.getName(), prevTypes.isEmpty() ? false : !prevTypes.contains(x.getName()))).toList();
     }
 
-    @RequestMapping(value = "/kernels/{arch:.+}/{famname:.+}/{osname:.+}", method = RequestMethod.GET)
-    public String displayKinds(@PathVariable String arch, @PathVariable String famname, @PathVariable String osname, Model model) {
-        Os os = osRepo.findByArchAndFamilyAndOsname(arch, famname, osname);
+    @RequestMapping(value = "/kernels/{arch:.+}/{familySlug:.+}/{osSlug:.+}", method = RequestMethod.GET)
+    public String displayKinds(@PathVariable String arch, @PathVariable String familySlug, @PathVariable String osSlug, Model model) {
+        Os os = osRepo.findByArchAndFamilySlugAndOsSlug(arch, familySlug, osSlug);
         
-        // deal with the old family name
+        // deal with old family names
         if (os == null) {
-            os = osRepo.findByArchAndOldFamilyAndOldOsname(arch, famname, osname);
+            os = osRepo.findByArchAndOldFamilyNameAndOldOsName(arch, familySlug, osSlug);
             
             if (os == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
             
-            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + os.getFamily() + "/" + os.getOsname());
+            // redirect to a new url: oldFamilyName -> familySlug, oldOsName -> osSlug
+            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + os.getFamilySlug() + "/" + os.getOsSlug());            
             return "redirect";
         }
         
@@ -205,36 +208,39 @@ public class MainController implements ErrorController {
         model.addAttribute("structs", makeTypeEnties(Sorter.sortByName(Ttype.filterByTypes(types, Ttype.Kind.STRUCT)), prevTypes));
         model.addAttribute("unions", makeTypeEnties(Sorter.sortByName(Ttype.filterByTypes(types, Ttype.Kind.UNION)), prevTypes));
         model.addAttribute("enums", makeTypeEnties(Sorter.sortByName(Ttype.filterByTypes(types, Ttype.Kind.ENUM)), prevTypes));
+        
+        model.addAttribute("family", new NamedSlug(os.getFamilyName(), os.getFamilySlug()));
+        model.addAttribute("os", new NamedSlug(os.getOsName(), os.getOsSlug()));
 
         addCommonAttributes(model);
-
         return "ttype";
     }
 
-    @RequestMapping(value = "/kernels/{arch:.+}/{famname:.+}/{osname:.+}/{name:.+}", method = RequestMethod.GET)
-    public String displayType(@PathVariable String arch, @PathVariable String famname, @PathVariable String osname, @PathVariable String name, Model model) {
-        Os opersys = osRepo.findByArchAndFamilyAndOsname(arch, famname, osname);
+    @RequestMapping(value = "/kernels/{arch:.+}/{familySlug:.+}/{osSlug:.+}/{name:.+}", method = RequestMethod.GET)
+    public String displayType(@PathVariable String arch, @PathVariable String familySlug, @PathVariable String osSlug, @PathVariable String name, Model model) {
+        Os os = osRepo.findByArchAndFamilySlugAndOsSlug(arch, familySlug, osSlug);
         
-        // deal with the old family name
-        if (opersys == null) {
-            opersys = osRepo.findByArchAndOldFamilyAndOldOsname(arch, famname, osname);
+        // deal with old family names
+        if (os == null) {
+            os = osRepo.findByArchAndOldFamilyNameAndOldOsName(arch, familySlug, osSlug);
             
-            if (opersys == null) {
+            if (os == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
             
-            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + opersys.getFamily() + "/" + opersys.getOsname() + "/" + name);
+            // redirect to a new url: oldFamilyName -> familySlug, oldOsName -> osSlug
+            model.addAttribute("targetUrl", "/kernels/" + arch + "/" + os.getFamilySlug() + "/" + os.getOsSlug() + "/" + name);
             return "redirect";
         }
 
         model.addAttribute("ttypename", name);
 
-        List<Ttype> typeslist = ttypeRepo.findByNameAndOpersys(name, opersys);
+        List<Ttype> typeslist = ttypeRepo.findByNameAndOpersys(name, os);
 
         if (typeslist != null && !typeslist.isEmpty()) {                         
             try {
-                String link = "/kernels/" + arch + "/" + famname + "/" + osname + "/";
-                model.addAttribute("ttype", FieldBuilder.recursionProcessing(ttypeRepo, typeslist.get(0), 0, 0, link, opersys).toString());
+                String link = "/kernels/" + arch + "/" + familySlug + "/" + osSlug + "/";
+                model.addAttribute("ttype", FieldBuilder.recursionProcessing(ttypeRepo, typeslist.getFirst(), 0, 0, link, os).toString());
             }
             catch (Exception e) {
                 System.out.println(e.getClass());
@@ -243,15 +249,16 @@ public class MainController implements ErrorController {
                     System.out.println(each);
                 }
             }
+            
             //search for cross-links
             List<Ttype> used_in = new ArrayList<>();
 
             for (Ttype i : typeslist) {
-                used_in.addAll(ttypeRepo.findByOpersysAndId1(opersys, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId2(opersys, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId3(opersys, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId4(opersys, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId5(opersys, i.getId()));
+                used_in.addAll(ttypeRepo.findByOpersysAndId1(os, i.getId()));
+                used_in.addAll(ttypeRepo.findByOpersysAndId2(os, i.getId()));
+                used_in.addAll(ttypeRepo.findByOpersysAndId3(os, i.getId()));
+                used_in.addAll(ttypeRepo.findByOpersysAndId4(os, i.getId()));
+                used_in.addAll(ttypeRepo.findByOpersysAndId5(os, i.getId()));
             }
 
             List<String> used_in_names = used_in.stream().map(Ttype::getName).sorted().distinct().toList();
@@ -259,38 +266,40 @@ public class MainController implements ErrorController {
             model.addAttribute("cros", used_in_names.isEmpty() ? null : used_in_names);
         }
 
-        model.addAttribute("currOs", opersys);
+        model.addAttribute("currOs", os);
 
-        List<Os> os = Sorter.sortByBuildnumber(osRepo.findOsByArch(opersys.getArch()), true);
+        List<Os> oses = Sorter.sortByBuildnumber(osRepo.findByArch(os.getArch()), true);
         Map<Os, Integer> map = new LinkedHashMap<>();
         Map<Integer, Os> mapInverted = new LinkedHashMap<>();
-        for (int i = 1; i <= os.size(); i++) {
-            map.put(os.get(i - 1), i);
-            mapInverted.put(i, os.get(i - 1));
+        for (int i = 1; i <= oses.size(); i++) {
+            map.put(oses.get(i - 1), i);
+            mapInverted.put(i, oses.get(i - 1));
         }
 
         model.addAttribute("mapos", map);
         model.addAttribute("invertMapos", mapInverted);
 
+        model.addAttribute("family", new NamedSlug(os.getFamilyName(), os.getFamilySlug()));
+        model.addAttribute("os", new NamedSlug(os.getOsName(), os.getOsSlug()));
+        
         addCommonAttributes(model);
-
         return "tdata";
     }
     
     @GetMapping("/oldlinks")
     public String displayOldLinks(Model model) throws IOException {
-        List<Os> oses = osRepo.findWithOldFamilyNotNull();
+        List<Os> oses = osRepo.findByOldFamilyNameNotNull();
         
         List<String> families = oses.stream()
-            .map(os -> "/kernels/" + os.getArch() + "/" + os.getOldfamily())
+            .map(os -> "/kernels/" + os.getArch() + "/" + os.getOldFamilyName())
             .distinct()
             .toList();
         List<String> osnames = oses.stream()
-            .map(os -> "/kernels/" + os.getArch() + "/" + os.getOldfamily() + "/" + os.getOldosname())
+            .map(os -> "/kernels/" + os.getArch() + "/" + os.getOldFamilyName() + "/" + os.getOldOsName())
             .toList();
         List<String> ttypes = oses.stream()
             .flatMap(os -> ttypeRepo.findStructEnumUnionByOpersys(os).stream()
-                .map(ttype -> "/kernels/" + os.getArch() + "/" + os.getOldfamily() + "/" + os.getOldosname() + "/" + ttype.getName()))
+                .map(ttype -> "/kernels/" + os.getArch() + "/" + os.getOldFamilyName() + "/" + os.getOldOsName() + "/" + ttype.getName()))
             .toList();
         
         model.addAttribute("families", families);

@@ -22,21 +22,21 @@ block content
                             h2.text-center.maincap To the depths of kernel...
                             .container.timeline
                                 .row
-                                    each a, i in chosenArch
-                                        -var url = `/kernels/${arch}/${a}`;
-                                        if (i % 2)
+                                    each family, i in families
+                                        -var url = `/kernels/${arch}/${family.slug}`;
+                                        if i % 2
                                             .col-md-1
                                             .col-md-11
                                                 .row
                                                     .col-md-5.arch-col-right.my-auto.d-none.d-md-block
-                                                        a.arch-link(href=url tabindex="-1") #{a}
+                                                        a.arch-link(href=url tabindex="-1") #{family.name}
                                                     .col-md-2.d-none.d-sm-block(style="float: left;")
                                                         a(href=url tabindex="-1")
                                                             img.img-circle.img-arch(src='/images/edit.png', alt='')
-                                                        if(i < chosenArch.size() - 1)
+                                                        if i < families.size() - 1
                                                             .arch-line-new-2.d-none.d-xl-block
                                                     .col-md-5.my-auto.d-md-none.sm-modif
-                                                        a.arch-link(href=url tabindex="-1") #{a}
+                                                        a.arch-link(href=url tabindex="-1") #{family.name}
                                         else
                                             .col-md-4
                                             .col-md-8
@@ -44,7 +44,7 @@ block content
                                                     .col-md-4.d-none.d-sm-block
                                                         a(href=url tabindex="-1")
                                                             img.img-circle.img-arch(src='/images/edit.png', alt='')
-                                                        if(i < chosenArch.size() - 1)
+                                                        if i < families.size() - 1
                                                             .arch-line-new.d-none.d-xl-block
                                                     .col-md-8.my-auto(style="padding-left: 0px")
-                                                        a.arch-link(href=url tabindex="-1") #{a}
+                                                        a.arch-link(href=url tabindex="-1") #{family.name}

@@ -22,15 +22,15 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-dark
                                 .col-md-6.no-pad
                                     a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x86') x86
                                     ul(type='none')
-                                        for i in sortedFamx86
+                                        for family in x86families
                                             li: p.menu-list
-                                                a.dropdown-item(href=`/kernels/x86/#{i}` tabindex="-1") - #{i}
+                                                a.dropdown-item(href=`/kernels/x86/#{family.slug}` tabindex="-1") - #{family.name}
                                 .col-md-6.no-pad
                                     a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x64') x64
                                     ul(type='none')
-                                        for i in sortedFamx64
+                                        for family in x64families
                                             li: p.menu-list
-                                                a.dropdown-item(href=`/kernels/x64/#{i}` tabindex="-1") - #{i}
+                                                a.dropdown-item(href=`/kernels/x64/#{family.slug}` tabindex="-1") - #{family.name}
             else
                 li.nav-item.dropdown
                     a#navbarDropdown.nav-link.dropdown-toggle(tabindex='-1', href='/kernels', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
@@ -41,15 +41,15 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-dark
                                 .col-md-6.no-pad
                                     a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x86') x86
                                     ul(type='none')
-                                        for i in sortedFamx86
+                                        for family in x86families
                                             li: p.menu-list
-                                                a.dropdown-item(href=`/kernels/x86/#{i}` tabindex="-1") - #{i}
+                                                a.dropdown-item(href=`/kernels/x86/#{family.slug}` tabindex="-1") - #{family.name}
                                 .col-md-6.no-pad
                                     a.dropdown-item.blue-item(tabindex='-1', href='/kernels/x64') x64
                                     ul(type='none')
-                                        for i in sortedFamx64
+                                        for family in x64families
                                             li: p.menu-list
-                                                a.dropdown-item(href=`/kernels/x64/#{i}` tabindex="-1") - #{i}
+                                                a.dropdown-item(href=`/kernels/x64/#{family.slug}` tabindex="-1") - #{family.name}
             if selected == "About"
                 li.nav-item
                     a.nav-link.active(href='/about' tabindex="-1") ABOUT

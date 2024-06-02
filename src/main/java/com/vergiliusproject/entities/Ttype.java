@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 @Table(name = "ttype",
-       indexes = {@Index(name = "indexTtype", columnList = "id, Operating_system_idopersys")})
+       indexes = {@Index(name = "indexTtype", columnList = "id, os_id")})
 @Entity
 public class Ttype {
     @Id
@@ -44,7 +44,7 @@ public class Ttype {
 
     //relationship with Os
     @ManyToOne
-    @JoinColumn(name = "Operating_system_idopersys")
+    @JoinColumn(name = "os_id")
     private Os opersys;
 
     //relationship with Tdata
@@ -125,9 +125,6 @@ public class Ttype {
     }
 
     public static List<Ttype> filterByTypes(List<Ttype> list, Kind param) {
-        return list.stream().filter(x -> { 
-            String name = x.getName();
-            return name != null && !name.equals("<unnamed-tag>") && !name.equals("__unnamed") && x.getKind() == param;
-        }).toList();
+        return list.stream().filter(x -> x.getName() != null && x.getKind() == param).toList();
     }
 }

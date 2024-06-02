@@ -3,6 +3,7 @@ package com.vergiliusproject;
 import com.vergiliusproject.entities.Os;
 import com.vergiliusproject.entities.Tdata;
 import com.vergiliusproject.entities.Ttype;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -20,12 +21,10 @@ public class Sorter {
     }
     
     public static List<Os> sortByBuildnumber(List<Os> list, boolean natural) {
-        Comparator<Os> comp = new Os();
-        
         if (natural) {
-            list.sort(comp);
+            Collections.sort(list);
         } else {
-            list.sort(comp.reversed());
+            Collections.sort(list, Collections.reverseOrder());
         }
         
         return list;

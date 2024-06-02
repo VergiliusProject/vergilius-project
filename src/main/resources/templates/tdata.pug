@@ -3,7 +3,6 @@ extends /partials/page
 block title
     title Vergilius Project | #{ttypename}
     -var selected = 'Kernels';
-    -var a = 0;
 block content
     .container.mainblock.main-tdata-sm
         .row
@@ -17,9 +16,9 @@ block content
                         li.breadcrumb-item
                             a.breadcrumb-link(href=`/kernels/${arch}` tabindex="-1") #{arch}
                         li.breadcrumb-item
-                            a.breadcrumb-link(href=`/kernels/${arch}/${famname}` tabindex="-1") #{famname}
+                            a.breadcrumb-link(href=`/kernels/${arch}/${family.slug}` tabindex="-1") #{family.name}
                         li.breadcrumb-item
-                            a.breadcrumb-link(href=`/kernels/#{arch}/#{famname}/#{osname}` tabindex="-1") #{osname}
+                            a.breadcrumb-link(href=`/kernels/#{arch}/#{family.slug}/#{os.slug}` tabindex="-1") #{os.name}
                         li.breadcrumb-item.active(aria-current='page') #{ttypename}
         .row.fill
             .col-md-12
@@ -37,17 +36,17 @@ block content
                                     else
                                         .col-sm-4.bs-wizard-step.completed.toprow.d-none.d-md-block(style="padding-right: 5px;")
                                             .text-center.bs-wizard-stepnum
-                                                a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamily()} #{invertMapos[mapos[currOs] - 1].getOsname()}
+                                                a.wizard-links(href=`/kernels/${arch}/#{invertMapos[mapos[currOs] - 1].getFamilySlug()}/#{invertMapos[mapos[currOs] - 1].getOsSlug()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs] - 1].getFamilyName()} #{invertMapos[mapos[currOs] - 1].getOsName()}
                                     .col-sm-4.bs-wizard-step.complete.toprow.d-none.d-md-block(style="padding-right: 5px;")
                                         .text-center.bs-wizard-stepnum
-                                            a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs]].getFamily()} #{invertMapos[mapos[currOs]].getOsname()}
+                                            a.wizard-links(href=`/kernels/${arch}/#{invertMapos[mapos[currOs]].getFamilySlug()}/#{invertMapos[mapos[currOs]].getOsSlug()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs]].getFamilyName()} #{invertMapos[mapos[currOs]].getOsName()}
                                     if invertMapos[mapos[currOs] + 1] == null
                                         .col-sm-4.bs-wizard-step.disabled.toprow.d-none.d-md-block
                                             .text-center.bs-wizard-stepnum.ord-text &nbsp; Next
                                     else
                                         .col-sm-4.bs-wizard-step.completed.toprow.d-none.d-md-block(style="padding-right: 5px;")
                                             .text-center.bs-wizard-stepnum
-                                                a.wizard-links(href=`/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamily()} #{invertMapos[mapos[currOs] + 1].getOsname()}
+                                                a.wizard-links(href=`/kernels/${arch}/#{invertMapos[mapos[currOs] + 1].getFamilySlug()}/#{invertMapos[mapos[currOs] + 1].getOsSlug()}/#{ttypename}` tabindex="-1") #{invertMapos[mapos[currOs] + 1].getFamilyName()} #{invertMapos[mapos[currOs] + 1].getOsName()}
                             .row.bs-wizard.hide-padd
                                 if invertMapos[mapos[currOs] - 1] == null
                                     .col-sm-4.bs-wizard-step.disabled.bottomrow.d-none.d-md-block
@@ -58,11 +57,11 @@ block content
                                     .col-sm-4.bs-wizard-step.completed.bottomrow.d-none.d-md-block
                                         .progress
                                             .progress-bar
-                                        a.bs-wizard-dot(href=`/kernels/#{invertMapos[mapos[currOs] - 1].getArch()}/#{invertMapos[mapos[currOs] - 1].getFamily()}/#{invertMapos[mapos[currOs] - 1].getOsname()}/#{ttypename}` tabindex="-1")
+                                        a.bs-wizard-dot(href=`/kernels/${arch}/#{invertMapos[mapos[currOs] - 1].getFamilySlug()}/#{invertMapos[mapos[currOs] - 1].getOsSlug()}/#{ttypename}` tabindex="-1")
                                 .col-sm-4.bs-wizard-step.complete.bottomrow.d-none.d-md-block
                                     .progress
                                         .progress-bar
-                                    a.bs-wizard-dot(href=`/kernels/#{invertMapos[mapos[currOs]].getArch()}/#{invertMapos[mapos[currOs]].getFamily()}/#{invertMapos[mapos[currOs]].getOsname()}/#{ttypename}` tabindex="-1")
+                                    a.bs-wizard-dot(href=`/kernels/${arch}/#{invertMapos[mapos[currOs]].getFamilySlug()}/#{invertMapos[mapos[currOs]].getOsSlug()}/#{ttypename}` tabindex="-1")
                                 if invertMapos[mapos[currOs] + 1] == null
                                     .col-sm-4.bs-wizard-step.disabled.bottomrow.d-none.d-md-block
                                         .progress
@@ -72,7 +71,7 @@ block content
                                     .col-sm-4.bs-wizard-step.completed.bottomrow.d-none.d-md-block
                                         .progress
                                             .progress-bar
-                                        a.bs-wizard-dot(href=`/kernels/#{invertMapos[mapos[currOs] + 1].getArch()}/#{invertMapos[mapos[currOs] + 1].getFamily()}/#{invertMapos[mapos[currOs] + 1].getOsname()}/#{ttypename}` tabindex="-1")
+                                        a.bs-wizard-dot(href=`/kernels/${arch}/#{invertMapos[mapos[currOs] + 1].getFamilySlug()}/#{invertMapos[mapos[currOs] + 1].getOsSlug()}/#{ttypename}` tabindex="-1")
                     .row
                         .col-md-12
                             .container.tdata-code
@@ -80,9 +79,9 @@ block content
                                     (function () {
                                         new Clipboard('#copy-button');
                                     })();
-                                if(ttype == null)
+                                if ttype == null
                                     .nothing
-                                        | Sorry, but such structure doesn't exist in chosen version of the kernel.
+                                        | Sorry, but such structure doesn't exist in the chosen version of the kernel.
                                 else
                                     pre
                                         code(class="c" style="min-height: 300px; padding-left: 0px;")
@@ -90,14 +89,13 @@ block content
                                             div#copyblock !{ttype}
         .row
             .col-md-12
-                if(cros != null)
+                if cros != null
                     .maincross
                         h4.h4-tdata Used in
                         .used-in-block
                             ul(type='none')
                                 li
-                                    for i in cros
-                                        a.related(href=`/kernels/#{arch}/#{famname}/#{osname}/#{i}` tabindex="-1") #{i}
-                                        if(a != cros.size() - 1)
-                                            - var a = a + 1
-                                            | ,&nbsp;
+                                    for x, i in cros
+                                        a.related(href=`/kernels/#{arch}/#{family.slug}/#{os.slug}/#{x}` tabindex="-1") #{x}
+                                        if i != cros.size() - 1
+                                            |,&nbsp;

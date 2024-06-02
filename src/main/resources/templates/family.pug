@@ -1,7 +1,7 @@
 extends /partials/page
 
 block title
-    title Vergilius Project | #{famname}
+    title Vergilius Project | #{family.name}
     -var selected = 'Kernels';
 block content
     .container.mainblock
@@ -15,23 +15,23 @@ block content
                             a.breadcrumb-link(href='/kernels' tabindex='-1') Kernels
                         li.breadcrumb-item
                             a.breadcrumb-link(href=`/kernels/${arch}` tabindex="-1") #{arch}
-                        li.breadcrumb-item.active(aria-current='page') #{famname}
+                        li.breadcrumb-item.active(aria-current='page') #{family.name}
         .row
             .col-md-12
                 .container.mainblock-content.content-family
                     .row
                         .col-md-12
-                            h2.text-center.maincap(style="margin-bottom: 0px;") #{famname}
+                            h2.text-center.maincap(style="margin-bottom: 0px;") #{family.name}
                             .container
                                 .row.sm-timeline
                                     mixin osinfo(os, url)
-                                        a.fam-link(href=url tabindex="-1") #{os.osname}
+                                        a.fam-link(href=url tabindex="-1") #{os.osName}
                                         p.family
                                             | build: #{os.buildnumber}
                                         p.family
                                             | date: #{os.convertTimestampToDate(os.timestamp)}
-                                    each os, i in fam
-                                        -var url = `/kernels/#{arch}/#{famname}/#{os.osname}`;
+                                    each os, i in oses
+                                        -var url = `/kernels/#{arch}/#{family.slug}/#{os.osSlug}`;
                                         if (i % 2)
                                             .col-sm-4
                                             .col-sm-8.sm-modif(style="margin-bottom: 5px")
@@ -40,7 +40,7 @@ block content
                                                         .sm-timeline-image
                                                             a(href=url tabindex="-1")
                                                                 img.smcircle.img-arch(src='/images/mainpla.png', alt='')
-                                                        if(i < fam.size() - 1)
+                                                        if i < oses.size() - 1
                                                             .new-small-line-2.d-none.d-xl-block
                                                     .col-sm-10.my-auto
                                                         +osinfo(os, url)
@@ -52,7 +52,7 @@ block content
                                                         .sm-timeline-image
                                                             a(href=url tabindex="-1")
                                                                 img.smcircle.img-arch(src='/images/mainpla.png', alt='')
-                                                        if(i < fam.size() - 1)
+                                                        if i < oses.size() - 1
                                                             .new-small-line.d-none.d-xl-block
                                                     .col-sm-10.my-auto.md-odd
                                                         +osinfo(os, url)

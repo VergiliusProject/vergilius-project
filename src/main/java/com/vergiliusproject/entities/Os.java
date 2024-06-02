@@ -1,36 +1,42 @@
 package com.vergiliusproject.entities;
 
+import com.vergiliusproject.utils.SlugGenerator;
 import jakarta.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 import lombok.Data;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 @Entity
 @Data
-public class Os implements Comparator<Os> {
+public class Os implements Comparable<Os> {
     @Id
     @Column(length=16)
-    private UUID idopersys;
+    private UUID id;
 
     @Column(length=32)
-    private String family;
+    private String familyName;
     
     @Column(length=64)
-    private String osname;
+    private String osName;
     
     @Column(length=32)
-    private String oldfamily;
+    private String oldFamilyName;
     
     @Column(length=64)
-    private String oldosname;
+    private String oldOsName;
+    
+    @Column(length=32)
+    private String familySlug;
+    
+    @Column(length=64)
+    private String osSlug;
     
     @Column(length=32)
     private String buildnumber;
     
     @Column(length=3)
-    private String arch;
+    private String arch; // name and slug are the same
     
     @Column(name="n_timestamp") // timestamp is an SQL reserver keyword, so rename the column
     private long timestamp;
@@ -40,13 +46,21 @@ public class Os implements Comparator<Os> {
     
     @PrePersist
     protected void onCreation() {
-        if (idopersys == null) {
-            idopersys = UUID.nameUUIDFromBytes((buildnumber + arch).getBytes());
+        if (id == null) {
+            id = UUID.nameUUIDFromBytes((buildnumber + arch).getBytes());
         }
         
-        if (oldfamily != null && oldosname == null ||
-            oldfamily == null && oldosname != null) {
-            throw new IllegalStateException("oldfamily and oldosname should be both null or not null!");
+        if (familySlug == null) {
+            familySlug = SlugGenerator.create(familyName);
+        }
+        
+        if (osSlug == null) {
+            osSlug = SlugGenerator.create(osName);
+        }
+        
+        if (oldFamilyName != null && oldOsName == null ||
+            oldFamilyName == null && oldOsName != null) {
+            throw new IllegalStateException("oldFamilyName and oldOsName should be both null or not null!");
         }
     }
 
@@ -57,15 +71,12 @@ public class Os implements Comparator<Os> {
     }
 
     @Override
-    public int compare(Os obj1, Os obj2) {
-        List<Integer> arrObj1 = Arrays.stream(obj1.getBuildnumber().split("\\.")).map(Integer::parseInt).collect(Collectors.toList());
-        List<Integer> arrObj2 = Arrays.stream(obj2.getBuildnumber().split("\\.")).map(Integer::parseInt).collect(Collectors.toList());
+    public int compareTo(Os that) {
+        var thisNumbers = Arrays.stream(this.getBuildnumber().split("\\.")).map(Integer::parseInt).toArray();
+        var thatNumbers = Arrays.stream(that.getBuildnumber().split("\\.")).map(Integer::parseInt).toArray();
 
         return new CompareToBuilder()
-                .append(arrObj1.get(0), arrObj2.get(0))
-                .append(arrObj1.get(1), arrObj2.get(1))
-                .append(arrObj1.get(2), arrObj2.get(2))
-                .append(arrObj1.get(3), arrObj2.get(3))
-                .toComparison();
+            .append(thisNumbers, thatNumbers)
+            .toComparison();
     }
 }
