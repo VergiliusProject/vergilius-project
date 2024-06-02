@@ -126,8 +126,7 @@ h2.text-center
 }
 h2.text-center.maincap
 {
-    /*font-size: 85px;*/
-    font-size: 8.5rem;
+    font-size: 7rem;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -535,7 +534,7 @@ a.nav-link.active
 
 .dropdown-menu-style
 {
-    min-width: 560px;
+    min-width: 580px;
 }
 
 .dropdown-item.blue-item
@@ -1452,7 +1451,7 @@ a.linked-in.socicon-linkedin:hover
         font-size: 1.8rem;
     }
     h2.text-center.maincap {
-        font-size: 8.5rem;
+        font-size: 7rem;
     }
     .breadcrumbs-col
     {
@@ -1530,7 +1529,7 @@ a.linked-in.socicon-linkedin:hover
         font-size: 1.8rem;
     }
     h2.text-center.maincap {
-        font-size: 8.5rem;
+        font-size: 7rem;
     }
     .breadcrumbs-col
     {
@@ -1608,7 +1607,7 @@ a.linked-in.socicon-linkedin:hover
         font-size: 1.8rem;
     }
     h2.text-center.maincap {
-        font-size: 8.5rem;
+        font-size: 7rem;
     }
     .breadcrumbs-col
     {
