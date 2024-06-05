@@ -25,7 +25,7 @@ public class SlugGeneratorTest {
         "1809 | Server 2019 (October 2018 Update, Redstone 5):1809",
         "1909 (November 2019 Update, Titanium R2):1909",
         "23H2 (2023 Update, Nickel R2):23h2",
-        "Insider Preview (Jun 2021):insider-preview"
+        "Insider Preview (Jun 2021):insider-preview-jun-2021"
     }, delimiter = ':')
     public void testOsName(String input, String expected) {
         assertEquals(expected, SlugGenerator.create(input));
