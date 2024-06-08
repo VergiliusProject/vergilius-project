@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 
@@ -106,6 +107,7 @@ public class MainController implements ErrorController {
         model.addAttribute("x64families", osRepo.findByArch("x64").stream().sorted(Comparator.reverseOrder())
                 .map(x -> new NamedSlug(x.getFamilyName(), x.getFamilySlug())).distinct().toList());
         model.addAttribute("gitHash", gitHash);
+        model.addAttribute("canonicalUrl", ServletUriComponentsBuilder.fromCurrentRequestUri().host("www.vergiliusproject.com").scheme("https").port("").build());
     }
     
     private Optional<Os> getPreviousOs(Os os) {
