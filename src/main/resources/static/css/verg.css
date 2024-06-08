@@ -368,12 +368,8 @@ pre
 
 .smcircle
 {
-    /*
-    width: 105px;
-    height: 108px;
-    */
-    width: 10.5rem;
-    height: 10.8rem;
+    width: 10rem;
+    height: 10rem;
     position: relative;
 }
 
