@@ -114,8 +114,12 @@ public class MainController implements ErrorController {
         return osRepo.findByArch(os.getArch()).stream().sorted(Comparator.reverseOrder()).filter(x -> x.compareTo(os) < 0).findFirst();
     }
     
-    private Optional<Os> getNextOs(Os os) {
-        return osRepo.findByArch(os.getArch()).stream().sorted().filter(x -> x.compareTo(os) > 0).findFirst();
+    private Optional<Os> getPreviousOs(Os os, String ttypename) {
+        return ttypeRepo.findByName(ttypename).stream().filter(x -> x.getArch().equals(os.getArch())).sorted(Comparator.reverseOrder()).filter(x -> x.compareTo(os) < 0).findFirst();
+    }
+    
+    private Optional<Os> getNextOs(Os os, String ttypename) {
+        return ttypeRepo.findByName(ttypename).stream().filter(x -> x.getArch().equals(os.getArch())).sorted().filter(x -> x.compareTo(os) > 0).findFirst();
     }
 
     @GetMapping("/")
@@ -241,44 +245,44 @@ public class MainController implements ErrorController {
             return "redirect";
         }
 
-        model.addAttribute("ttypename", name);
-
         List<Ttype> typeslist = ttypeRepo.findByNameAndOpersys(name, os);
 
-        if (typeslist != null && !typeslist.isEmpty()) {                         
-            try {
-                String link = "/kernels/" + arch + "/" + familySlug + "/" + osSlug + "/";
-                model.addAttribute("ttype", FieldBuilder.recursionProcessing(ttypeRepo, typeslist.getFirst(), 0, 0, link, os).toString());
+        if (typeslist.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        
+        try {
+            String link = "/kernels/" + arch + "/" + familySlug + "/" + osSlug + "/";
+            model.addAttribute("ttype", FieldBuilder.recursionProcessing(ttypeRepo, typeslist.getFirst(), 0, 0, link, os).toString());
+        }
+        catch (Exception e) {
+            System.out.println(e.getClass());
+            for (StackTraceElement each : e.getStackTrace()) {
+                System.out.println(each);
             }
-            catch (Exception e) {
-                System.out.println(e.getClass());
-                for(StackTraceElement each: e.getStackTrace())
-                {
-                    System.out.println(each);
-                }
-            }
-            
-            //search for cross-links
-            List<Ttype> used_in = new ArrayList<>();
-
-            for (Ttype i : typeslist) {
-                used_in.addAll(ttypeRepo.findByOpersysAndId1(os, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId2(os, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId3(os, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId4(os, i.getId()));
-                used_in.addAll(ttypeRepo.findByOpersysAndId5(os, i.getId()));
-            }
-
-            List<String> used_in_names = used_in.stream().map(Ttype::getName).sorted().distinct().toList();
-                    
-            model.addAttribute("cros", used_in_names.isEmpty() ? null : used_in_names);
         }
 
+        //search for cross-links
+        List<Ttype> used_in = new ArrayList<>();
+
+        for (Ttype i : typeslist) {
+            used_in.addAll(ttypeRepo.findByOpersysAndId1(os, i.getId()));
+            used_in.addAll(ttypeRepo.findByOpersysAndId2(os, i.getId()));
+            used_in.addAll(ttypeRepo.findByOpersysAndId3(os, i.getId()));
+            used_in.addAll(ttypeRepo.findByOpersysAndId4(os, i.getId()));
+            used_in.addAll(ttypeRepo.findByOpersysAndId5(os, i.getId()));
+        }
+
+        List<String> used_in_names = used_in.stream().map(Ttype::getName).sorted().distinct().toList();
+
+        model.addAttribute("cros", used_in_names.isEmpty() ? null : used_in_names);
+        
         model.addAttribute("family", new NamedSlug(os.getFamilyName(), os.getFamilySlug()));
         model.addAttribute("os", new NamedSlug(os.getOsName(), os.getOsSlug()));
+        model.addAttribute("ttypename", name);
         
-        getPreviousOs(os).ifPresent(x -> model.addAttribute("previousOs", x));
-        getNextOs(os).ifPresent(x -> model.addAttribute("nextOs", x));
+        getPreviousOs(os, name).ifPresent(x -> model.addAttribute("previousOs", x));
+        getNextOs(os, name).ifPresent(x -> model.addAttribute("nextOs", x));
         
         addCommonAttributes(model);
         return "tdata";
