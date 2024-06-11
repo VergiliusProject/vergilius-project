@@ -15,8 +15,8 @@ public interface OsRepository extends CrudRepository<Os, Integer> {
     List<Os> findByArch(@Param("arch") String arch);
     
     @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
-    @Query("select u from Os u where u.oldFamilyName IS NOT NULL")
-    List<Os> findByOldFamilyNameNotNull();
+    @Query("select u from Os u where u.arch = :arch and u.oldFamilyName IS NOT NULL")
+    List<Os> findByArchAndOldFamilyNameNotNull(@Param("arch") String arch);
 
     @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("select u from Os u where u.arch = :arch and u.familySlug = :familySlug")

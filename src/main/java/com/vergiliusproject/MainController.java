@@ -288,9 +288,9 @@ public class MainController implements ErrorController {
         return "tdata";
     }
     
-    @GetMapping("/oldlinks")
-    public String displayOldLinks(Model model) throws IOException {
-        List<Os> oses = osRepo.findByOldFamilyNameNotNull();
+    @GetMapping("/oldlinks/{arch:.+}")
+    public String displayOldLinks(@PathVariable String arch, Model model) throws IOException {
+        List<Os> oses = osRepo.findByArchAndOldFamilyNameNotNull(arch);
         
         List<String> families = oses.stream()
             .map(os -> "/kernels/" + os.getArch() + "/" + os.getOldFamilyName())
