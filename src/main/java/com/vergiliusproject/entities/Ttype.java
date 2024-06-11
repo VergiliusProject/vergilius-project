@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-@Table(name = "ttype",
-       indexes = {@Index(name = "indexTtype", columnList = "id, os_id")})
+@Table(indexes = {
+    @Index(columnList = "id, os_id"),
+    @Index(columnList = "tname"),
+    @Index(columnList = "kind"),
+})
 @Entity
 public class Ttype {
     @Id
