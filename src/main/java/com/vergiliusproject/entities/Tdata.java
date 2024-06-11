@@ -2,8 +2,7 @@ package com.vergiliusproject.entities;
 
 import jakarta.persistence.*;
 
-@Table(name = "tdata",
-       indexes = {@Index(name = "indexTdata", columnList = "id, Ttype_idtype")})
+@Table(indexes = {@Index(columnList = "id, Ttype_idtype")})
 @Entity
 public class Tdata {
     @Id
