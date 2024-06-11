@@ -2,14 +2,19 @@ package com.vergiliusproject.repos;
 
 import com.vergiliusproject.entities.Os;
 import com.vergiliusproject.entities.Ttype;
+import jakarta.persistence.QueryHint;
 import java.util.List;
+import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     List<Ttype> findByOpersysAndIsConstFalseAndIsVolatileFalse(@Param("opersys") Os opersys);
     
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("SELECT u FROM Ttype u"
             + " WHERE u.opersys= :opersys"
             + " AND u.name IS NOT NULL"
@@ -18,10 +23,13 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
             + " AND u.isVolatile = FALSE")
     List<Ttype> findStructEnumUnionByOpersys(@Param("opersys") Os opersys);
 
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     Ttype findByIdAndOpersys(@Param("id") int id, @Param("opersys") Os opersys);
-
-    List<Ttype> findByNameAndOpersys(@Param("name") String name, @Param("opersys") Os opersys);
     
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
+    List<Ttype> findByNameAndOpersys(@Param("name") String name, @Param("opersys") Os opersys);
+
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("SELECT u.opersys FROM Ttype u"
             + " WHERE u.name = :name"
             + " AND (u.kind = 'STRUCT' OR u.kind = 'ENUM' OR u.kind = 'UNION')"
@@ -29,11 +37,13 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
             + " AND u.isVolatile = FALSE")
     List<Os> findByName(@Param("name") String name);
 
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("SELECT DISTINCT u.ttype FROM Tdata u"
             + " WHERE u.id= :id AND u.ttype.opersys= :opersys"
             + " AND u.ttype.name IS NOT NULL AND u.ttype.kind <>'POINTER'")
     List<Ttype> findByOpersysAndId1(@Param("opersys") Os opersys, @Param("id") Integer id);
 
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("SELECT DISTINCT s.ttype FROM Tdata s"
             + " WHERE s.id in(SELECT m.ttype.id FROM Tdata m"
                                 + " WHERE m.id= :id AND m.ttype.opersys= :opersys"
@@ -43,6 +53,7 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
             + " AND s.ttype.name IS NOT NULL")
     List<Ttype> findByOpersysAndId2(@Param("opersys") Os opersys, @Param("id") Integer id);
 
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("SELECT DISTINCT y.ttype FROM Tdata y"
             +" WHERE y.id IN(SELECT q.ttype.id FROM Tdata q"
                                 + " WHERE q.ttype.opersys= :opersys AND q.id IN(SELECT z.ttype.id FROM Tdata z"
@@ -55,6 +66,7 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
             + " AND y.ttype.name IS NOT NULL")
     List<Ttype> findByOpersysAndId3(@Param("opersys") Os opersys, @Param("id") Integer id);
 
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("SELECT DISTINCT u.ttype FROM Tdata u"
             + " WHERE u.id IN (SELECT w.ttype.id FROM Tdata w"
                                     +" WHERE w.id IN (SELECT p.ttype.id FROM Tdata p"
@@ -72,6 +84,7 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
             + " AND u.ttype.name IS NOT NULL")
     List<Ttype> findByOpersysAndId4(@Param("opersys") Os opersys, @Param("id") Integer id);
 
+    @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("SELECT DISTINCT u.ttype FROM Tdata u"
             + " WHERE u.id IN (SELECT w.ttype.id FROM Tdata w"
             + " WHERE w.id IN (SELECT p.ttype.id FROM Tdata p"
