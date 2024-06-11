@@ -1,11 +1,9 @@
 package com.vergiliusproject.dto;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class TypeEntry {
     public String name;
-    public boolean isNew;
-    
-    public TypeEntry(String name, boolean isNew) {
-        this.name = name;
-        this.isNew = isNew;
-    }
+    public boolean isNew;    
 }
