@@ -10,6 +10,7 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 java {
@@ -26,7 +27,7 @@ dependencies {
         exclude module: 'commons-logging'
     }
 
-    implementation 'de.neuland-bfi:pug4j:2.2.0'
+    implementation 'de.neuland-bfi:pug4j:2.2.1-SNAPSHOT'
     implementation 'de.neuland-bfi:spring-pug4j:3.2.0'
     implementation 'org.apache.commons:commons-lang3:3.14.0'
     implementation 'org.apache.commons:commons-text:1.11.0'
