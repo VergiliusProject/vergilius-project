@@ -1,7 +1,7 @@
 plugins {
-    id 'org.springframework.boot' version '3.2.2'
-    id 'io.spring.dependency-management' version '1.1.4'
-    id 'io.freefair.lombok' version '8.6'
+    id 'org.springframework.boot' version '3.5.7'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'io.freefair.lombok' version '9.0.0'
     id 'java'
 }
 
@@ -14,7 +14,7 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 dependencies {
@@ -27,19 +27,19 @@ dependencies {
         exclude module: 'commons-logging'
     }
 
-    implementation 'de.neuland-bfi:pug4j:2.2.1-SNAPSHOT'
-    implementation 'de.neuland-bfi:spring-pug4j:3.2.0'
-    implementation 'org.apache.commons:commons-lang3:3.14.0'
-    implementation 'org.apache.commons:commons-text:1.11.0'
+    implementation 'de.neuland-bfi:pug4j:2.3.1'
+    implementation 'de.neuland-bfi:spring-pug4j:3.3.1'
+    implementation 'org.apache.commons:commons-lang3:3.19.0'
+    implementation 'org.apache.commons:commons-text:1.14.0'
 
-    implementation 'org.yaml:snakeyaml:2.2'
+    implementation 'org.yaml:snakeyaml:2.4'
 
-    implementation 'org.hibernate.orm:hibernate-jcache:6.5.2.Final'
+    implementation 'org.hibernate.orm:hibernate-jcache:6.6.18.Final'
     implementation 'org.ehcache:ehcache:3.10.8:jakarta'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.12.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.12.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

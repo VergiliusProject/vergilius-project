@@ -1,3 +1,5 @@
 /.nb-gradle/
 /.gradle/
+/.vscode/
+/bin/
 /build/
