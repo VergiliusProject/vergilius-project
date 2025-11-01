@@ -1,0 +1,5 @@
+//0x4 bytes (sizeof)
+struct test01
+{
+    LONG a;                                                                 //0x0
+}; 

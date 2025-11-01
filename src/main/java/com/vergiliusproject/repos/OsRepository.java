@@ -3,13 +3,15 @@ package com.vergiliusproject.repos;
 import com.vergiliusproject.entities.Os;
 import jakarta.persistence.QueryHint;
 import java.util.List;
+import java.util.UUID;
+
 import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface OsRepository extends CrudRepository<Os, Integer> {   
+public interface OsRepository extends CrudRepository<Os, UUID> {
     @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     @Query("select u from Os u where u.arch = :arch")
     List<Os> findByArch(@Param("arch") String arch);

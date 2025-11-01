@@ -1,0 +1,94 @@
+timestamp: 1762033439
+types:
+  -
+    name: test01
+    id: 1
+    kind: STRUCT
+    sizeof: 4
+    data:
+      -
+        name: a
+        id: 2
+        offset: 0
+        ordinal: 0
+  -
+    name: LONG
+    id: 2
+    kind: BASE
+    sizeof: 4
+  -
+    name: issue27
+    id: 3
+    kind: STRUCT
+    sizeof: 8
+    data:
+      -
+        name: Blink:40
+        id: 4
+        offset: 0
+        ordinal: 0
+      -
+        name: NodeBlinkLow:19
+        id: 4
+        offset: 0
+        ordinal: 1
+      -
+        name: TbFlushStamp:3
+        id: 4
+        offset: 0
+        ordinal: 2
+      -
+        name: PageBlinkDeleteBit:1
+        id: 4
+        offset: 0
+        ordinal: 3
+      -
+        name: PageBlinkLockBit:1
+        id: 4
+        offset: 0
+        ordinal: 4
+      -
+        name: ShareCount:62
+        id: 4
+        offset: 0
+        ordinal: 5
+      -
+        name: PageShareCountDeleteBit:1
+        id: 4
+        offset: 0
+        ordinal: 6
+      -
+        name: PageShareCountLockBit:1
+        id: 4
+        offset: 0
+        ordinal: 7
+      -
+        name: EntireField
+        id: 5
+        offset: 0
+        ordinal: 8
+      -
+        name: LockNotUsed:62
+        id: 4
+        offset: 0
+        ordinal: 9
+      -
+        name: DeleteBit:1
+        id: 4
+        offset: 0
+        ordinal: 10
+      -
+        name: LockBit:1
+        id: 4
+        offset: 0
+        ordinal: 11
+  -
+    name: ULONGLONG
+    id: 4
+    kind: BASE
+    sizeof: 8
+  -
+    name: LONGLONG
+    id: 5
+    kind: BASE
+    sizeof: 8

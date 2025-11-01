@@ -1,0 +1,1 @@
+cl /Zi /Fddata.pdb /c data.c
