@@ -1,11 +1,11 @@
 package com.vergiliusproject.utils;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 public class SlugGenerator {
     public static String create(String input) {
         // Special case: insider preview versions
-        if (StringUtils.containsIgnoreCase(input, "preview")) {
+        if (Strings.CI.contains(input, "preview")) {
             // Remove '(' and ')', replace spaces and make lowercase
             return input.replaceAll("[()]", "").trim().replace(' ', '-').toLowerCase();
         }
