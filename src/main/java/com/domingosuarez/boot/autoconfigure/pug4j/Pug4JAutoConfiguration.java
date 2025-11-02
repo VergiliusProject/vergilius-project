@@ -325,12 +325,6 @@ public class Pug4JAutoConfiguration {
     @Bean
     public BeanPostProcessor pug4jBeanPostProcessor() {
       return new BeanPostProcessor() {
-
-        @Override
-        public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-          return bean;
-        }
-
         @Override
         public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
           PugHelper annotation = AnnotationUtils.findAnnotation(bean.getClass(), PugHelper.class);
