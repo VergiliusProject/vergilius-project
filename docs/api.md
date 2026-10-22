@@ -14,6 +14,31 @@ five live routes plus static bulk dumps.
 | `GET .../{osSlug}/types?kind=&search=&page=&size=` | Paginated type list |
 | `GET .../{osSlug}/types/{name}` | One type: JSON field tree + C declaration |
 | `GET /api/v1/types/search?q=` | Cross-build type-name search |
+| `GET /api/v1/types/{name}/diff?from=&to=` | Compare a structure across two builds |
+
+### Cross-build diff
+
+`GET /api/v1/types/{name}/diff?from=x64/windows-10/1607&to=x64/windows-11/21h2`
+(each side is `arch/familySlug/osSlug`; old-name aliases resolve to canonical
+slugs). Returns the per-field change list — `MOVED` (with offset delta),
+`ADDED`, `REMOVED`, `TYPE_CHANGED`, `BITFIELD_CHANGED`, `VALUE_CHANGED` (enum
+constants) — plus `sizeDelta` and generated **pseudocode** describing
+build-aware access: insertion analysis ("a new field at 0x8 shifted every
+later field uniformly by +8 bytes") and per-build accessor branches:
+
+```c
+if (build == x64/windows-11/21h2 (10.0.22000.0)) {
+    imageBase = *(typeof(ImageBase)*)(base + 0x10);
+} else if (build == x64/windows-10/1607 (10.0.14393.0)) {
+    imageBase = *(typeof(ImageBase)*)(base + 0x8);
+}
+```
+
+If the type exists in only one build, the diff reports a whole-type
+ADDED/REMOVED. Matching is by field name (anonymous members by position), so
+renames surface as REMOVE+ADD pairs — inspect offsets to distinguish a rename
+from a true removal.
+
 
 - `kind` is repeatable, one of `struct`, `union`, `enum` (400 otherwise).
 - `page` is 0-based; `size` defaults to 50, capped at 200.
