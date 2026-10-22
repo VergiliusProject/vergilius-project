@@ -37,7 +37,9 @@ public class MainController implements ErrorController {
     @Autowired
     public TtypeRepository ttypeRepo;
     @Autowired
-    public TdataRepository tdataRepo;   
+    public TdataRepository tdataRepo;
+    @Autowired
+    public com.vergiliusproject.api.dump.DumpRefreshService dumpRefresh;   
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
@@ -93,6 +95,8 @@ public class MainController implements ErrorController {
             
             os.setTtypes(new HashSet<>(types));
             osRepo.save(os);
+
+            dumpRefresh.refreshAfterUpload(os);
         }
         catch (IOException e){}
 
