@@ -138,6 +138,20 @@ public class MainController implements ErrorController {
         return "terms";
     }
 
+    @GetMapping("/api-docs")
+    public String displayApiDocs(Model model) throws IOException {
+        String markdown;
+        try (InputStream in = getClass().getResourceAsStream("/docs/api.md")) {
+            markdown = new String(in.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+        }
+        org.commonmark.node.Node parsed =
+                org.commonmark.parser.Parser.builder().build().parse(markdown);
+        String html = org.commonmark.renderer.html.HtmlRenderer.builder().build().render(parsed);
+        model.addAttribute("apiDocsHtml", html);
+        addCommonAttributes(model);
+        return "api-docs";
+    }
+
     @GetMapping("/privacy")
     public String displayPrivacy(Model model) {
         addCommonAttributes(model);
