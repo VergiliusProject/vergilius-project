@@ -10,6 +10,7 @@ import com.vergiliusproject.api.TypeTreeBuilder;
 import com.vergiliusproject.entities.Os;
 import com.vergiliusproject.entities.Ttype;
 import com.vergiliusproject.repos.TtypeRepository;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +32,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class TypeDiffController {
 
     private final ApiOsResolver resolver;
+    private final BuildRangeResolver rangeResolver;
     private final TtypeRepository typeRepo;
     private final TypeLoader typeLoader;
 
-    public TypeDiffController(ApiOsResolver resolver, TtypeRepository typeRepo,
-            TypeLoader typeLoader) {
+    public TypeDiffController(ApiOsResolver resolver, BuildRangeResolver rangeResolver,
+            TtypeRepository typeRepo, TypeLoader typeLoader) {
         this.resolver = resolver;
+        this.rangeResolver = rangeResolver;
         this.typeRepo = typeRepo;
         this.typeLoader = typeLoader;
     }
@@ -84,6 +87,56 @@ public class TypeDiffController {
     }
 
     private record BuildRef(String arch, String family, String os) {}
+
+    /**
+     * Timeline diff across a range of builds: GET /api/v1/types/{name}/timeline
+     * ?from=arch/family/os&to=arch/family/os, or an explicit
+     * builds=ref1,ref2,... list. Range covers every build of that arch whose
+     * build number falls between the endpoints (inclusive).
+     */
+    @GetMapping("/{name}/timeline")
+    public ResponseEntity<Map<String, Object>> timeline(
+            @PathVariable String name,
+            @RequestParam(required = false) String from,
+            @RequestParam(required = false) String to,
+            @RequestParam(required = false) List<String> builds) {
+
+        List<Os> range;
+        if (builds != null && !builds.isEmpty()) {
+            range = rangeResolver.resolveExplicit(builds);
+        } else {
+            range = rangeResolver.resolveRange(from, to);
+        }
+
+        List<TimelineDiffer.BuildEntry> entries = new ArrayList<>();
+        for (Os os : range) {
+            Loaded loaded = loadType(os, name);
+            entries.add(new TimelineDiffer.BuildEntry(buildLabel(os), loaded.tree(),
+                    loaded.tree() != null));
+        }
+
+        List<String> labels = entries.stream()
+                .map(TimelineDiffer.BuildEntry::label).toList();
+        TimelineDiffer.Timeline timeline = TimelineDiffer.timeline(entries);
+        String pseudocode = TimelinePseudocode.generate(name, labels, timeline);
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("type", name);
+        body.put("builds", range.stream().map(os -> Map.of(
+                "arch", os.getArch(), "family", os.getFamilySlug(),
+                "os", os.getOsSlug(), "buildnumber", os.getBuildnumber())).toList());
+        body.put("presentIn", entries.stream()
+                .filter(TimelineDiffer.BuildEntry::present)
+                .map(TimelineDiffer.BuildEntry::label).toList());
+        body.put("transitions", timeline.transitions());
+        body.put("fieldHistories", timeline.fieldHistories());
+        body.put("pseudocode", pseudocode);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CACHE_CONTROL, ApiCache.BUILD_SCOPED)
+                .eTag(ApiCache.etag(range.getFirst().getId(), range.getLast().getId(), name))
+                .body(body);
+    }
 
     private static BuildRef parseRef(String value, String label) {
         if (value == null || value.isBlank()) {

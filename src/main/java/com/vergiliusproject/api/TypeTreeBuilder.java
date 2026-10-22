@@ -86,9 +86,9 @@ public class TypeTreeBuilder {
     }
 
     private TypeNode truncatedNode(Ttype type) {
-        return new TypeNode("REF", type.getName(), null, null, null, null, null, true,
-                null, null, null, null, null, null, null, null, null, null,
-                type.getName());
+        String name = type != null ? type.getName() : null;
+        return new TypeNode("REF", name, null, null, null, null, null, true,
+                null, null, null, null, null, null, null, null, null, null, name);
     }
 
     private TypeNode base(Ttype type) {

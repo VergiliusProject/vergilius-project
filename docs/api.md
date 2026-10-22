@@ -39,6 +39,51 @@ ADDED/REMOVED. Matching is by field name (anonymous members by position), so
 renames surface as REMOVE+ADD pairs — inspect offsets to distinguish a rename
 from a true removal.
 
+### Range / multi-build timeline
+
+`GET /api/v1/types/{name}/timeline?from=x64/windows-10/1507&to=x64/windows-11/21h2`
+diffs the structure across **every build** of that architecture whose build
+number falls between the two endpoints (inclusive, sorted ascending) — e.g.
+"first Windows 10 build to last Windows 11 build". An explicit list is also
+supported: `?builds=x64/windows-10/1507,x64/windows-11/21h2,...`.
+
+The response contains:
+
+- `builds` — the resolved ordered range
+- `presentIn` — builds where the type exists (a type absent mid-range shows
+  whole-type REMOVE/ADD transitions)
+- `transitions` — consecutive pairwise change lists, only where something
+  changed
+- `fieldHistories` — per field: offset change points (stable runs collapsed),
+  which build added/removed it, and any type changes
+- `pseudocode` — a chronological change log plus a multi-branch build
+  dispatch:
+
+```c
+// MYSTRUCT evolution across 3 builds
+//   x64/windows-10/1507 (10.0.10240.0) -> x64/windows-11/21h2 (10.0.22000.0)
+
+// In 1607:
+//   ~ A moved +4 (now @0x4)
+
+if (build == x64/windows-11/21h2 (10.0.22000.0)) {
+    a = *(typeof(A)*)(base + 0x4);
+}
+else if (build == x64/windows-10/1607 (10.0.14393.0)) {
+    a = *(typeof(A)*)(base + 0x4);
+}
+else {  // earliest build
+    a = *(typeof(A)*)(base + 0x0);
+}
+
+// Stable across all builds:
+//   Header @0x0
+```
+
+Fields stable across the whole range get single-line accessors instead of
+branches. `from`/`to` must target the same architecture (400 otherwise).
+
+
 
 - `kind` is repeatable, one of `struct`, `union`, `enum` (400 otherwise).
 - `page` is 0-based; `size` defaults to 50, capped at 200.

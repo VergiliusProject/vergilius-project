@@ -36,7 +36,8 @@ class TypeDiffControllerTest {
         osRepo = mock(OsRepository.class);
         typeRepo = mock(TtypeRepository.class);
         TypeDiffController controller = new TypeDiffController(
-                new ApiOsResolver(osRepo), typeRepo, new TypeLoader(typeRepo));
+                new ApiOsResolver(osRepo), new BuildRangeResolver(osRepo),
+                typeRepo, new TypeLoader(typeRepo));
         mvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new ApiExceptionHandler())
                 .build();
