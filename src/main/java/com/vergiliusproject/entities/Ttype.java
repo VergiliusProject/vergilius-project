@@ -123,8 +123,16 @@ public class Ttype {
         return (isConst != null && isConst != false);
     }
 
+    public void setIsConst(boolean isConst) {
+        this.isConst = isConst;
+    }
+
     public boolean isIsVolatile() {
        return (isVolatile != null && isVolatile != false);
+    }
+
+    public void setIsVolatile(boolean isVolatile) {
+        this.isVolatile = isVolatile;
     }
 
     public static List<Ttype> filterByTypes(List<Ttype> list, Kind param) {

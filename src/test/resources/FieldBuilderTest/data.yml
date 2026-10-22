@@ -92,3 +92,316 @@ types:
     id: 5
     kind: BASE
     sizeof: 8
+  # ---- API corpus extension (Gate 1) ----
+  -
+    name: ULONG
+    id: 7
+    kind: BASE
+    sizeof: 4
+  -
+    name: VOID
+    id: 8
+    kind: BASE
+    sizeof: 0
+  -
+    name: CHAR
+    id: 9
+    kind: BASE
+    sizeof: 1
+  -
+    name: WCHAR
+    id: 10
+    kind: BASE
+    sizeof: 2
+  -
+    name: PVOID
+    id: 11
+    kind: POINTER
+    sizeof: 8
+    data:
+      -
+        name: ptr
+        id: 8
+        offset: 0
+        ordinal: 0
+  -
+    name: LIST_ENTRY
+    id: 12
+    kind: STRUCT
+    sizeof: 16
+    data:
+      -
+        name: Flink
+        id: 13
+        offset: 0
+        ordinal: 0
+      -
+        name: Blink
+        id: 13
+        offset: 8
+        ordinal: 1
+  -
+    name: PLIST_ENTRY
+    id: 13
+    kind: POINTER
+    sizeof: 8
+    data:
+      -
+        name: ptr
+        id: 12
+        offset: 0
+        ordinal: 0
+  -
+    name: enum01
+    id: 14
+    kind: ENUM
+    sizeof: 4
+    data:
+      -
+        name: NonPaged
+        id: 7
+        offset: 0
+        ordinal: 0
+      -
+        name: Paged
+        id: 7
+        offset: 1
+        ordinal: 1
+  -
+    name: enum_bodyless
+    id: 15
+    kind: ENUM
+    sizeof: 0
+  -
+    name: func01
+    id: 16
+    kind: STRUCT
+    sizeof: 8
+    data:
+      -
+        name: Cb
+        id: 17
+        offset: 0
+        ordinal: 0
+  -
+    name: __unnamed
+    id: 17
+    kind: FUNCTION
+    sizeof: 8
+    data:
+      -
+        name: return
+        id: 8
+        offset: 0
+        ordinal: 0
+      -
+        name: arg
+        id: 11
+        offset: 0
+        ordinal: 1
+      -
+        name: arg
+        id: 13
+        offset: 0
+        ordinal: 2
+  -
+    name: ptr01
+    id: 19
+    kind: STRUCT
+    sizeof: 24
+    data:
+      -
+        name: Entry
+        id: 13
+        offset: 0
+        ordinal: 0
+      -
+        name: Count
+        id: 20
+        offset: 8
+        ordinal: 1
+      -
+        name: Ptr
+        id: 21
+        offset: 16
+        ordinal: 2
+  -
+    name: __unnamed
+    id: 20
+    kind: POINTER
+    isConst: true
+    sizeof: 8
+    data:
+      -
+        name: ptr
+        id: 7
+        offset: 0
+        ordinal: 0
+  -
+    name: __unnamed
+    id: 21
+    kind: POINTER
+    sizeof: 8
+    data:
+      -
+        name: ptr
+        id: 22
+        offset: 0
+        ordinal: 0
+  -
+    name: __unnamed
+    id: 22
+    kind: STRUCT
+    sizeof: 4
+    data:
+      -
+        name: Value
+        id: 7
+        offset: 0
+        ordinal: 0
+  -
+    name: mods01
+    id: 23
+    kind: STRUCT
+    sizeof: 16
+    data:
+      -
+        name: A
+        id: 24
+        offset: 0
+        ordinal: 0
+      -
+        name: B
+        id: 25
+        offset: 4
+        ordinal: 1
+      -
+        name: ThisIsAnExtremelyLongFieldNameUsedToTestColumnWrapping
+        id: 26
+        offset: 8
+        ordinal: 2
+  -
+    name: ULONG
+    id: 24
+    kind: BASE
+    isConst: true
+    sizeof: 4
+  -
+    name: ULONG
+    id: 25
+    kind: BASE
+    isVolatile: true
+    sizeof: 4
+  -
+    name: ULONG
+    id: 26
+    kind: BASE
+    isVolatile: true
+    sizeof: 4
+  -
+    name: array01
+    id: 28
+    kind: STRUCT
+    sizeof: 144
+    data:
+      -
+        name: Buffer
+        id: 29
+        offset: 0
+        ordinal: 0
+      -
+        name: Names
+        id: 30
+        offset: 128
+        ordinal: 1
+  -
+    name: __unnamed
+    id: 29
+    kind: ARRAY
+    sizeof: 128
+    data:
+      -
+        name: arr
+        id: 10
+        offset: 64
+        ordinal: 0
+  -
+    name: __unnamed
+    id: 30
+    kind: ARRAY
+    sizeof: 16
+    data:
+      -
+        name: arr
+        id: 31
+        offset: 8
+        ordinal: 0
+  -
+    name: __unnamed
+    id: 31
+    kind: POINTER
+    sizeof: 8
+    data:
+      -
+        name: ptr
+        id: 9
+        offset: 0
+        ordinal: 0
+  -
+    name: union01
+    id: 32
+    kind: UNION
+    sizeof: 8
+    data:
+      -
+        name: A
+        id: 7
+        offset: 0
+        ordinal: 0
+      -
+        name: B
+        id: 4
+        offset: 0
+        ordinal: 1
+      -
+        name: C
+        id: 11
+        offset: 0
+        ordinal: 2
+  -
+    name: union02
+    id: 33
+    kind: UNION
+    sizeof: 16
+    data:
+      -
+        name: A
+        id: 7
+        offset: 0
+        ordinal: 0
+      -
+        name: B
+        id: 7
+        offset: 0
+        ordinal: 1
+      -
+        name: C
+        id: 7
+        offset: 8
+        ordinal: 2
+  -
+    name: nest01
+    id: 34
+    kind: STRUCT
+    sizeof: 24
+    data:
+      -
+        name: Link
+        id: 12
+        offset: 0
+        ordinal: 0
+      -
+        name: Value
+        id: 7
+        offset: 16
+        ordinal: 1

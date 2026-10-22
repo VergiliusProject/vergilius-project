@@ -1,0 +1,16 @@
+extends /partials/page
+block title
+    title Vergilius Project | API Documentation
+    -var selected = "API";
+block content
+    .container.mainblock
+        .row
+            .col-md-12.breadcrumbs-col
+                nav(aria-label="breadcrumb")
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a.breadcrumb-link(href="/" tabindex="-1") > Home
+                        li.breadcrumb-item.active(aria-current="page") API Documentation
+        .row
+            .col-md-12
+                .api-docs !{apiDocsHtml}

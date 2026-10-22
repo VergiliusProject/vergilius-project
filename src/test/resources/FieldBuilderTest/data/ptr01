@@ -1,0 +1,10 @@
+//0x18 bytes (sizeof)
+struct ptr01
+{
+    struct<a class='str-link' tabindex='-1' href='nullLIST_ENTRY'> LIST_ENTRY</a>* Entry;                                               //0x0
+    ULONG* Count;                                                           //0x8
+    struct
+    {
+        ULONG Value;                                                        //0x10
+    }* Ptr;                                                                 //0x10
+}; 

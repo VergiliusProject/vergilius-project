@@ -37,7 +37,9 @@ public class MainController implements ErrorController {
     @Autowired
     public TtypeRepository ttypeRepo;
     @Autowired
-    public TdataRepository tdataRepo;   
+    public TdataRepository tdataRepo;
+    @Autowired
+    public com.vergiliusproject.api.dump.DumpRefreshService dumpRefresh;   
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
@@ -93,6 +95,8 @@ public class MainController implements ErrorController {
             
             os.setTtypes(new HashSet<>(types));
             osRepo.save(os);
+
+            dumpRefresh.refreshAfterUpload(os);
         }
         catch (IOException e){}
 
@@ -132,6 +136,20 @@ public class MainController implements ErrorController {
     public String displayTerms(Model model) {
         addCommonAttributes(model);
         return "terms";
+    }
+
+    @GetMapping("/api-docs")
+    public String displayApiDocs(Model model) throws IOException {
+        String markdown;
+        try (InputStream in = getClass().getResourceAsStream("/docs/api.md")) {
+            markdown = new String(in.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+        }
+        org.commonmark.node.Node parsed =
+                org.commonmark.parser.Parser.builder().build().parse(markdown);
+        String html = org.commonmark.renderer.html.HtmlRenderer.builder().build().render(parsed);
+        model.addAttribute("apiDocsHtml", html);
+        addCommonAttributes(model);
+        return "api-docs";
     }
 
     @GetMapping("/privacy")

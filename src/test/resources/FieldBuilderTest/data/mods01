@@ -1,0 +1,7 @@
+//0x10 bytes (sizeof)
+struct mods01
+{
+    ULONG A;                                                                //0x0
+    volatile ULONG B;                                                       //0x4
+    volatile ULONG ThisIsAnExtremelyLongFieldNameUsedToTestColumnWrapping;  //0x8
+}; 

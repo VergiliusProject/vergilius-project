@@ -1647,3 +1647,71 @@ a.linked-in.socicon-linkedin:hover
     }
 
 }
+
+.api-docs {
+    padding-bottom: 3rem;
+    color: #262633;
+}
+
+.api-docs h1 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.api-docs h2 {
+    font-size: 1.4rem;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.api-docs h3 {
+    font-size: 1.15rem;
+    margin-top: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.api-docs table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.api-docs th,
+.api-docs td {
+    border: 1px solid #dee2e6;
+    padding: 0.4rem 0.6rem;
+    text-align: left;
+}
+
+.api-docs th {
+    background: #f1f1f6;
+}
+
+.api-docs code {
+    background: #f1f1f6;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.api-docs pre {
+    background: #141422;
+    color: #f8f8f2;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.api-docs pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+.api-docs blockquote {
+    border-left: 4px solid #262633;
+    margin: 1rem 0;
+    padding: 0.2rem 1rem;
+    color: #555;
+}

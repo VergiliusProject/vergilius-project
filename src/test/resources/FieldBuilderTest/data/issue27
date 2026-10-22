@@ -10,9 +10,6 @@ struct issue27
             ULONGLONG TbFlushStamp:3;                                       //0x0
             ULONGLONG PageBlinkDeleteBit:1;                                 //0x0
             ULONGLONG PageBlinkLockBit:1;                                   //0x0
-        };
-        struct
-        {
             ULONGLONG ShareCount:62;                                        //0x0
             ULONGLONG PageShareCountDeleteBit:1;                            //0x0
             ULONGLONG PageShareCountLockBit:1;                              //0x0

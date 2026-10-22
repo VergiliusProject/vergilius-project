@@ -1,0 +1,6 @@
+//0x4 bytes (sizeof)
+enum enum01
+{
+    NonPaged = 0,
+    Paged = 1
+}; 
