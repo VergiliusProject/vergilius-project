@@ -37,10 +37,10 @@ public class TypeTreeBuilder {
     }
 
     public TypeNode buildRoot(Ttype root) {
-        return build(root, true, new ArrayDeque<>());
+        return build(root, true, new ArrayDeque<>(), 0);
     }
 
-    TypeNode build(Ttype type, boolean isRoot, Deque<Integer> expansionPath) {
+    TypeNode build(Ttype type, boolean isRoot, Deque<Integer> expansionPath, int baseOffset) {
         if (nodesCreated++ > NODE_BUDGET) {
             return truncatedNode(type);
         }
@@ -57,11 +57,11 @@ public class TypeTreeBuilder {
 
         return switch (type.getKind()) {
             case BASE -> base(type);
-            case POINTER -> pointer(type, isRoot, expansionPath);
+            case POINTER -> pointer(type, isRoot, expansionPath, baseOffset);
             case ARRAY -> array(type, expansionPath);
             case FUNCTION -> function(type, expansionPath);
-            case STRUCT -> struct(type, isRoot, expansionPath);
-            case UNION -> union(type, isRoot, expansionPath);
+            case STRUCT -> struct(type, isRoot, expansionPath, baseOffset);
+            case UNION -> union(type, isRoot, expansionPath, baseOffset);
             case ENUM -> enumNode(type, isRoot);
         };
     }
@@ -77,7 +77,12 @@ public class TypeTreeBuilder {
     }
 
     private TypeNode ref(Ttype type) {
-        return TypeNode.ref(type.getName(), hrefBase + type.getName());
+        String refKind = switch (type.getKind()) {
+            case UNION -> "union";
+            case ENUM -> "enum";
+            default -> "struct";
+        };
+        return TypeNode.ref(refKind, type.getName(), hrefBase + type.getName());
     }
 
     private TypeNode truncatedNode(Ttype type) {
@@ -92,11 +97,11 @@ public class TypeTreeBuilder {
                 null, null, type.getName(), null, null, null, null, null, null, null, null);
     }
 
-    private TypeNode pointer(Ttype type, boolean isRoot, Deque<Integer> expansionPath) {
+    private TypeNode pointer(Ttype type, boolean isRoot, Deque<Integer> expansionPath, int baseOffset) {
         Ttype target = requireType(type);
         expansionPath.push(type.getId());
         try {
-            TypeNode targetNode = build(target, isRoot, expansionPath);
+            TypeNode targetNode = build(target, isRoot, expansionPath, baseOffset);
             return new TypeNode("POINTER", null, type.getSizeof(),
                     type.isIsConst(), type.isIsVolatile(), null, null, null,
                     null, null, null, targetNode, null, null, null, null, null, null, null);
@@ -111,7 +116,7 @@ public class TypeTreeBuilder {
         expansionPath.push(type.getId());
         try {
             TypeNode elementNode = element != null
-                    ? build(element, false, expansionPath)
+                    ? build(element, false, expansionPath, 0)
                     : truncatedNode(type);
             return new TypeNode("ARRAY", null, type.getSizeof(),
                     type.isIsConst(), type.isIsVolatile(), null, null, null,
@@ -132,7 +137,7 @@ public class TypeTreeBuilder {
                 if (componentType == null) {
                     continue;
                 }
-                TypeNode node = build(componentType, false, expansionPath);
+                TypeNode node = build(componentType, false, expansionPath, 0);
                 if ("return".equals(component.getName())) {
                     returnType = node;
                 } else {
@@ -148,7 +153,7 @@ public class TypeTreeBuilder {
         }
     }
 
-    private TypeNode struct(Ttype type, boolean isRoot, Deque<Integer> expansionPath) {
+    private TypeNode struct(Ttype type, boolean isRoot, Deque<Integer> expansionPath, int baseOffset) {
         List<FieldNode> fields = new ArrayList<>();
         if (type.getData() != null && type.getSizeof() != 0) {
             expansionPath.push(type.getId());
@@ -157,9 +162,9 @@ public class TypeTreeBuilder {
                 while (!remaining.isEmpty()) {
                     List<List<Tdata>> pieces = firstPieceOfStruct(remaining);
                     if (pieces.size() > 1) {
-                        fields.add(unionPiece(pieces, expansionPath));
+                        fields.add(unionPiece(pieces, expansionPath, baseOffset));
                     } else {
-                        fields.add(fieldNode(pieces.get(0).get(0), expansionPath));
+                        fields.add(fieldNode(pieces.get(0).get(0), expansionPath, baseOffset));
                     }
                 }
             } finally {
@@ -171,13 +176,13 @@ public class TypeTreeBuilder {
                 null, null, null, null, null, null, null, null, fields, null, null);
     }
 
-    private FieldNode unionPiece(List<List<Tdata>> pieces, Deque<Integer> expansionPath) {
+    private FieldNode unionPiece(List<List<Tdata>> pieces, Deque<Integer> expansionPath, int baseOffset) {
         List<FieldNode> unionFields = new ArrayList<>();
         for (List<Tdata> piece : pieces) {
             if (piece.size() > 1) {
                 List<FieldNode> inner = new ArrayList<>();
                 for (Tdata field : piece) {
-                    inner.add(fieldNode(field, expansionPath));
+                    inner.add(fieldNode(field, expansionPath, baseOffset));
                 }
                 unionFields.add(new FieldNode(null, piece.get(0).getOffset(), null,
                         new TypeNode("STRUCT", null, null, null, null,
@@ -185,7 +190,7 @@ public class TypeTreeBuilder {
                                 null, null, null, null, null, null, null, null,
                                 inner, null, null)));
             } else {
-                unionFields.add(fieldNode(piece.get(0), expansionPath));
+                unionFields.add(fieldNode(piece.get(0), expansionPath, baseOffset));
             }
         }
         TypeNode unionNode = new TypeNode("UNION", null, null, null, null,
@@ -194,12 +199,12 @@ public class TypeTreeBuilder {
         return new FieldNode(null, pieces.get(0).get(0).getOffset(), null, unionNode);
     }
 
-    private TypeNode union(Ttype type, boolean isRoot, Deque<Integer> expansionPath) {
+    private TypeNode union(Ttype type, boolean isRoot, Deque<Integer> expansionPath, int baseOffset) {
         List<FieldNode> fields = new ArrayList<>();
         if (type.getData() != null && type.getSizeof() != 0) {
             expansionPath.push(type.getId());
             try {
-                fields.addAll(unionFields(TypeLoader.fieldsSortedByOrdinal(type), expansionPath));
+                fields.addAll(unionFields(TypeLoader.fieldsSortedByOrdinal(type), expansionPath, baseOffset));
             } finally {
                 expansionPath.pop();
             }
@@ -215,12 +220,12 @@ public class TypeTreeBuilder {
      * such field; the struct closes at the next offset change (that field
      * included inside) or at the last field (excluded, rendered plain).
      */
-    private List<FieldNode> unionFields(List<Tdata> fields, Deque<Integer> expansionPath) {
+    private List<FieldNode> unionFields(List<Tdata> fields, Deque<Integer> expansionPath, int baseOffset) {
         List<FieldNode> result = new ArrayList<>();
         List<FieldNode> openRun = null;
 
         for (int i = 0; i < fields.size(); i++) {
-            FieldNode node = fieldNode(fields.get(i), expansionPath);
+            FieldNode node = fieldNode(fields.get(i), expansionPath, baseOffset);
             boolean last = i == fields.size() - 1;
             boolean sameAsNext = !last && fields.get(i).getOffset().equals(fields.get(i + 1).getOffset());
 
@@ -250,7 +255,7 @@ public class TypeTreeBuilder {
         return new FieldNode(null, offset, null, structNode);
     }
 
-    private FieldNode fieldNode(Tdata field, Deque<Integer> expansionPath) {
+    private FieldNode fieldNode(Tdata field, Deque<Integer> expansionPath, int baseOffset) {
         String name = field.getName();
         Integer bitWidth = null;
         if (name != null && name.contains(":")) {
@@ -258,11 +263,12 @@ public class TypeTreeBuilder {
             bitWidth = Integer.parseInt(name.substring(colon + 1).trim());
             name = name.substring(0, colon).trim();
         }
+        int displayOffset = baseOffset + field.getOffset();
         Ttype fieldType = closure.get(field.getId());
         TypeNode typeNode = fieldType != null
-                ? build(fieldType, false, expansionPath)
+                ? build(fieldType, false, expansionPath, displayOffset)
                 : truncatedNode(null);
-        return new FieldNode(name, field.getOffset(), bitWidth, typeNode);
+        return new FieldNode(name, displayOffset, bitWidth, typeNode);
     }
 
     private TypeNode enumNode(Ttype type, boolean isRoot) {

@@ -56,9 +56,9 @@ public final class ApiDtos {
             List<EnumConstant> constants, // ENUM
             String typeName) {      // REF: referenced type name (== name)
 
-        public static TypeNode ref(String name, String href) {
+        public static TypeNode ref(String refKind, String name, String href) {
             return new TypeNode("REF", name, null, null, null, null, href, null,
-                    null, null, null, null, null, null, null, null, null, null, name);
+                    null, null, refKind, null, null, null, null, null, null, null, name);
         }
     }
 
