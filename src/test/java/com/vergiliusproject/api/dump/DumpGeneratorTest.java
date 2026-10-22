@@ -125,14 +125,35 @@ class DumpGeneratorTest {
         JsonNode manifest = mapper.readTree(
                 Files.readString(outDir.resolve("index.json")));
         assertThat(manifest.get("format").asInt()).isEqualTo(1);
-        assertThat(manifest.get("builds")).hasSize(1);
-        assertThat(manifest.get("builds").get(0).get("file").asText())
-                .isEqualTo("/api/os/x64/1607.json");
+        // the H2 context is shared with other corpus harnesses; find OUR build
+        JsonNode ourBuild = null;
+        for (JsonNode b : manifest.get("builds")) {
+            if ("1607".equals(b.get("os").asText())) {
+                ourBuild = b;
+                break;
+            }
+        }
+        assertThat(ourBuild).isNotNull();
+        assertThat(ourBuild.get("file").asText()).isEqualTo("/api/os/x64/1607.json");
 
         JsonNode index = manifest.get("types");
-        assertThat(index.get("LIST_ENTRY")).hasSize(1);
-        assertThat(index.get("LIST_ENTRY").get(0).get("arch").asText()).isEqualTo("x64");
-        assertThat(index.get("POOL_TYPE").get(0).get("href").asText())
+        JsonNode listEntryLocs = null;
+        for (JsonNode loc : index.get("LIST_ENTRY")) {
+            if ("1607".equals(loc.get("os").asText())) {
+                listEntryLocs = loc;
+                break;
+            }
+        }
+        assertThat(listEntryLocs).isNotNull();
+        assertThat(listEntryLocs.get("arch").asText()).isEqualTo("x64");
+        JsonNode poolHref = null;
+        for (JsonNode loc : index.get("POOL_TYPE")) {
+            if ("1607".equals(loc.get("os").asText())) {
+                poolHref = loc;
+                break;
+            }
+        }
+        assertThat(poolHref.get("href").asText())
                 .isEqualTo("/api/v1/kernels/x64/windows-10/1607/types/POOL_TYPE");
     }
 
