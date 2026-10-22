@@ -3,6 +3,7 @@ package com.vergiliusproject.repos;
 import com.vergiliusproject.entities.Os;
 import com.vergiliusproject.entities.Ttype;
 import jakarta.persistence.QueryHint;
+import java.util.Collection;
 import java.util.List;
 import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 import org.springframework.data.jpa.repository.Query;
@@ -25,6 +26,16 @@ public interface TtypeRepository extends CrudRepository<Ttype, Integer> {
 
     @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     Ttype findByIdAndOpersys(@Param("id") int id, @Param("opersys") Os opersys);
+
+    /**
+     * Bulk fetch of multiple types by their YAML type id within one OS build,
+     * with their field data eagerly loaded. Used by the API bulk loader; the
+     * query is deliberately NOT cacheable so full type closures do not pollute
+     * the second-level cache.
+     */
+    @Query("SELECT DISTINCT u FROM Ttype u LEFT JOIN FETCH u.data"
+            + " WHERE u.id IN :ids AND u.opersys = :opersys")
+    List<Ttype> findByIdInAndOpersys(@Param("ids") Collection<Integer> ids, @Param("opersys") Os opersys);
     
     @QueryHints(@QueryHint(name = HINT_CACHEABLE, value = "true"))
     List<Ttype> findByNameAndOpersys(@Param("name") String name, @Param("opersys") Os opersys);
