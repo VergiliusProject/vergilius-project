@@ -61,7 +61,7 @@ public class WalkerFieldBuilderParityTest {
             os = new Os();
             os.setFamilyName("TestFamily");
             os.setOsName("TestOS");
-            os.setBuildnumber("0.0.0.0");
+            os.setBuildnumber("0.0.0.1"); // distinct from FieldBuilderTest: shared cached H2 context
             os.setArch("x64");
             os.setTimestamp(root.getTimestamp());
 
