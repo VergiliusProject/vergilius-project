@@ -1,0 +1,6 @@
+//0x10 bytes (sizeof)
+struct LIST_ENTRY
+{
+    struct<a class='str-link' tabindex='-1' href='nullLIST_ENTRY'> LIST_ENTRY</a>* Flink;                                               //0x0
+    struct<a class='str-link' tabindex='-1' href='nullLIST_ENTRY'> LIST_ENTRY</a>* Blink;                                               //0x8
+}; 

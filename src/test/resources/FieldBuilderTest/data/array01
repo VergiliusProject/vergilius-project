@@ -1,0 +1,6 @@
+//0x90 bytes (sizeof)
+struct array01
+{
+    WCHAR Buffer[64];                                                       //0x0
+    CHAR* Names[8];                                                         //0x80
+}; 

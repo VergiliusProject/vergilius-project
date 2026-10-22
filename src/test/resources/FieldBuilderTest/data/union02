@@ -1,0 +1,10 @@
+//0x10 bytes (sizeof)
+union union02
+{
+    ULONG A;                                                                //0x0
+    struct
+    {
+        ULONG B;                                                            //0x0
+    };
+    ULONG C;                                                                //0x8
+}; 

@@ -1,0 +1,5 @@
+//0x8 bytes (sizeof)
+struct func01
+{
+    VOID (Cb)(VOID* arg1, struct<a class='str-link' tabindex='-1' href='nullLIST_ENTRY'> LIST_ENTRY</a>* arg2);                         //0x0
+}; 

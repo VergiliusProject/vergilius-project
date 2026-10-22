@@ -1,0 +1,7 @@
+//0x8 bytes (sizeof)
+union union01
+{
+    ULONG A;                                                                //0x0
+    ULONGLONG B;                                                            //0x0
+    VOID* C;                                                                //0x0
+}; 
